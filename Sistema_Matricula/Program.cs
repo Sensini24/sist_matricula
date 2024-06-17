@@ -1,5 +1,8 @@
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
+using Sistema_Matricula.Validaciones;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,20 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DbMatNotaHorarioContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
+builder.Services.AddControllers()
+    .AddFluentValidation(fv =>
+    {
+        fv.ImplicitlyValidateChildProperties = true;
+        fv.ImplicitlyValidateRootCollectionElements = true;
+        fv.RegisterValidatorsFromAssemblyContaining<Program>();
+    });
+
 
 var app = builder.Build();
 

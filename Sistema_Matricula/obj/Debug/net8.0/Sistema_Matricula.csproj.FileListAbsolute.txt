@@ -305,6 +305,9 @@ D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\refs\System
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\refs\WindowsBase.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Azure.Core.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Azure.Identity.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\FluentValidation.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Humanizer.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -540,6 +543,7 @@ D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Mat
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.MvcApplicationPartsAssemblyInfo.cache
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.RazorAssemblyInfo.cache
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.RazorAssemblyInfo.cs
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.sourcelink.json
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\staticwebassets.build.json
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\staticwebassets.development.json
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\staticwebassets\msbuild.Sistema_Matricula.Microsoft.AspNetCore.StaticWebAssets.props
@@ -556,3 +560,5 @@ D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\refint\Sist
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.pdb
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.genruntimeconfig.cache
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\ref\Sistema_Matricula.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Microsoft.AspNet.Identity.Core.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\es\Microsoft.AspNet.Identity.Core.resources.dll

@@ -30,6 +30,18 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVsYVxMaXN0YXJBdWxhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Bimestre/ListarBimestre.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmltZXN0cmVcTGlzdGFyQmltZXN0cmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Estudiante/AgregarEstudiante.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxBZ3JlZ2FyRXN0dWRpYW50ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Estudiante/ListarEstudiantes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxMaXN0YXJFc3R1ZGlhbnRlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
