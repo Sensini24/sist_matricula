@@ -9,6 +9,8 @@ public partial class Curso
 
     public string Nombre { get; set; } = null!;
 
+    public virtual ICollection<CursoDocente> CursoDocentes { get; set; } = new List<CursoDocente>();
+
     public virtual ICollection<HorarioCurso> HorarioCursos { get; set; } = new List<HorarioCurso>();
 
     public virtual ICollection<Notum> Nota { get; set; } = new List<Notum>();

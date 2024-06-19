@@ -23,7 +23,9 @@ public partial class Docente
 
     public string Estado { get; set; } = null!;
 
-    public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
+    public virtual ICollection<CursoDocente> CursoDocentes { get; set; } = new List<CursoDocente>();
+
+    public virtual ICollection<DocenteHorario> DocenteHorarios { get; set; } = new List<DocenteHorario>();
 
     public virtual Especialidad? IdEspecialidadNavigation { get; set; }
 }

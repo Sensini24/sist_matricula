@@ -50,6 +50,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29cTGlzdGFyQ3Vyc28uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Docente/AgregarDocente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jZW50ZVxBZ3JlZ2FyRG9jZW50ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Docente/EditarDocente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jZW50ZVxFZGl0YXJEb2NlbnRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Docente/ListarDocente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jZW50ZVxMaXN0YXJEb2NlbnRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Especialidad/CrearEspecialidad.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXNwZWNpYWxpZGFkXENyZWFyRXNwZWNpYWxpZGFkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -78,12 +90,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxMaXN0YXJFc3R1ZGlhbnRlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Grado/AgregarGrado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZG9cQWdyZWdhckdyYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Grado/EditarGrado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZG9cRWRpdGFyR3JhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Grado/ListarGrado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZG9cTGlzdGFyR3JhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nivel/AgregarNivel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTml2ZWxcQWdyZWdhck5pdmVsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nivel/EditarNivel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTml2ZWxcRWRpdGFyTml2ZWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nivel/ListarNivel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTml2ZWxcTGlzdGFyTml2ZWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Seccion/AgregarSeccion.cshtml]

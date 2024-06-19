@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Sistema_Matricula.Models.Nivel>
+
+@{
+    ViewData["Title"] = "ListarNivel";
+}
+
+<h1>ListarNivel</h1>
+
+<p>
+    <a asp-action="AgregarNivel" class="btn btn-primary">Nuevo Nivel</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNivel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNivel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                    @Html.ActionLink("Editar", "EditarNivel", new { id = item.IdNivel }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

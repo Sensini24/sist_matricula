@@ -11,17 +11,15 @@ public partial class Horario
 
     public TimeOnly HoraFin { get; set; }
 
-    public int? IdDocente { get; set; }
-
     public int? IdAula { get; set; }
 
     public int? IdSeccion { get; set; }
 
+    public virtual ICollection<DocenteHorario> DocenteHorarios { get; set; } = new List<DocenteHorario>();
+
     public virtual ICollection<HorarioCurso> HorarioCursos { get; set; } = new List<HorarioCurso>();
 
     public virtual Aula? IdAulaNavigation { get; set; }
-
-    public virtual Docente? IdDocenteNavigation { get; set; }
 
     public virtual Seccion? IdSeccionNavigation { get; set; }
 }

@@ -44,6 +44,7 @@ body {
     height: 80%;
     overflow-y: auto;
     scrollbar-width: none;
+    margin-left:-30px;
 }
 
     .sidebar-links h4 span {

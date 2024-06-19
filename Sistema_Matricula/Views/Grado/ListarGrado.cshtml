@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Sistema_Matricula.Models.Grado>
+
+@{
+    ViewData["Title"] = "ListarGrado";
+}
+
+<h1>ListarGrado</h1>
+
+<p>
+    <a asp-action="AgregarGrado" class="btn btn-primary">Nuevo Grado</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdGrado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdGrado)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditarGrado", new {  id=item.IdGrado  }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

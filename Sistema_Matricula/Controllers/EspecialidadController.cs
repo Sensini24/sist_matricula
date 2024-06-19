@@ -24,6 +24,7 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult CrearEspecialidad()
         {
+
             return View();
         }
 

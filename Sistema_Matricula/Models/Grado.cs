@@ -7,7 +7,7 @@ public partial class Grado
 {
     public int IdGrado { get; set; }
 
-    public string Descripcio { get; set; } = null!;
+    public string Descripcion { get; set; } = null!;
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 }
