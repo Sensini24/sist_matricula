@@ -40,24 +40,31 @@ namespace Sistema_Matricula.Controllers
         }
 
         // POST: CursoController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [HttpGet]
+        public ActionResult EditarCurso(int id)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                Curso curso = db.Cursos.Where(e => e.IdCurso == id).FirstOrDefault();
+
+                return View(curso);
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("ListarCurso", "Curso");
+
         }
 
         // GET: CursoController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public ActionResult EditarCurso(Curso curso)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                db.Cursos.Update(curso);
+                db.SaveChanges();
+                return RedirectToAction("ListarCurso", "Curso");
+            }
+            return View(curso);
         }
 
         // POST: CursoController/Edit/5

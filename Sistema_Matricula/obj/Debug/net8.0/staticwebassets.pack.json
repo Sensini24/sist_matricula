@@ -5,12 +5,24 @@
       "PackagePath": "staticwebassets\\Sistema_Matricula.bundle.scp.css"
     },
     {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\side.css",
+      "PackagePath": "staticwebassets\\css\\side.css"
+    },
+    {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\images\\OIG3.jpg",
+      "PackagePath": "staticwebassets\\images\\OIG3.jpg"
+    },
+    {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\images\\logo.jpg",
+      "PackagePath": "staticwebassets\\images\\logo.jpg"
     },
     {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\js\\site.js",

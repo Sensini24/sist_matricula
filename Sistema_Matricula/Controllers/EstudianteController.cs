@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.Validaciones;
 
@@ -21,11 +22,21 @@ namespace Sistema_Matricula.Controllers
             validadorEstudiante = _validadorEstudiante;
         }
 
-        
+
         // GET: EstudianteController
-        public ActionResult ListarEstudiantes()
+        public ActionResult ListarEstudiantes(string palabra)
         {
-            var estudiantes = db.Estudiantes.ToList();
+            List<Estudiante> estudiantes;
+            if (!string.IsNullOrEmpty(palabra))
+            {
+                estudiantes = db.Estudiantes.Where(i => i.Nombre.StartsWith(palabra)).ToList();
+            }
+            else
+            {
+                estudiantes = db.Estudiantes.ToList();
+            }
+
+            ViewBag.Palabra = palabra;
             return View(estudiantes);
         }
 
@@ -81,47 +92,57 @@ namespace Sistema_Matricula.Controllers
         }
 
         // GET: EstudianteController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult EstudianteDetalles(int id)
         {
-            return View();
-        }
-
-        
-
-        // POST: EstudianteController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                Estudiante estudiante = db.Estudiantes.Where(e => e.IdEstudiante == id).FirstOrDefault();
+                return View(estudiante);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("ListarEstudiantes", "Estudiante");
         }
 
         // GET: EstudianteController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult EditarEstudiante(int id)
         {
-            return View();
+
+            Estudiante estudiante = db.Estudiantes.Where(e => e.IdEstudiante == id).FirstOrDefault();
+            if(estudiante != null)
+            {
+                return View(estudiante);
+                
+            }
+            return RedirectToAction("ListarEstudiantes", "Estudiante");
         }
 
         // POST: EstudianteController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditarEstudiante(int id, Estudiante estudiante)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                Estudiante estudiActual = db.Estudiantes.Where(e => e.IdEstudiante == id).FirstOrDefault();
+                if (estudiActual != null)
+                {
+                    estudiActual.Nombre = estudiante.Nombre;
+                    estudiActual.Apellido = estudiante.Apellido;
+                    estudiActual.FechNacimiento = estudiante.FechNacimiento;
+                    estudiActual.Email = estudiante.Email;
+                    estudiActual.Telefono = estudiante.Telefono;
+                    estudiActual.Direccion = estudiante.Direccion;
+                    estudiActual.Estado = estudiante.Estado;
+                    estudiActual.Dni = estudiante.Dni;
+                    estudiActual.FechNacimiento = estudiante.FechNacimiento;
+
+                    db.SaveChanges();
+
+                    return RedirectToAction("ListarEstudiantes", "Estudiante");
+                }else {
+                    return View(estudiante);
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(estudiante);
         }
 
         // GET: EstudianteController/Delete/5

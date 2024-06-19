@@ -21,10 +21,25 @@ namespace Sistema_Matricula.Controllers
         }
 
         // GET: AulaController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult AgregarAula()
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult AgregarAula(Aula aula)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Aulas.Add(aula);
+                db.SaveChanges();
+                return RedirectToAction("ListarAula");
+            }
+
+            return View(aula);
+        }
+
 
         // GET: AulaController/Create
         public ActionResult Create()

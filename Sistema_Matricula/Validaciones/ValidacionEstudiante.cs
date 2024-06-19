@@ -9,7 +9,7 @@ namespace Sistema_Matricula.Validaciones
         {
             RuleFor(e => e.Nombre).NotEmpty().WithMessage("Se requiere el nombre");
             RuleFor(e => e.Apellido).NotEmpty().WithMessage("Se requiere el apellido");
-            RuleFor(e => e.FechNacimiento).NotEmpty().WithMessage("Se requiere el apellido");
+            RuleFor(e => e.FechNacimiento).NotEmpty().WithMessage("Se requiere la fecha");
             RuleFor(e => e.Email).NotEmpty().WithMessage("Se requiere el Email").EmailAddress().WithMessage("El email no es válido");
             RuleFor(e => e.Telefono).NotEmpty().WithMessage("Se requiere el telefono").MinimumLength(9).WithMessage("Son mínimo 9 números");
             RuleFor(e => e.Direccion).NotEmpty().WithMessage("Se requiere la dirección");

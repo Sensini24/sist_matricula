@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Sistema_Matricula.Models.Especialidad>
+
+@{
+    ViewData["Title"] = "ListarEspecialidad";
+}
+
+<h1>ListarEspecialidad</h1>
+
+<p>
+    <a asp-action="CrearEspecialidad" class="btn btn-success">Nueva Especialidad</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEspecialidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especialidad1)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEspecialidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especialidad1)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditarEspecialidad", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<style>
+    body {
+        margin-left: 120px;
+    }
+</style>

@@ -182,6 +182,10 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("apellido");
             entity.Property(e => e.Edad).HasColumnName("edad");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("estado");
             entity.Property(e => e.FechNacimiento).HasColumnName("fech_nacimiento");
             entity.Property(e => e.IdEspecialidad).HasColumnName("id_especialidad");
             entity.Property(e => e.Nombre)

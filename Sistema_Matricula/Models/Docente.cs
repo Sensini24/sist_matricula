@@ -21,6 +21,8 @@ public partial class Docente
 
     public int? IdEspecialidad { get; set; }
 
+    public string Estado { get; set; } = null!;
+
     public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
 
     public virtual Especialidad? IdEspecialidadNavigation { get; set; }

@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link de icons de google font-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="~/css/side.css" asp-append-version="true" />
+    <title>Menu</title>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="~/images/logo.jpg" alt="Logo">
+            <h2>La Merced</h2>
+        </div>
+        <ul class="sidebar-links">
+            <h4>
+                <span>Main Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        space_dashboard
+                    </span>Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        overview
+                    </span>Overview
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        monitoring
+                    </span>Analytic
+                </a>
+            </li>
+            <h4>
+                <span>General</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        folder
+                    </span>Projects
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Curso" asp-action="ListarCurso">
+                    <span class="material-symbols-outlined">
+                        groups
+                    </span>Estudiantes
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        move_up
+                    </span>Transfer
+                </a>
+            </li>
+            <h4>
+                <span>Account</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        lab_profile
+                    </span>Reports
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        notifications
+                    </span>Notifications
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        account_circle
+                    </span>Profile
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        settings_applications
+                    </span>Settings
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        Logout
+                    </span>Logout
+                </a>
+            </li>
+        </ul>
+        <div class="user-account">
+            <div class="user-profile">
+                <img src="~/images/OIG3.jpg" alt="User">
+                <div class="user-detail">
+                    <h3>Brandon Quispe</h3>
+                    <span>Estudiante</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link src="~/js/site.js" asp-append-version="true"></link>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

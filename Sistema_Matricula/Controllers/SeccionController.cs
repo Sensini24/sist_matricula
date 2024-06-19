@@ -53,23 +53,42 @@ namespace Sistema_Matricula.Controllers
         }
 
         // GET: SeccionController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult EditarSeccion(int id)
         {
-            return View();
+            Seccion seccion = db.Seccions.Where(x => x.IdSeccion == id).FirstOrDefault();
+
+            if(seccion == null)
+            {
+
+                return RedirectToAction("ListarSeccion", "Seccion");
+            }
+            return View(seccion);
         }
 
         // POST: SeccionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditarSeccion(int id , Seccion seccion)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                Seccion sec = db.Seccions.Where(x => x.IdSeccion == id).FirstOrDefault();
+                if (sec != null)
+                {
+                    sec.Nombre = seccion.Nombre;
+                    db.SaveChanges();
+                    return RedirectToAction("ListarSeccion", "Seccion");
+                }
+                else
+                {
+                    return View(seccion);
+                }
             }
-            catch
+            else
             {
-                return View();
+                return View(seccion);
             }
         }
 
