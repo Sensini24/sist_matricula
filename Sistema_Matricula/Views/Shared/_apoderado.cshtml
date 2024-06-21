@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Sistema_Matricula.Models.Apoderado>
+
+<h1>Vista Parcial</h1>
+@* <div class="row mb-3">
+    <div class="col-md-6">
+        <form id="filter-form">
+            <div class="form-group">
+                <label for="nombre-filter">Nombre:</label>
+                <input type="text" class="form-control" id="nombre-filter" placeholder="Buscar por nombre">
+            </div>
+            <div class="form-group">
+                <label for="apellido-filter">Apellido:</label>
+                <input type="text" class="form-control" id="apellido-filter" placeholder="Buscar por apellido">
+            </div>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </form>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="#" class="btn btn-secondary sort-btn" data-sort-field="Nombre" data-sort-direction="asc">
+            Ordenar por Nombre <i class="fas fa-sort-alpha-down"></i>
+        </a>
+        <a href="#" class="btn btn-secondary sort-btn" data-sort-field="Apellido" data-sort-direction="asc">
+            Ordenar por Apellido <i class="fas fa-sort-alpha-down"></i>
+        </a>
+    </div>
+</div> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdApoderado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Edad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sexo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ocupacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdApoderado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Edad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sexo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ocupacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "EditarApoderado", new { id = item.IdApoderado }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

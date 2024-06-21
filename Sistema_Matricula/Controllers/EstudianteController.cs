@@ -1,12 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
-using Sistema_Matricula.Validaciones;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -24,8 +21,9 @@ namespace Sistema_Matricula.Controllers
 
 
         // GET: EstudianteController
-        public ActionResult ListarEstudiantes(string palabra)
+        public async Task <ActionResult> ListarEstudiantes(string palabra)
         {
+            List<Apoderado> apoderados =  db.Apoderados.ToList();
             List<Estudiante> estudiantes;
             if (!string.IsNullOrEmpty(palabra))
             {
@@ -36,8 +34,15 @@ namespace Sistema_Matricula.Controllers
                 estudiantes = db.Estudiantes.ToList();
             }
 
+            ViewBag.Apoderados = apoderados;
             ViewBag.Palabra = palabra;
             return View(estudiantes);
+        }
+
+        public IActionResult ListarApoderadosPartial()
+        {
+            var apoderados = db.Apoderados.ToList();
+            return PartialView("_apoderado", apoderados);
         }
 
 
@@ -143,27 +148,6 @@ namespace Sistema_Matricula.Controllers
                 }
             }
             return View(estudiante);
-        }
-
-        // GET: EstudianteController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: EstudianteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

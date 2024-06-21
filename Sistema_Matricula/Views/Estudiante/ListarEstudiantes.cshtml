@@ -57,6 +57,55 @@
         }
     </tbody>
 </table>
+
+@* <div class="row">
+    <div class="col-md-12">
+        <h2>Apoderados</h2>
+        <div id="apoderados-container">
+            @await Html.PartialAsync("_apoderado", (List<Sistema_Matricula.Controllers.ApoderadoController>)ViewBag.Apoderados)
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var $apoderadosContainer = $('#apoderados-container');
+
+            function loadApoderados() {
+                $.ajax({
+                    url: '@Url.Action("ListarApoderadoPartial", "Apoderado")',
+                    type: 'GET',
+                    data: $('#filter-form').serialize(),
+                    success: function (data) {
+                        $apoderadosContainer.html(data);
+                        bindSortEvents();
+                    }
+                });
+            }
+
+            function bindSortEvents() {
+                $('.sort-btn').click(function (e) {
+                    e.preventDefault();
+                    var $this = $(this);
+                    var sortField = $this.data('sort-field');
+                    var sortDirection = $this.data('sort-direction');
+                    $this.data('sort-direction', sortDirection === 'asc' ? 'desc' : 'asc');
+                    loadApoderados();
+                });
+            }
+
+            $('#filter-form').submit(function (e) {
+                e.preventDefault();
+                loadApoderados();
+            });
+
+            loadApoderados();
+        });
+
+    </script>
+} *@
+
 @* @section Scripts {
     <script>
         let boton = document.getElementById('boton')

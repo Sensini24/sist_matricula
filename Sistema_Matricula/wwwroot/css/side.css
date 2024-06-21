@@ -12,7 +12,6 @@ body {
     background: #d2d2d2;
 }
 
-
 .sidebar {
     position: fixed;
     top: 0;
@@ -109,6 +108,18 @@ body {
         color: #fff;
         border-radius: 15px;
     }
+/*
+    .sidebar-links li a:focus {
+        background: green;
+        color: green;
+        border-radius: 15px;
+    }
+
+    .sidebar-links li a.active {
+        background: green;
+        color: white;
+        border-radius: 15px;
+    }*/
 
 .user-account {
     margin-top: auto;

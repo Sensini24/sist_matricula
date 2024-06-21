@@ -22,21 +22,21 @@
                 <div class="menu-separator"></div>
             </h4>
             <li>
-                <a href="">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Docente" asp-action="ListarDocente" id="ListarDocente">
                     <span class="material-symbols-outlined">
                         space_dashboard
-                    </span>Dashboard
+                    </span>Docentes
                 </a>
             </li>
             <li>
-                <a href="">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Estudiante" asp-action="ListarEstudiantes" id="ListarEstudiantes">
                     <span class="material-symbols-outlined">
                         overview
-                    </span>Overview
+                    </span>Estudiantes
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         monitoring
                     </span>Analytic
@@ -47,7 +47,7 @@
                 <div class="menu-separator"></div>
             </h4>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         folder
                     </span>Projects
@@ -56,18 +56,18 @@
             <li>
                 <!---->
                 <!---->
-                <!---->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Grado" asp-action="ListarGrado">-->
                 <!--<a class="nav-link text-dark" asp-area="" asp-controller="Nivel" asp-action="ListarNivel">-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Docente" asp-action="ListarDocente">-->
-                <a class="nav-link text-dark" asp-area="" asp-controller="Grado" asp-action="ListarGrado">
+                <!---->
+                <a class="nav-link text-dark" asp-area="" asp-controller="Apoderado" asp-action="ListarApoderado" id="ListarApoderado" >
                     <!--<a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad">-->
                     <span class="material-symbols-outlined">
                         groups
-                    </span>Estudiantes
+                    </span>Apoderados
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         move_up
                     </span>Transfer
@@ -78,35 +78,35 @@
                 <div class="menu-separator"></div>
             </h4>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         lab_profile
                     </span>Reports
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         notifications
                     </span>Notifications
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         account_circle
                     </span>Profile
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         settings_applications
                     </span>Settings
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         Logout
                     </span>Logout
@@ -136,5 +136,26 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link src="~/js/site.js" asp-append-version="true"></link>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('a');
+            const currentPath = window.location.pathname.split('/').pop();
+            //alert(currentPath);
+            links.forEach(link => {
+                const href = link.getAttribute('id').split('/').pop();
+                
+                if (href === currentPath) {
+                    link.style.background = "#a01c15"
+                    link.style.borderRadius = "15px"
+                } else {
+                    link.style.color = "#dbd4d4e3"
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
+
