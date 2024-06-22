@@ -71,7 +71,7 @@ namespace Sistema_Matricula.Controllers
 
                 if (docente != null)
                 {
-                    docente.Estado = "inactivo";
+                    docente.Estado = "Inactivo";
                     db.Docentes.Update(docente);
                     await db.SaveChangesAsync();
                     return RedirectToAction("ListarDocente");

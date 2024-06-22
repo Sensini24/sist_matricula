@@ -1,0 +1,75 @@
+﻿@model Sistema_Matricula.Models.Matricula
+
+<h4>Matricula</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarMatricula">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdNivel" class="control-label"></label>
+                <select asp-for="IdNivel" class="form-control" asp-items="ViewBag.Niveles">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdNivel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdGrado" class="control-label"></label>
+                <select asp-for="IdGrado" class="form-control" asp-items="ViewBag.Grados">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdGrado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdSeccion" class="control-label"></label>
+                <select asp-for="IdSeccion" class="form-control" asp-items="ViewBag.Secciones">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdSeccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPeriodEscolar" class="control-label"></label>
+                <select asp-for="IdPeriodEscolar" class="form-control" asp-items="ViewBag.Periodos">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdPeriodEscolar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstudiante" class="control-label"></label>
+                <select asp-for="IdEstudiante" class="form-control" asp-items="ViewBag.Estudiantes">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdEstudiante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMonto" class="control-label"></label>
+                <select asp-for="IdMonto" class="form-control" asp-items="ViewBag.Montos">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdMonto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdAula" class="control-label"></label>
+                <select asp-for="IdAula" class="form-control" asp-items="ViewBag.Aulas">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="IdAula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" class="form-control" asp-items="ViewBag.estados">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

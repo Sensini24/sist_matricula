@@ -1,0 +1,49 @@
+﻿@model Sistema_Matricula.Models.Notum
+
+<h4>Notum</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditarNota">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdNota" class="control-label"></label>
+                <input asp-for="IdNota" class="form-control" readonly/>
+                <span asp-validation-for="IdNota" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nota" class="control-label"></label>
+                <input asp-for="Nota" class="form-control" />
+                <span asp-validation-for="Nota" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCurso" class="control-label"></label>
+                <input asp-for="IdCurso" class="form-control" />
+                <span asp-validation-for="IdCurso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstudiante" class="control-label"></label>
+                <input asp-for="IdEstudiante" class="form-control" />
+                <span asp-validation-for="IdEstudiante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdBimestre" class="control-label"></label>
+                <input asp-for="IdBimestre" class="form-control" />
+                <span asp-validation-for="IdBimestre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -492,7 +492,7 @@ public partial class DbMatNotaHorarioContext : DbContext
             entity.Property(e => e.IdCurso).HasColumnName("id_curso");
             entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
             entity.Property(e => e.Nota)
-                .HasColumnType("decimal(2, 2)")
+                .HasColumnType("decimal(5, 2)")
                 .HasColumnName("nota");
 
             entity.HasOne(d => d.IdBimestreNavigation).WithMany(p => p.Nota)

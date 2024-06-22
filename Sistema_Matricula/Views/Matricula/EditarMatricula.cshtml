@@ -1,0 +1,64 @@
+﻿@model Sistema_Matricula.Models.Matricula
+
+<h4>Matricula</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditarMatricula">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdMatricula" class="control-label"></label>
+                <input asp-for="IdMatricula" class="form-control" readonly/>
+                <span asp-validation-for="IdMatricula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdNivel" class="control-label"></label>
+                <input asp-for="IdNivel" class="form-control" />
+                <span asp-validation-for="IdNivel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdGrado" class="control-label"></label>
+                <input asp-for="IdGrado" class="form-control" />
+                <span asp-validation-for="IdGrado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdSeccion" class="control-label"></label>
+                <input asp-for="IdSeccion" class="form-control" />
+                <span asp-validation-for="IdSeccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPeriodEscolar" class="control-label"></label>
+                <input asp-for="IdPeriodEscolar" class="form-control" />
+                <span asp-validation-for="IdPeriodEscolar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstudiante" class="control-label"></label>
+                <input asp-for="IdEstudiante" class="form-control" />
+                <span asp-validation-for="IdEstudiante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMonto" class="control-label"></label>
+                <input asp-for="IdMonto" class="form-control" />
+                <span asp-validation-for="IdMonto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdAula" class="control-label"></label>
+                <input asp-for="IdAula" class="form-control" />
+                <span asp-validation-for="IdAula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

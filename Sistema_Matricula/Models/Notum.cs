@@ -7,7 +7,7 @@ public partial class Notum
 {
     public int IdNota { get; set; }
 
-    public decimal Nota { get; set; }
+    public decimal? Nota { get; set; }
 
     public string Descripcion { get; set; } = null!;
 

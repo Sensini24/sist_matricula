@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Sistema_Matricula.Models.Matricula>
+
+<p>
+    <a asp-action="AgregarMatricula">Nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMatricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNivel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdGrado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdSeccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPeriodEscolar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEstudiante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMonto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMatricula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNivel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdGrado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdSeccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPeriodEscolar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEstudiante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMonto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdAula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                    @Html.ActionLink("Editar", "EditarMatricula", new { id = item.IdMatricula })|
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
