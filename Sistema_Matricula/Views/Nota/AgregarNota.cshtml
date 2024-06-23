@@ -1,6 +1,6 @@
 ﻿@model Sistema_Matricula.Models.Notum
 
-<h4>Notum</h4>
+<h4>Notas</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -36,6 +36,13 @@
                     <option value="">-- Seleccione --</option>
                 </select>
                 <span asp-validation-for="IdBimestre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdDocente" class="control-label"></label>
+                <select asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docentes">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="IdDocente" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Ingresar" class="btn btn-primary" style="margin-top:15px"/>

@@ -17,9 +17,13 @@ public partial class Notum
 
     public int? IdBimestre { get; set; }
 
+    public int? IdDocente { get; set; }
+
     public virtual Bimestre? IdBimestreNavigation { get; set; }
 
     public virtual Curso? IdCursoNavigation { get; set; }
+
+    public virtual Docente? IdDocenteNavigation { get; set; }
 
     public virtual Estudiante? IdEstudianteNavigation { get; set; }
 }

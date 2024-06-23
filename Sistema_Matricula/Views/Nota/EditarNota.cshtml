@@ -37,6 +37,13 @@
                 <span asp-validation-for="IdBimestre" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IdDocente" class="control-label"></label>
+                <select asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docentes">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="IdDocente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

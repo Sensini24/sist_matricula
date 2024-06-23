@@ -25,9 +25,15 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult AgregarNota()
         {
+
             ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre").ToList();
-            ViewBag.Estudiantes = new SelectList(db.Estudiantes, "IdEstudiante", "Nombre").ToList();
+
+
+            ViewBag.Estudiantes = new SelectList(db.Estudiantes, "IdEstudiante", "Apellido").ToList();
+
             ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion").ToList();
+
+            ViewBag.Docentes = new SelectList(db.Docentes, "IdDocente", "Apellido").ToList();
             return View();
         }
 
@@ -42,8 +48,9 @@ namespace Sistema_Matricula.Controllers
             db.SaveChanges();
 
             ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre").ToList();
-            ViewBag.Estudiantes = new SelectList(db.Estudiantes, "IdEstudiante", "Nombre").ToList();
+            ViewBag.Estudiantes = new SelectList(db.Estudiantes, "IdEstudiante", "Apellido").ToList();
             ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion").ToList();
+            ViewBag.Docentes = new SelectList(db.Docentes, "IdDocente", "Apellido").ToList();
             return RedirectToAction("ListarNota");
         }
 
@@ -51,17 +58,32 @@ namespace Sistema_Matricula.Controllers
         public ActionResult EditarNota(int id)
         {
 
-            var nota = db.Nota.Find(id);
+            Notum nota = db.Nota.Where(x => x.IdNota == id).FirstOrDefault();
+
+            if (nota == null)
+            {
+
+                return RedirectToAction("ListarSeccion", "Seccion");
+            }
             return View(nota);
         }
 
         [HttpPost]
-        public ActionResult EditarNota(Notum nota)
+        public ActionResult EditarNota(Notum notum)
         {
             if (!ModelState.IsValid)
             {
-                return View(nota);
+                return View(notum);
             }
+
+            Notum nota = db.Nota.Where(x => x.IdNota == notum.IdNota).FirstOrDefault();
+            nota.IdCurso = notum.IdCurso;
+            nota.Nota = notum.Nota;
+            nota.Descripcion = notum.Descripcion;
+            nota.IdEstudiante = notum.IdEstudiante;
+            nota.IdBimestre = notum.IdBimestre;
+            
+
             db.Nota.Update(nota);
             db.SaveChanges();
             return RedirectToAction("ListarNota");
