@@ -7,13 +7,15 @@ public partial class Horario
 {
     public int IdHorario { get; set; }
 
-    public TimeOnly HoraInicio { get; set; }
+    public TimeSpan HoraInicio { get; set; }
 
-    public TimeOnly HoraFin { get; set; }
+    public TimeSpan HoraFin { get; set; }
 
     public int? IdAula { get; set; }
 
     public int? IdSeccion { get; set; }
+
+    public string? DiaSemana { get; set; }
 
     public virtual ICollection<DocenteHorario> DocenteHorarios { get; set; } = new List<DocenteHorario>();
 

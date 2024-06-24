@@ -9,5 +9,7 @@ public partial class Nivel
 
     public string Descripcion { get; set; } = null!;
 
+    public virtual ICollection<Grado> Grados { get; set; } = new List<Grado>();
+
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 }

@@ -9,7 +9,13 @@ public partial class Seccion
 
     public string Nombre { get; set; } = null!;
 
+    public int? IdGrado { get; set; }
+
+    public virtual ICollection<Aula> Aulas { get; set; } = new List<Aula>();
+
     public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
+
+    public virtual Grado? IdGradoNavigation { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 }

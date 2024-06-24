@@ -61,6 +61,8 @@ public partial class DbMatNotaHorarioContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<VistaCursoAlumno> VistaCursoAlumnos { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("server=DESKTOP-MNHLOO0;database=db_mat_nota_horario;integrated security=true; TrustServerCertificate=True");
@@ -132,7 +134,12 @@ public partial class DbMatNotaHorarioContext : DbContext
 
             entity.Property(e => e.IdAula).HasColumnName("id_aula");
             entity.Property(e => e.Capacidad).HasColumnName("capacidad");
+            entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
             entity.Property(e => e.VacantLibres).HasColumnName("vacant_libres");
+
+            entity.HasOne(d => d.IdSeccionNavigation).WithMany(p => p.Aulas)
+                .HasForeignKey(d => d.IdSeccion)
+                .HasConstraintName("FK_Aula_Seccion");
         });
 
         modelBuilder.Entity<Bimestre>(entity =>
@@ -353,6 +360,11 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("descripcion");
+            entity.Property(e => e.IdNivel).HasColumnName("id_nivel");
+
+            entity.HasOne(d => d.IdNivelNavigation).WithMany(p => p.Grados)
+                .HasForeignKey(d => d.IdNivel)
+                .HasConstraintName("FK_Grado_Nivel");
         });
 
         modelBuilder.Entity<Horario>(entity =>
@@ -362,6 +374,10 @@ public partial class DbMatNotaHorarioContext : DbContext
             entity.ToTable("Horario");
 
             entity.Property(e => e.IdHorario).HasColumnName("id_horario");
+            entity.Property(e => e.DiaSemana)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("dia_semana");
             entity.Property(e => e.HoraFin)
                 .HasPrecision(0)
                 .HasColumnName("hora_fin");
@@ -566,10 +582,15 @@ public partial class DbMatNotaHorarioContext : DbContext
             entity.ToTable("Seccion");
 
             entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
+            entity.Property(e => e.IdGrado).HasColumnName("id_grado");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
+
+            entity.HasOne(d => d.IdGradoNavigation).WithMany(p => p.Seccions)
+                .HasForeignKey(d => d.IdGrado)
+                .HasConstraintName("FK_Seccion_Grado");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
@@ -599,6 +620,28 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false)
                 .HasColumnName("rol");
+        });
+
+        modelBuilder.Entity<VistaCursoAlumno>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VistaCursoAlumno");
+
+            entity.Property(e => e.Bimestre)
+                .HasMaxLength(40)
+                .IsUnicode(false);
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Nota).HasColumnType("decimal(5, 2)");
+            entity.Property(e => e.Profesor)
+                .HasMaxLength(20)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
