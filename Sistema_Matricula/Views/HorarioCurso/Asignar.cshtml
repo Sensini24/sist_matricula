@@ -30,12 +30,16 @@
 
     <div class="form-group">
         <label asp-for="IdAula">Aula</label>
-        <input asp-for="IdAula" class="form-control" />
+        <select asp-for="IdAula" class="form-control" id="aulaSelect" asp-items="ViewBag.aulas">
+            <option value="">Seleccione un aula</option>
+        </select>
     </div>
 
     <div class="form-group">
         <label asp-for="IdSeccion">Sección</label>
-        <input asp-for="IdSeccion" class="form-control" />
+        <select asp-for="IdSeccion" class="form-control" id="seccionSelect" asp-items="ViewBag.secciones">
+            <option value="">Seleccione una seccion</option>
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="DiaSemana">Dia de la Semana</label>
@@ -44,3 +48,26 @@
 
     <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#seccionSelect').change(function () {
+                var seccionId = $(this).val(); // este es el id de seccion
+                $.ajax({
+                    url: '@Url.Action("AulasPorSeccion", "Aula")', //este es el controlador que se llama
+                    type: 'GET',
+                    data: { id: seccionId }, //este es el parametro que se envia al controlador
+                    success: function (data) {
+                        var aulaSelect = $('#aulaSelect'); //este es el id del select de aulas
+                        aulaSelect.empty(); //limpia el select
+                        $.each(data, function (index, item) {
+                            //agrega los items al select
+                            aulaSelect.append($('<option></option>').val(item.idAula).text(item.idAula)); 
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

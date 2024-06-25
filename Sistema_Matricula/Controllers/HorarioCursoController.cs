@@ -50,12 +50,15 @@ namespace Sistema_Matricula.Controllers
             // Obtener la lista de horarios disponibles
             var horarios = db.Horarios.ToList();
 
+            var secciones = db.Seccions.ToList();
+            var aulas = db.Aulas.ToList();
+
             var model = new HorarioCursoViewModel();
 
             ViewBag.Cursos = new SelectList(cursos, "IdCurso", "Nombre");
             ViewBag.Horarios = new SelectList(horarios, "IdHorario", "IdHorario");
-
-
+            ViewBag.Secciones = new SelectList(secciones, "IdSeccion", "Nombre");
+            ViewBag.Aulas = new SelectList(aulas, "IdAula", "IdAula");
 
             return View(model);
         }
