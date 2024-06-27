@@ -1,0 +1,40 @@
+﻿@model Sistema_Matricula.Models.HorarioCurso
+
+<h4>HorarioCurso</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditarCursoHorario">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdHorarioCurso" class="control-label"></label>
+                <input asp-for="IdHorarioCurso" class="form-control" readonly/>
+                <span asp-validation-for="IdHorarioCurso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCurso" class="control-label"></label>
+                <input asp-for="IdCurso" class="form-control" />
+                @* <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
+                    <option value="">Seleccione un Curso</option>
+                </select> *@
+                <span asp-validation-for="IdCurso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdHorario" class="control-label"></label>
+                <input asp-for="IdHorario" class="form-control"/>
+                @* <select asp-for="IdHorario" class="form-control" asp-items="ViewBag.Horarios" >
+                    <option value="">Seleccione un Horario</option>
+                </select> *@
+                <span asp-validation-for="IdHorario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,50 @@
+﻿@model Sistema_Matricula.Models.Pago
+
+<h4>Pago</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarPago">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MontoPago" class="control-label"></label>
+                <input asp-for="MontoPago" class="form-control" />
+                <span asp-validation-for="MontoPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechPago" class="control-label"></label>
+                <input asp-for="FechPago" class="form-control" />
+                <span asp-validation-for="FechPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoPago" class="control-label"></label>
+                <select asp-for="TipoPago" class="form-control" asp-items="ViewBag.TiposPagos">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="TipoPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" class="form-control" asp-items="ViewBag.estadoPago">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMatricula" class="control-label"></label>
+                <select asp-for="IdMatricula" class="form-control" asp-items="ViewBag.Matriculas">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="IdMatricula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -31,8 +31,6 @@ public partial class DbMatNotaHorarioContext : DbContext
 
     public virtual DbSet<Docente> Docentes { get; set; }
 
-    public virtual DbSet<DocenteHorario> DocenteHorarios { get; set; }
-
     public virtual DbSet<Especialidad> Especialidads { get; set; }
 
     public virtual DbSet<Estudiante> Estudiantes { get; set; }
@@ -183,13 +181,11 @@ public partial class DbMatNotaHorarioContext : DbContext
 
         modelBuilder.Entity<CursoDocente>(entity =>
         {
-            entity.HasKey(e => e.IdCursoDocente).HasName("PK__CursoDoc__721C063101044463");
+            entity.HasKey(e => e.IdCursoDocente).HasName("PK__CursoDoc__721C0631FEBB75D6");
 
             entity.ToTable("CursoDocente");
 
-            entity.Property(e => e.IdCursoDocente)
-                .ValueGeneratedNever()
-                .HasColumnName("id_cursoDocente");
+            entity.Property(e => e.IdCursoDocente).HasColumnName("id_cursoDocente");
             entity.Property(e => e.IdCurso).HasColumnName("id_curso");
             entity.Property(e => e.IdDocente).HasColumnName("id_docente");
 
@@ -238,27 +234,6 @@ public partial class DbMatNotaHorarioContext : DbContext
             entity.HasOne(d => d.IdEspecialidadNavigation).WithMany(p => p.Docentes)
                 .HasForeignKey(d => d.IdEspecialidad)
                 .HasConstraintName("FK_Docente_Especialidad");
-        });
-
-        modelBuilder.Entity<DocenteHorario>(entity =>
-        {
-            entity.HasKey(e => e.IdDocenteHorario).HasName("PK__DocenteH__555F4F5281D7C9B6");
-
-            entity.ToTable("DocenteHorario");
-
-            entity.Property(e => e.IdDocenteHorario).HasColumnName("id_docenteHorario");
-            entity.Property(e => e.IdDocente).HasColumnName("id_docente");
-            entity.Property(e => e.IdHorario).HasColumnName("id_horario");
-
-            entity.HasOne(d => d.IdDocenteNavigation).WithMany(p => p.DocenteHorarios)
-                .HasForeignKey(d => d.IdDocente)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DocenteHorario_Docente");
-
-            entity.HasOne(d => d.IdHorarioNavigation).WithMany(p => p.DocenteHorarios)
-                .HasForeignKey(d => d.IdHorario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DocenteHorario_Horario");
         });
 
         modelBuilder.Entity<Especialidad>(entity =>

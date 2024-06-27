@@ -17,8 +17,6 @@ public partial class Horario
 
     public string? DiaSemana { get; set; }
 
-    public virtual ICollection<DocenteHorario> DocenteHorarios { get; set; } = new List<DocenteHorario>();
-
     public virtual ICollection<HorarioCurso> HorarioCursos { get; set; } = new List<HorarioCurso>();
 
     public virtual Aula? IdAulaNavigation { get; set; }

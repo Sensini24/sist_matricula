@@ -42,16 +42,49 @@ namespace Sistema_Matricula.Controllers
             return RedirectToAction("ListarCursoHorario");
         }
 
+        public IActionResult EditarCursoHorario(int id)
+        {
+            ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre").ToList();
+            ViewBag.Horarios = new SelectList(db.Horarios, "IdHorario", "IdHorario").ToList();
+
+            var cursoHorario = db.HorarioCursos.Find(id);
+            return View(cursoHorario);
+        }
+
+        [HttpPost]
+        public IActionResult EditarCursoHorario(HorarioCurso horarioCurso)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Manejo de errores específicos
+                //var errors = ModelState.Values.SelectMany(v => v.Errors);
+                //foreach (var error in errors)
+                //{
+                //    ModelState.AddModelError("", error.ErrorMessage);
+                //}
+                return View(horarioCurso);
+            }
+            db.HorarioCursos.Update(horarioCurso);
+            db.SaveChanges();
+
+            ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre").ToList();
+            ViewBag.Horarios = new SelectList(db.Horarios, "IdHorario", "IdHorario").ToList();
+            return RedirectToAction("ListarCursoHorario");
+        }
+
         public IActionResult Asignar()
         {
-            // Obtener la lista de cursos disponibles
+            List<string> dias = new List<string> { 
+                "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" 
+            };
+
             var cursos = db.Cursos.ToList();
 
-            // Obtener la lista de horarios disponibles
             var horarios = db.Horarios.ToList();
 
             var secciones = db.Seccions.ToList();
             var aulas = db.Aulas.ToList();
+            var diasSemanas = dias.ToList();
 
             var model = new HorarioCursoViewModel();
 
@@ -59,6 +92,7 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Horarios = new SelectList(horarios, "IdHorario", "IdHorario");
             ViewBag.Secciones = new SelectList(secciones, "IdSeccion", "Nombre");
             ViewBag.Aulas = new SelectList(aulas, "IdAula", "IdAula");
+            ViewBag.Dias = new SelectList(diasSemanas);
 
             return View(model);
         }
@@ -89,6 +123,11 @@ namespace Sistema_Matricula.Controllers
                             };
                             db.Horarios.Add(horario);
                             db.SaveChanges();
+                        /* 
+                         * Asignar el IdHorario al cursoHorario porque ya se ha creado un nuevo horario
+                         * y ambos deben tener el mismo IdHorario, es decir el IdHorario del nuevo horario creado
+                         * en la base de datos, ya que uno es foreing key del otro.
+                         */
                             cursoHorario.IdHorario = horario.IdHorario;
                         }
 

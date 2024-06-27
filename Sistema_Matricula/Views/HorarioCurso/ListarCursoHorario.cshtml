@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Sistema_Matricula.Models.HorarioCurso>
+
+<p>
+    <a asp-action="AgregarCursoHorario">Nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHorarioCurso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCurso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHorario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHorarioCurso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCurso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHorario)
+            </td>
+            <td>
+                    @Html.ActionLink("Editar", "EditarCursoHorario", new { id = item.IdHorarioCurso }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

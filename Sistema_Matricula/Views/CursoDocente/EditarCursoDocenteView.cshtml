@@ -1,0 +1,35 @@
+﻿@model Sistema_Matricula.ViewsModels.CursoDocenteViewModel
+
+<h4 id="hola" style="margin-top:15px; color:green">CursoDocenteViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditarCursoDocenteView">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCursoDocente" class="control-label"></label>
+                <input asp-for="IdCursoDocente" class="form-control" readonly />
+                <span asp-validation-for="IdCursoDocente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdDocente" class="control-label"></label>
+                <input asp-for="IdDocente" class="form-control" />
+                <span asp-validation-for="IdDocente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCurso" class="control-label"></label>
+                <input asp-for="IdCurso" class="form-control" />
+                <span asp-validation-for="IdCurso" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
