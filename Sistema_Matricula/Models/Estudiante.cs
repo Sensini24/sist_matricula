@@ -11,7 +11,7 @@ public partial class Estudiante
 
     public string Apellido { get; set; } = null!;
 
-    public DateOnly FechNacimiento { get; set; }
+    public DateTime FechNacimiento { get; set; }
 
     public string? Email { get; set; }
 
