@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\stilos.css",
+      "PackagePath": "staticwebassets\\css\\stilos.css"
+    },
+    {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },

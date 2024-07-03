@@ -55,9 +55,13 @@ public partial class DbMatNotaHorarioContext : DbContext
 
     public virtual DbSet<PeriodoEscolar> PeriodoEscolars { get; set; }
 
+    public virtual DbSet<Rol> Rols { get; set; }
+
     public virtual DbSet<Seccion> Seccions { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
+
+    public virtual DbSet<UsuarioRol> UsuarioRols { get; set; }
 
     public virtual DbSet<VistaCursoAlumno> VistaCursoAlumnos { get; set; }
 
@@ -550,6 +554,21 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasColumnName("nombre");
         });
 
+        modelBuilder.Entity<Rol>(entity =>
+        {
+            entity.HasKey(e => e.IdRol).HasName("PK__Rol__6ABCB5E001964946");
+
+            entity.ToTable("Rol");
+
+            entity.HasIndex(e => e.Nombre, "UQ__Rol__72AFBCC6F29A7C0A").IsUnique();
+
+            entity.Property(e => e.IdRol).HasColumnName("id_rol");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("nombre");
+        });
+
         modelBuilder.Entity<Seccion>(entity =>
         {
             entity.HasKey(e => e.IdSeccion);
@@ -570,31 +589,46 @@ public partial class DbMatNotaHorarioContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario);
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__4E3E04ADFDA08180");
 
             entity.ToTable("Usuario");
 
+            entity.HasIndex(e => e.Email, "UQ__Usuario__AB6E616402ED5D2B").IsUnique();
+
             entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
-            entity.Property(e => e.Apellido)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("apellido");
-            entity.Property(e => e.Contraseña)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("contraseña");
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("email");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(20)
+                .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
-            entity.Property(e => e.Rol)
-                .HasMaxLength(15)
+            entity.Property(e => e.PasswordHash)
+                .HasMaxLength(128)
                 .IsUnicode(false)
-                .HasColumnName("rol");
+                .HasColumnName("passwordHash");
+        });
+
+        modelBuilder.Entity<UsuarioRol>(entity =>
+        {
+            entity.HasKey(e => e.IdUsuarioRol).HasName("PK__UsuarioR__F1D5AB7BBFF5DDF7");
+
+            entity.ToTable("UsuarioRol");
+
+            entity.Property(e => e.IdUsuarioRol).HasColumnName("id_usuarioRol");
+            entity.Property(e => e.IdRol).HasColumnName("id_rol");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+
+            entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.UsuarioRols)
+                .HasForeignKey(d => d.IdRol)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UsuarioRo__id_ro__55F4C372");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.UsuarioRols)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UsuarioRo__id_us__55009F39");
         });
 
         modelBuilder.Entity<VistaCursoAlumno>(entity =>

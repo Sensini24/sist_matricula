@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="~/css/side.css" asp-append-version="true" />
     <title>Menu</title>
 </head>
-<body>
-    <aside class="sidebar">
+<body >
+    <aside class="sidebar" >
         <div class="sidebar-header">
             <img src="~/images/logo.jpg" alt="Logo">
             <h2>La Merced</h2>
         </div>
-        <ul class="sidebar-links">
+        <ul class="sidebar-links" style="margin-left:5px">
             <h4>
                 <span>Main Menu</span>
                 <div class="menu-separator"></div>
@@ -64,7 +64,8 @@
                 <!--<a class="nav-link text-dark" asp-area="" asp-controller="Apoderado" asp-action="ListarApoderado" id="ListarApoderado" >-->
                 <!--<a class="nav-link text-dark" asp-area="" asp-controller="HorarioCurso" asp-action="Asignar" id="Asignar">-->
                 @* <a class="nav-link text-dark" asp-area="" asp-controller="HorarioCurso" asp-action="ListarCursoHorario" id="ListarCursoHorario"> *@
-                <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="ListarCursoDocente" id="ListarCursoDocente">
+                @* <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="ListarCursoDocente" id="ListarCursoDocente"> *@
+                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RegistrarUsuario" id="RegistrarUsuario">
                     <!--<a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad">-->
                     <span class="material-symbols-outlined">
                         groups
@@ -118,10 +119,10 @@
                 </a>
             </li>
         </ul>
-        <div class="user-account">
+        <div class="user-account" >
             <div class="user-profile">
                 <img src="~/images/OIG3.jpg" alt="User">
-                <div class="user-detail">
+                <div class="user-detail" style="margin-left:30px">
                     <h3>Brandon Quispe</h3>
                     <span>Estudiante</span>
                 </div>
@@ -140,6 +141,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link src="~/js/site.js" asp-append-version="true"></link>
+    <link href="~/css/stilos.css" rel="stylesheet" />
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>

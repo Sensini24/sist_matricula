@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sistema_Matricula.Models.Estudiante>
+﻿  @model IEnumerable<Sistema_Matricula.Models.Estudiante>
 
 @{
     ViewData["Title"] = "Listar Estudiantes";
@@ -6,118 +6,140 @@
 
 <h1>Listar Estudiantes</h1>
 
-<p>
-    <a asp-action="AgregarEstudiante" class="btn btn-success">Nuevo</a>
-</p>
+<html>
+    <head>
+      <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+      <link
+        rel="stylesheet"
+        as="style"
+        onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+      />
 
-@using (Html.BeginForm("ListarEstudiantes", "Estudiante", FormMethod.Get))
-{
-    <div class="form-group">
-        @Html.Label("Buscar por nombre:")
-        @Html.TextBox("palabra", ViewBag.Palabra as string, new { @class = "form-control", placeholder = "Ingrese el nombre", id = "palabra" })
+      <title>Galileo Design</title>
+      <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
-    </div>
-    <button type="submit" class="btn btn-primary" id="boton">Buscar</button>
-}
+      <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    </head>
+  <body style="align-content:start; margin-left:230px ">
+        <p>
+            <a asp-action="AgregarEstudiante" class="btn btn-success">Nuevo</a>
+        </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.IdEstudiante)</th>
-            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-            <th>@Html.DisplayNameFor(model => model.Apellido)</th>
-            <th>@Html.DisplayNameFor(model => model.FechNacimiento)</th>
-            <th>@Html.DisplayNameFor(model => model.Email)</th>
-            <th>@Html.DisplayNameFor(model => model.Telefono)</th>
-            <th>@Html.DisplayNameFor(model => model.Direccion)</th>
-            <th>@Html.DisplayNameFor(model => model.Estado)</th>
-            <th>@Html.DisplayNameFor(model => model.Dni)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+        @using (Html.BeginForm("ListarEstudiantes", "Estudiante", FormMethod.Get))
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.IdEstudiante)</td>
-                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
-                <td>@Html.DisplayFor(modelItem => item.FechNacimiento)</td>
-                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
-                <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
-                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
-                <td>@Html.DisplayFor(modelItem => item.Dni)</td>
-                <td>
-                    @Html.ActionLink("Editar", "EditarEstudiante", new { id = item.IdEstudiante }) |
-                    @Html.ActionLink("Detalles", "EstudianteDetalles", new { id = item.IdEstudiante }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdEstudiante })
-                </td>
-            </tr>
+            <div class="form-group">
+                @Html.Label("Buscar por nombre:")
+                @Html.TextBox("palabra", ViewBag.Palabra as string, new { @class = "form-control", placeholder = "Ingrese el nombre", id = "palabra" })
+
+            </div>
+            <button type="submit" class="btn btn-primary" id="boton">Buscar</button>
         }
-    </tbody>
-</table>
 
-@* <div class="row">
-    <div class="col-md-12">
-        <h2>Apoderados</h2>
-        <div id="apoderados-container">
-            @await Html.PartialAsync("_apoderado", (List<Sistema_Matricula.Controllers.ApoderadoController>)ViewBag.Apoderados)
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            var $apoderadosContainer = $('#apoderados-container');
-
-            function loadApoderados() {
-                $.ajax({
-                    url: '@Url.Action("ListarApoderadoPartial", "Apoderado")',
-                    type: 'GET',
-                    data: $('#filter-form').serialize(),
-                    success: function (data) {
-                        $apoderadosContainer.html(data);
-                        bindSortEvents();
-                    }
-                });
-            }
-
-            function bindSortEvents() {
-                $('.sort-btn').click(function (e) {
-                    e.preventDefault();
-                    var $this = $(this);
-                    var sortField = $this.data('sort-field');
-                    var sortDirection = $this.data('sort-direction');
-                    $this.data('sort-direction', sortDirection === 'asc' ? 'desc' : 'asc');
-                    loadApoderados();
-                });
-            }
-
-            $('#filter-form').submit(function (e) {
-                e.preventDefault();
-                loadApoderados();
-            });
-
-            loadApoderados();
-        });
-
-    </script>
-} *@
-
-@* @section Scripts {
-    <script>
-        let boton = document.getElementById('boton')
-        let palabra = document.getElementById('palabra');
-
-        palabra.addEventListener('input', (event) => {
-            event.preventDefault();
-            boton.click();
-            event.preventDefault();
-        })
-    </script>
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-} *@
+        <div class="layout-content-container flex flex-col w-full flex-1" >
+            <div class="px-4 py-3 container">
+              <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+                <table class="flex-1">
+                  <thead>
+                        <tr class="bg-[#212141]">
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
+                                Codigo Estudiante
+                          </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                                Nombres
+                            </th>
+                            <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                                Apellidos
+                            </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                                Fech. Nacimiento
+                      </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                                Email
+                      </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                        Telefono
+                      </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                        Direccion
+                      </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                                Estado
+                      </th>
+                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                        DNI
+                      </th>
+                            <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
+                                Mantenimiento
+                            </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-t border-t-[#D5D6DD]">
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
+                                         style='background-image: url("https://cdn.usegalileo.ai/sdxl10/53a13668-0845-41fa-857d-eb5c45fb9191.png");'>
+                                    </div>@Html.DisplayFor(modelItem => item.IdEstudiante)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Apellido)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.FechNacimiento)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Telefono)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Direccion)
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <span id="span-pintado"  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
+                                        @Html.DisplayFor(modelItem => item.Estado)
+                                    </span> @* style="background-color:green" *@
+                                </td>
+                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Dni)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                                    @Html.ActionLink("Editar", "EditarEstudiante", new { id = item.IdEstudiante }) |
+                                    @Html.ActionLink("Detalles", "EstudianteDetalles", new { id = item.IdEstudiante }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.IdEstudiante })
+                                </td>
+                            </tr>
+                        }
+                  </tbody>
+                </table>
+              </div>
+              <style>
+                          container(max-width:56px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56{display: none;}}
+                container(max-width:176px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176{display: none;}}
+                container(max-width:296px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296{display: none;}}
+                container(max-width:416px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-416{display: none;}}
+                container(max-width:536px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-536{display: none;}}
+              </style>
+            </div>
+          </div>
+    <link href="~/css/stilos.css" rel="stylesheet" />
+  </body>
+</html>
+<script>
+    var span_pintado = document.querySelectorAll("#span-pintado");
+    span_pintado.forEach(e => {
+        if (e.innerText == "Activo" || e.innerText == "activo") {
+            e.style.backgroundColor = "#8ef6a7";
+        } else {
+            e.style.backgroundColor = "#ec9bae";
+        }
+        }
+    )
+    
+</script>

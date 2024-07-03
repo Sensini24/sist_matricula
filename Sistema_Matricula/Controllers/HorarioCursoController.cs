@@ -100,50 +100,51 @@ namespace Sistema_Matricula.Controllers
         [HttpPost]
         public IActionResult Asignar(HorarioCursoViewModel model)
         {
+            var cursoHorario = new HorarioCurso
+            {
+                IdCurso = model.IdCurso,
+                IdHorario = model.IdHorario
+            };
 
-                var cursoHorario = new HorarioCurso
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
                 {
-                    IdCurso = model.IdCurso,
-                    IdHorario = model.IdHorario
-                };
-
-                using (var transaction = db.Database.BeginTransaction())
-                {
-                    try
+                    if (model.IdHorario == 0 || model.IdHorario == null)
                     {
-                        if (model.IdHorario == 0 || model.IdHorario == null)
+                        var horario = new Horario
                         {
-                            var horario = new Horario
-                            {
-                                HoraInicio = model.HoraInicio,
-                                HoraFin = model.HoraFin,
-                                IdAula = model.IdAula,
-                                IdSeccion = model.IdSeccion,
-                                DiaSemana = model.DiaSemana
-                            };
-                            db.Horarios.Add(horario);
-                            db.SaveChanges();
+                            HoraInicio = model.HoraInicio,
+                            HoraFin = model.HoraFin,
+                            IdAula = model.IdAula,
+                            IdSeccion = model.IdSeccion,
+                            DiaSemana = model.DiaSemana
+                        };
+                        db.Horarios.Add(horario);
+                        db.SaveChanges();
                         /* 
                          * Asignar el IdHorario al cursoHorario porque ya se ha creado un nuevo horario
                          * y ambos deben tener el mismo IdHorario, es decir el IdHorario del nuevo horario creado
                          * en la base de datos, ya que uno es foreing key del otro.
                          */
-                            cursoHorario.IdHorario = horario.IdHorario;
-                        }
-
-                        db.HorarioCursos.Add(cursoHorario);
-                        db.SaveChanges();
-
-                        transaction.Commit();
-
-                        return RedirectToAction("Index", "Home");
+                        cursoHorario.IdHorario = horario.IdHorario;
                     }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        ModelState.AddModelError("", "No se pudo asignar el curso al horario.");
-                    }
+
+                    db.HorarioCursos.Add(cursoHorario);
+                    db.SaveChanges();
+
+                    transaction.Commit();
+
+                    return RedirectToAction("Index", "Home");
                 }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    ModelState.AddModelError("", "No se pudo asignar el curso al horario.");
+                }
+            }
+
+
             var cursos = db.Cursos.ToList();
 
             // Obtener la lista de horarios disponibles

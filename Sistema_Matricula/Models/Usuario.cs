@@ -9,11 +9,9 @@ public partial class Usuario
 
     public string Nombre { get; set; } = null!;
 
-    public string Apellido { get; set; } = null!;
-
     public string Email { get; set; } = null!;
 
-    public string Rol { get; set; } = null!;
+    public string PasswordHash { get; set; } = null!;
 
-    public string Contraseña { get; set; } = null!;
+    public virtual ICollection<UsuarioRol> UsuarioRols { get; set; } = new List<UsuarioRol>();
 }

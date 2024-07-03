@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KaTb+ntNTdRjSZECZTnGFOKWtD4S1nx85VVwaQzePqs=",
+  "Hash": "5F6/BkOCMGR2mvhsCKbaYc5T/eQ7h/XVC6Q1TKWPkoA=",
   "Source": "Sistema_Matricula",
   "BasePath": "_content/Sistema_Matricula",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\stilos.css",
+      "SourceId": "Sistema_Matricula",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\",
+      "BasePath": "_content/Sistema_Matricula",
+      "RelativePath": "css/stilos.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\stilos.css"
     },
     {
       "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\favicon.ico",

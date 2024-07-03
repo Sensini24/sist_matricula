@@ -9,7 +9,7 @@ public partial class Pago
 
     public decimal MontoPago { get; set; }
 
-    public DateTime FechPago { get; set; }
+    public DateOnly FechPago { get; set; }
 
     public string TipoPago { get; set; } = null!;
 
