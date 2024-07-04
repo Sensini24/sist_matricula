@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Sistema_Matricula.bundle.scp.css"
     },
     {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\botones.css",
+      "PackagePath": "staticwebassets\\css\\botones.css"
+    },
+    {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\side.css",
       "PackagePath": "staticwebassets\\css\\side.css"
     },

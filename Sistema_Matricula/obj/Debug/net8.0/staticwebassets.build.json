@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5F6/BkOCMGR2mvhsCKbaYc5T/eQ7h/XVC6Q1TKWPkoA=",
+  "Hash": "UUcHKQEmeSPNdpagEXoTnS/2tcUtUMK7RDXzX9SFH4s=",
   "Source": "Sistema_Matricula",
   "BasePath": "_content/Sistema_Matricula",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Sistema_Matricula.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\botones.css",
+      "SourceId": "Sistema_Matricula",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\",
+      "BasePath": "_content/Sistema_Matricula",
+      "RelativePath": "css/botones.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\botones.css"
     },
     {
       "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\side.css",

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Matricula.Models;
 
 namespace Sistema_Matricula.Controllers
@@ -39,6 +40,35 @@ namespace Sistema_Matricula.Controllers
             return View(curso);
         }
 
+
+        [HttpGet]
+        public ActionResult AgregarCursoSeccion()
+        {
+            ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
+            ViewBag.Grados =  new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
+            ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre").ToList();
+            ViewBag.Seccion = new SelectList(db.Seccions, "IdSeccion", "Nombre").ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AgregarCursoSeccion(CursoSeccion cursoSeccion)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
+                ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
+                ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre").ToList();
+                ViewBag.Seccion = new SelectList(db.Seccions, "IdSeccion", "Nombre").ToList();
+
+                db.CursoSeccions.Add(cursoSeccion);
+                db.SaveChanges();
+                return RedirectToAction("ListarCurso", "Curso");
+            }
+            return View();
+        }
+
+
         // POST: CursoController/Create
         [HttpGet]
         public ActionResult EditarCurso(int id)
@@ -67,40 +97,20 @@ namespace Sistema_Matricula.Controllers
             return View(curso);
         }
 
-        // POST: CursoController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+
+        [HttpGet]
+        public ActionResult BuscarGradoPorNivel(int idNivel)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var grados = db.Grados.Where(e => e.IdNivel == idNivel).ToList();
+            return Json(grados);
         }
 
-        // GET: CursoController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult BuscarSeccionPorGrado(int idGrado)
         {
-            return View();
+            var secciones = db.Seccions.Where(e => e.IdGrado == idGrado).ToList();
+            return Json(secciones);
         }
 
-        // POST: CursoController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

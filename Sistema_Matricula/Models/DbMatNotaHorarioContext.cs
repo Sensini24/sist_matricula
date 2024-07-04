@@ -29,6 +29,8 @@ public partial class DbMatNotaHorarioContext : DbContext
 
     public virtual DbSet<CursoDocente> CursoDocentes { get; set; }
 
+    public virtual DbSet<CursoSeccion> CursoSeccions { get; set; }
+
     public virtual DbSet<Docente> Docentes { get; set; }
 
     public virtual DbSet<Especialidad> Especialidads { get; set; }
@@ -202,6 +204,29 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasForeignKey(d => d.IdDocente)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CursoDocente_Docente");
+        });
+
+        modelBuilder.Entity<CursoSeccion>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("CursoSeccion");
+
+            entity.Property(e => e.IdCurso).HasColumnName("id_curso");
+            entity.Property(e => e.IdCursoSeccion)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id_cursoSeccion");
+            entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
+
+            entity.HasOne(d => d.IdCursoNavigation).WithMany()
+                .HasForeignKey(d => d.IdCurso)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CursoSeccion_Curso");
+
+            entity.HasOne(d => d.IdSeccionNavigation).WithMany()
+                .HasForeignKey(d => d.IdSeccion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CursoSeccion_Seccion");
         });
 
         modelBuilder.Entity<Docente>(entity =>
@@ -408,17 +433,12 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("estado");
             entity.Property(e => e.FechMatricula).HasColumnName("fech_matricula");
-            entity.Property(e => e.IdAula).HasColumnName("id_aula");
             entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
             entity.Property(e => e.IdGrado).HasColumnName("id_grado");
             entity.Property(e => e.IdMonto).HasColumnName("id_monto");
             entity.Property(e => e.IdNivel).HasColumnName("id_nivel");
             entity.Property(e => e.IdPeriodEscolar).HasColumnName("id_periodEscolar");
             entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
-
-            entity.HasOne(d => d.IdAulaNavigation).WithMany(p => p.Matriculas)
-                .HasForeignKey(d => d.IdAula)
-                .HasConstraintName("FK_Matricula_Aula");
 
             entity.HasOne(d => d.IdEstudianteNavigation).WithMany(p => p.Matriculas)
                 .HasForeignKey(d => d.IdEstudiante)

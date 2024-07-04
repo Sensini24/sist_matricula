@@ -4,7 +4,8 @@
     ViewData["Title"] = "Listar Estudiantes";
 }
 
-<h1>Listar Estudiantes</h1>
+
+
 
 <html>
     <head>
@@ -17,14 +18,13 @@
       />
 
       <title>Galileo Design</title>
+        <h1>Listar Estudiantes</h1>
       <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
       <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     </head>
-  <body style="align-content:start; margin-left:230px ">
-        <p>
-            <a asp-action="AgregarEstudiante" class="btn btn-success">Nuevo</a>
-        </p>
+  <body style="align-content:start; margin-left:230px; margin-top:200px">
+    <a asp-action="AgregarEstudiante" id="button-style" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Nuevo</a>
 
         @using (Html.BeginForm("ListarEstudiantes", "Estudiante", FormMethod.Get))
         {
@@ -33,9 +33,12 @@
                 @Html.TextBox("palabra", ViewBag.Palabra as string, new { @class = "form-control", placeholder = "Ingrese el nombre", id = "palabra" })
 
             </div>
-            <button type="submit" class="btn btn-primary" id="boton">Buscar</button>
-        }
 
+        }
+    <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:15px; margin-left:25px">
+        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+        <span>Exportar a Excel</span>
+    </button>
         <div class="layout-content-container flex flex-col w-full flex-1" >
             <div class="px-4 py-3 container">
               <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -141,5 +144,8 @@
         }
         }
     )
+    document.getElementById('export-excel-button').addEventListener('click', function () {
+        window.location.href = '/Estudiante/PasarTablaExcel';
+    });
     
 </script>

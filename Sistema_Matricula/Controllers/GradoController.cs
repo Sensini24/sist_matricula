@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Matricula.Models;
 
 namespace Sistema_Matricula.Controllers
@@ -24,6 +25,8 @@ namespace Sistema_Matricula.Controllers
 
         public ActionResult AgregarGrado()
         {
+
+            ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
             return View();
         }
 
@@ -34,6 +37,8 @@ namespace Sistema_Matricula.Controllers
             {
                 return View(grado);
             }
+            ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
+
             db.Grados.Add(grado);
             db.SaveChanges();
             return RedirectToAction("ListarGrado");
@@ -43,6 +48,7 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult EditarGrado(int id)
         {
+            ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
             var grado = db.Grados.Find(id);
             return View(grado);
         }
@@ -54,6 +60,7 @@ namespace Sistema_Matricula.Controllers
             {
                 return View(grado);
             }
+            ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
             db.Grados.Update(grado);
             db.SaveChanges();
             return RedirectToAction("ListarGrado");

@@ -21,11 +21,7 @@ public partial class Matricula
 
     public int? IdMonto { get; set; }
 
-    public int? IdAula { get; set; }
-
     public string? Estado { get; set; }
-
-    public virtual Aula? IdAulaNavigation { get; set; }
 
     public virtual Estudiante? IdEstudianteNavigation { get; set; }
 

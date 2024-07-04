@@ -3,7 +3,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using Sistema_Matricula.Models;
+using ClosedXML.Excel;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -148,6 +150,46 @@ namespace Sistema_Matricula.Controllers
                 }
             }
             return View(estudiante);
+        }
+
+
+        public IActionResult PasarTablaExcel()
+        {
+            var estudiantes = db.Estudiantes.ToList();
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Estudiante");
+                var currentRow = 1;
+                worksheet.Cell("A1").Value = "IdEstudiante";
+                worksheet.Cell("B1").Value = "Nombre";
+                worksheet.Cell("C1").Value = "Apellido";
+                worksheet.Cell("D1").Value = "FechNacimiento";
+                worksheet.Cell("E1").Value = "Email";
+                worksheet.Cell("F1").Value = "Telefono";
+                worksheet.Cell("G1").Value = "Direccion";
+                worksheet.Cell("H1").Value = "Estado";
+                worksheet.Cell("I1").Value = "DNI";
+
+                foreach (var estudiante in db.Estudiantes.ToList())
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = estudiante.IdEstudiante;
+                    worksheet.Cell(currentRow, 2).Value = estudiante.Nombre;
+                    worksheet.Cell(currentRow, 3).Value = estudiante.Apellido;
+                    worksheet.Cell(currentRow, 4).Value = estudiante.FechNacimiento;
+                    worksheet.Cell(currentRow, 5).Value = estudiante.Email;
+                    worksheet.Cell(currentRow, 6).Value = estudiante.Telefono;
+                    worksheet.Cell(currentRow, 7).Value = estudiante.Direccion;
+                    worksheet.Cell(currentRow, 8).Value = estudiante.Estado;
+                    worksheet.Cell(currentRow, 9).Value = estudiante.Dni;
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ListaEstudiantes.xlsx");
+                }
+            }
         }
     }
 }

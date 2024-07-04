@@ -1,0 +1,109 @@
+﻿@model Sistema_Matricula.Models.CursoSeccion
+
+<h4>CursoSeccion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarCursoSeccion">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="nivel">Nivel</label>
+                <select id="nivel" class="form-control">
+                    <option value="">Seleccione un nivel</option>
+                    @foreach (var nivel in ViewBag.Niveles)
+                    {
+                        <option value="@nivel.Value">@nivel.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="grado">Grado</label>
+                <select id="grado" class="form-control">
+                    <option value="">Seleccione un grado</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="seccion">Sección</label>
+                <select id="seccion" class="form-control">
+                    <option value="">Seleccione una sección</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdCurso" class="control-label"></label>
+                <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
+                    <option value="">Seleccione un curso</option>
+                </select>
+                <span asp-validation-for="IdCurso" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="IdSeccion" id="IdSeccion" />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Cargar grados cuando se selecciona un nivel
+            document.getElementById('nivel').addEventListener('change', function () {
+                var nivelId = this.value; // Obtener el valor seleccionado en el <select> de niveles
+                if (nivelId) {
+                    fetch(`/Curso/BuscarGradoPorNivel?idNivel=${nivelId}`) // Usar nivelId en la llamada fetch
+                        .then(response => response.json())
+                        .then(data => {
+                            var gradoSelect = document.getElementById('grado');
+                            gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                            data.forEach(grado => {
+                                var option = document.createElement('option');
+                                option.value = grado.idGrado;
+                                option.text = grado.descripcion;
+                                gradoSelect.appendChild(option);
+                            });
+                        });
+                } else {
+                    document.getElementById('grado').innerHTML = '<option value="">Seleccione un grado</option>';
+                    document.getElementById('seccion').innerHTML = '<option value="">Seleccione una sección</option>';
+                }
+            });
+
+            // Cargar secciones cuando se selecciona un grado
+            document.getElementById('grado').addEventListener('change', function () {
+                var gradoId = this.value;
+                if (gradoId) {
+                    fetch(`/Curso/BuscarSeccionPorGrado?idGrado=${gradoId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var seccionSelect = document.getElementById('seccion');
+                            seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+                            data.forEach(seccion => {
+                                console.log(seccion)
+                                var option = document.createElement('option');
+                                option.value = seccion.idSeccion;
+                                option.text = seccion.nombre;
+                                seccionSelect.appendChild(option);
+                            });
+                        });
+                } else {
+                    document.getElementById('seccion').innerHTML = '<option value="">Seleccione una sección</option>';
+                }
+            });
+
+            // Sincronizar el valor seleccionado en el campo oculto IdSeccion
+            document.getElementById('seccion').addEventListener('change', function () {
+                document.getElementById('IdSeccion').value = this.value;
+            });
+        });
+    </script>
+}

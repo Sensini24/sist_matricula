@@ -16,6 +16,4 @@ public partial class Aula
     public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
 
     public virtual Seccion? IdSeccionNavigation { get; set; }
-
-    public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 }

@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNivel)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +33,9 @@
             <td>
                     @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdNivel)
+                </td>
             <td>
                 @Html.ActionLink("Editar", "EditarGrado", new {  id=item.IdGrado  }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Matricula.Models;
 
 namespace Sistema_Matricula.Controllers
@@ -23,6 +24,7 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult AgregarSeccion()
         {
+            ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
             return View();
         }
 
@@ -35,82 +37,46 @@ namespace Sistema_Matricula.Controllers
                 db.SaveChanges();
                 return RedirectToAction("ListarSeccion", "Seccion");
             }
+            ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
             return View(seccion);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: SeccionController/Edit/5
-        [HttpGet]
+        // GET: SeccionController/EditarSeccion/5
+        [HttpGet("Seccion/EditarSeccion/{id}")]
         public ActionResult EditarSeccion(int id)
         {
-            Seccion seccion = db.Seccions.Where(x => x.IdSeccion == id).FirstOrDefault();
-
-            if(seccion == null)
+            if (id <= 0)
             {
-
                 return RedirectToAction("ListarSeccion", "Seccion");
             }
+
+            Seccion seccion = db.Seccions.FirstOrDefault(x => x.IdSeccion == id);
+
+            if (seccion == null)
+            {
+                return RedirectToAction("ListarSeccion", "Seccion");
+            }
+
+            ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
             return View(seccion);
         }
 
-        // POST: SeccionController/Edit/5
+        // POST: SeccionController/EditarSeccion
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditarSeccion(int id , Seccion seccion)
+        public ActionResult EditarSeccion(Seccion seccion)
         {
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Seccion sec = db.Seccions.Where(x => x.IdSeccion == id).FirstOrDefault();
-                if (sec != null)
-                {
-                    sec.Nombre = seccion.Nombre;
-                    db.SaveChanges();
-                    return RedirectToAction("ListarSeccion", "Seccion");
-                }
-                else
-                {
-                    return View(seccion);
-                }
-            }
-            else
-            {
+                ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
                 return View(seccion);
             }
-        }
 
-        // GET: SeccionController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            db.Seccions.Update(seccion);
+            db.SaveChanges();
 
-        // POST: SeccionController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("ListarSeccion");
         }
     }
 }
