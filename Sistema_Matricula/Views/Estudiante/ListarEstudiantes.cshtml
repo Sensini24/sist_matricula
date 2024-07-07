@@ -4,9 +4,6 @@
     ViewData["Title"] = "Listar Estudiantes";
 }
 
-
-
-
 <html>
     <head>
       <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
@@ -14,31 +11,47 @@
         rel="stylesheet"
         as="style"
         onload="this.rel='stylesheet'"
-        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
-      />
+        />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-      <title>Galileo Design</title>
-        <h1>Listar Estudiantes</h1>
+    <title>Galileo Design</title>
+        
       <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
       <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     </head>
-  <body style="align-content:start; margin-left:230px; margin-top:200px">
-    <a asp-action="AgregarEstudiante" id="button-style" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Nuevo</a>
+    <body style="align-content:start; margin-left:230px; margin-top:50px">
+    <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Mantenimiento de estudiante</h1>
 
-        @using (Html.BeginForm("ListarEstudiantes", "Estudiante", FormMethod.Get))
-        {
-            <div class="form-group">
-                @Html.Label("Buscar por nombre:")
-                @Html.TextBox("palabra", ViewBag.Palabra as string, new { @class = "form-control", placeholder = "Ingrese el nombre", id = "palabra" })
+    <form asp-controller="Estudiante" asp-action="ListarEstudiantes" method="get" class="ml-6" id="formEstudiantes">
+        <p>
+            <input type="text" name="palabra" placeholder="Nombre...">
+            <input type="number" name="codigo" placeholder="Código..."><br />
+            <button type="submit" value="Buscar" id="cargar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                Buscar
+            </button>
 
-            </div>
+            <select name="estado" id="estados" class="mr-4 bg-[#212141] text-white mt-2">
+                <option value="">Filtrar por Estado</option>
+                <option value="Todos">Todos</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+                <option value="Pendiente">Pendiente</option>
+            </select>
 
-        }
-    <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:15px; margin-left:25px">
-        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
-        <span>Exportar a Excel</span>
-    </button>
+        </p>
+    </form>
+
+
+    
+
+    <div class="flex  align-items-end justify-content-between">
+        <a href="@Url.Action("AgregarEstudiante", "Estudiante")" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 ">Nuevo</a>
+        <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:40px; margin-right:25px">
+            <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+            <span>Exportar a Excel</span>
+        </button>
+    </div>
         <div class="layout-content-container flex flex-col w-full flex-1" >
             <div class="px-4 py-3 container">
               <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -104,18 +117,39 @@
                                 <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Direccion)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td id="datoEstado" class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
                                     <span id="span-pintado"  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
                                         @Html.DisplayFor(modelItem => item.Estado)
-                                    </span> @* style="background-color:green" *@
+                                    </span> 
                                 </td>
                                 <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Dni)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
-                                    @Html.ActionLink("Editar", "EditarEstudiante", new { id = item.IdEstudiante }) |
-                                    @Html.ActionLink("Detalles", "EstudianteDetalles", new { id = item.IdEstudiante }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.IdEstudiante })
+                                    <div class="flex justify-content-center">
+                                        <a href="@Url.Action("EditarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 mr-1 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300">
+                                            <span class="material-symbols-outlined text-white text-lg">
+                                                edit
+                                            </span>
+                                        </a>
+                                        <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 mr-1 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300">
+                                            <span class="material-symbols-outlined text-white text-lg">
+                                                delete_forever
+                                            </span>
+                                        </a>
+                                        <a id="activarEstudiante"  href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300">
+                                            <span class="material-symbols-outlined text-white text-lg">
+                                                check
+                                            </span>
+                                        </a>
+
+                                        @* <a href="@Url.Action("Detalles", "EstudianteDetalles", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300">
+                                            <span class="material-symbols-outlined text-white text-lg">
+                                                delete_forever
+                                            </span>
+                                        </a> *@
+                                    </div>
+                                    
                                 </td>
                             </tr>
                         }
@@ -131,21 +165,56 @@
               </style>
             </div>
           </div>
-    <link href="~/css/stilos.css" rel="stylesheet" />
+    @* <link href="~/css/stilos.css" rel="stylesheet" /> *@
   </body>
 </html>
 <script>
+    //selecciona al select de estados
+    var estados = document.getElementById('estados');
+    //Selecciona los span donde se contiene el estado
     var span_pintado = document.querySelectorAll("#span-pintado");
+
+    //selecciona a cada elemento estado generado
+    var datoEstado = document.querySelectorAll('#datoEstado')
+
     span_pintado.forEach(e => {
         if (e.innerText == "Activo" || e.innerText == "activo") {
             e.style.backgroundColor = "#8ef6a7";
-        } else {
-            e.style.backgroundColor = "#ec9bae";
+        }else if(e.innerText == "Pendiente"){
+            e.style.backgroundColor = "#fde047"
         }
+        else {
+            e.style.backgroundColor = "#ec9bae";
+            }
         }
     )
     document.getElementById('export-excel-button').addEventListener('click', function () {
         window.location.href = '/Estudiante/PasarTablaExcel';
     });
     
+    document.addEventListener("DOMContentLoaded", function () {
+        var datoEstado = document.querySelectorAll('#datoEstado span');
+
+        datoEstado.forEach(e => {
+            var estado = e.innerText.trim(); // Asegurarse de que no haya espacios en blanco
+            var eliminarEstudiante = e.closest('tr').querySelector('#eliminarEstudiante');
+            var activarEstudiante = e.closest('tr').querySelector('#activarEstudiante');
+
+            if (estado === "Inactivo") {
+                if (eliminarEstudiante) eliminarEstudiante.remove();
+            }
+            if (estado === "Activo") {
+                if (activarEstudiante) activarEstudiante.remove();
+            }
+        });
+    });
+
+
+    estados.addEventListener('change', function () {
+        var formEstudiantes = document.getElementById('formEstudiantes');
+        formEstudiantes.submit();
+    });
+    
+
+    document.getElementById('estados').addEventListener('window')
 </script>

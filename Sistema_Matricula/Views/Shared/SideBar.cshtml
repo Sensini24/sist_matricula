@@ -73,10 +73,10 @@
                 </a>
             </li>
             <li>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Grado" asp-action="ListarGrado" id="ListarGrado">
+                <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="AgregarCursoDocenteView" id="AgregarCursoDocenteView">
                     <span class="material-symbols-outlined">
                         move_up
-                    </span>Grado
+                    </span>CursoDocente
                 </a>
             </li>
             <h4>
@@ -84,7 +84,7 @@
                 <div class="menu-separator"></div>
             </h4>
             <li>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Seccion" asp-action="ListarSeccion" id="ListarSeccion">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad" id="ListarEspecialidad">
                     <span class="material-symbols-outlined">
                         lab_profile
                     </span>Seccion
@@ -141,7 +141,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link src="~/js/site.js" asp-append-version="true"></link>
-    <link href="~/css/stilos.css" rel="stylesheet" />
+    @* <link href="~/css/stilos.css" rel="stylesheet" /> *@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>

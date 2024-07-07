@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.ViewsModels;
 
@@ -14,10 +15,18 @@ namespace Sistema_Matricula.Controllers
             db = _db;
         }
 
-        public IActionResult ListarCursoDocente()
+        public async Task<ActionResult> ListarCursoDocente()
         {
-            var cursoDocentes = db.CursoDocentes.ToList();
-            return View(cursoDocentes);
+            var cursoDocentes = await db.CursoDocentes.ToListAsync();
+            return PartialView("_ListarCursoDocente", cursoDocentes);
+        }
+        public async Task<ActionResult> ListarDocentePorId(int id)
+        {
+            var especialidad = await db.Especialidads.ToDictionaryAsync(e => e.IdEspecialidad, e => e.Especialidad1);
+            ViewBag.Especialidad = especialidad;
+
+            var docente = await db.Docentes.Where(d => d.IdDocente == id).ToListAsync();
+            return PartialView("_ListarDocentePorId", docente);
         }
 
         [HttpGet]
@@ -68,9 +77,8 @@ namespace Sistema_Matricula.Controllers
             // Pasar el ViewModel vacío a la vista
             return View(viewModel);
         }
-
         [HttpPost]
-        public ActionResult AgregarCursoDocenteView(CursoDocenteViewModel viewModel)
+        public async Task<ActionResult> AgregarCursoDocenteAsincrono(CursoDocenteViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -81,9 +89,9 @@ namespace Sistema_Matricula.Controllers
                     IdCursoDocente = viewModel.IdCursoDocente
                 };
 
-                db.CursoDocentes.Add(cursoDocente);
-                db.SaveChanges();
-                return RedirectToAction("ListarCursoDocente");
+                await db.CursoDocentes.AddAsync(cursoDocente);
+                await db.SaveChangesAsync();
+                return PartialView("_ListarCursoDocente", db.CursoDocentes.ToList());
             }
 
             ViewBag.Docentes = new SelectList(db.Docentes, "IdDocente", "Nombre");
@@ -91,7 +99,6 @@ namespace Sistema_Matricula.Controllers
 
             return View(viewModel);
         }
-
 
         public IActionResult EditarCursoDocenteView(int id)
         {

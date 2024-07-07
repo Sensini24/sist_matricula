@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Sistema_Matricula.Models;
 using ClosedXML.Excel;
+using Microsoft.IdentityModel.Tokens;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -23,24 +26,67 @@ namespace Sistema_Matricula.Controllers
 
 
         // GET: EstudianteController
-        public async Task <ActionResult> ListarEstudiantes(string palabra)
+        [HttpGet]
+        public async Task <ActionResult> ListarEstudiantes(string palabra, int codigo, string estado)
         {
             List<Apoderado> apoderados =  db.Apoderados.ToList();
+
             List<Estudiante> estudiantes;
-            if (!string.IsNullOrEmpty(palabra))
+            if (!string.IsNullOrEmpty(palabra) && codigo != 0)
             {
-                estudiantes = db.Estudiantes.Where(i => i.Nombre.StartsWith(palabra)).ToList();
+                estudiantes = await db.Estudiantes
+                                            .Where(e => e.Nombre.StartsWith(palabra) || e.IdEstudiante == codigo)
+                                            .ToListAsync();
+
+            }
+            else if (!string.IsNullOrEmpty(palabra))
+            {
+                estudiantes = await db.Estudiantes
+                                            .Where(e => e.Nombre.StartsWith(palabra))
+                                            .ToListAsync();
+            }
+            else if (codigo != 0)
+            {
+                estudiantes = await db.Estudiantes
+                                            .Where(e => e.IdEstudiante == codigo)
+                                            .ToListAsync();
+            }
+            else if (estado == "Activo")
+            {
+                var estudiantesActivos = db.Estudiantes.Where(e => e.Estado == "Activo").ToList();
+                return View(estudiantesActivos);
+
+            }
+            else if (estado == "Inactivo")
+            {
+                var estudiantesInactivos = db.Estudiantes.Where(e => e.Estado == "Inactivo").ToList();
+                return View(estudiantesInactivos);
+            }
+            else if (estado == "Pendiente")
+            {
+                var estudiantesPendientes = db.Estudiantes.Where(e => e.Estado == "Pendiente").ToList();
+                return View(estudiantesPendientes);
+            }
+            else if(estado == "Todos")
+            {
+                estudiantes = db.Estudiantes.ToList();
             }
             else
             {
                 estudiantes = db.Estudiantes.ToList();
             }
+            List<SelectListItem> estados = new List<SelectListItem>
+            {
+                new SelectListItem {Value = "Activo", Text= "Activo"},
+                new SelectListItem {Value = "Inactivo", Text= "Inactivo"}
+            };
+            ViewBag.Estados = estados;
 
             ViewBag.Apoderados = apoderados;
             ViewBag.Palabra = palabra;
+            ViewBag.Codigo = codigo;
             return View(estudiantes);
         }
-
         public IActionResult ListarApoderadosPartial()
         {
             var apoderados = db.Apoderados.ToList();
@@ -152,6 +198,53 @@ namespace Sistema_Matricula.Controllers
             return View(estudiante);
         }
 
+        public async Task<IActionResult> EliminarEstudiante(int id)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Estudiante estudiante = await db.Estudiantes.Where(d => d.IdEstudiante == id).FirstOrDefaultAsync();
+
+                if (estudiante != null)
+                {
+                    estudiante.Estado = "Inactivo";
+                    db.Estudiantes.Update(estudiante);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("ListarEstudiantes");
+                }
+                else
+                {
+                    return RedirectToAction("ListarEstudiantes");
+                }
+            }
+
+            return RedirectToAction("ListarEstudiantes");
+        }
+
+        public async Task<IActionResult> ActivarEstudiante(int id)
+        {
+            
+
+            if (ModelState.IsValid)
+            {
+                Estudiante estudiante = await db.Estudiantes.Where(e => e.IdEstudiante == id).FirstOrDefaultAsync();
+
+                if (estudiante != null)
+                {
+                    estudiante.Estado = "Activo";
+                    db.Estudiantes.Update(estudiante);
+                    db.SaveChangesAsync();
+                    return RedirectToAction("ListarEstudiantes");
+                }
+              else
+                {
+                    return RedirectToAction("ListarEstudiantes");
+                }
+            }
+
+            return RedirectToAction("ListarEstudiantes");
+        }
+        
 
         public IActionResult PasarTablaExcel()
         {
