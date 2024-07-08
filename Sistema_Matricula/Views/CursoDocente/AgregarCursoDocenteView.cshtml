@@ -1,14 +1,14 @@
 ﻿@model Sistema_Matricula.ViewsModels.CursoDocenteViewModel
 
-<h4>CursoDocenteViewModel</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="AgregarCursoDocenteView">
+    <div class="row-md-12" style="display:flex; justify-content:space-between">
+        <form id="cursoDocenteForm" asp-action="AgregarCursoDocenteView" class="col-md-6  ">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="IdDocente" class="control-label"></label>
-                <select id="docentes"  asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docentes">
+                <select id="docentes" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docentes">
                     <option value="">Seleccione un Docente</option>
                 </select>
                 <span asp-validation-for="IdDocente" class="text-danger"></span>
@@ -23,56 +23,55 @@
             <div class="form-group">
                 <input type="submit" value="Ingresar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2" />
             </div>
-        </form>
-        <a href="@Url.Action("AgregarCurso", "Curso")" style="margin-left: 300px; margin-bottom:400px" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded  ">
-            Nuevo Curso
-        </a>
-        <div class="col-md-12">
+       </form>
+        
+        <div class="col-md-6">
+            <a href="@Url.Action("AgregarCurso", "Curso")" style="margin-left: 300px; margin-bottom:400px" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">
+                Nuevo Curso
+            </a>
+            <h1 class="text-black" style="font-size:25px">Datos de Docente</h1>
             <div id="docente-list">
+
             </div>
         </div>
         
-    
     </div>
-<div class="col-md-4">
-    <div id="curso-docente-list">
-
+    <hr />
+    <div style="display:flex; justify-content:space-between">
+        <div class="col-md-12">
+            <h1 class="text-black" style="font-size:25px">Cursos y Docentes</h1>
+            <div id="curso-docente-list">
+            </div>
+        </div>
     </div>
-</div>
+
     
-    
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch('@Url.Action("ListarCursoDocente")')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('curso-docente-list').innerHTML = html;
-            });
-    });
 
-    var docentes = document.getElementById('docentes');
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('@Url.Action("ListarCursoDocente")')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('curso-docente-list').innerHTML = html;
+                });
+        });
 
-    docentes.addEventListener("change", function () {
-        var docenteId = this.value;
+        var docentes = document.getElementById('docentes');
 
-        // Cargar los cursos del docente seleccionado
-        fetch('@Url.Action("ListarDocentePorId", "CursoDocente")/' + docenteId)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('docente-list').innerHTML = html;
-            });
+        docentes.addEventListener("change", function () {
+            var docenteId = this.value;
 
-        // Después de cargar los cursos del docente, volver a cargar la lista general de cursos docentes
-        fetch('@Url.Action("ListarCursoDocente")')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('curso-docente-list').innerHTML = html;
-            });
-    });
-        const form = document.querySelector('form');
+            // Cargar los cursos del docente seleccionado
+            fetch('@Url.Action("ListarDocentePorId", "CursoDocente")/' + docenteId)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('docente-list').innerHTML = html;
+                });
+        });
+
+        const form = document.getElementById('cursoDocenteForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // se envia el form como body
             const formData = new FormData(form);
             const response = await fetch('@Url.Action("AgregarCursoDocenteAsincrono")', {
                 method: 'POST',
@@ -81,13 +80,9 @@
             const html = await response.text();
             document.getElementById('curso-docente-list').innerHTML = html;
         });
-</script>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>

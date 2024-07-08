@@ -1,4 +1,10 @@
-﻿@model IEnumerable<Sistema_Matricula.Models.CursoDocente>
+﻿@model IEnumerable<Sistema_Matricula.ViewsModels.CursoDocenteViewModel>
+
+@{
+    ViewData["Title"] = "_ListarCursoDocente";
+    var docentes = ViewBag.Docentes as Dictionary<int, string>;
+    var cursos = ViewBag.Cursos as Dictionary<int, string>;
+}
 
 <head>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -10,13 +16,13 @@
                 <thead>
                     <tr class="bg-[#212141]">
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
-                            Id Curso Docente
+                            Id
                         </th>
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
-                            Id Docente
+                            Docente
                         </th>
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
-                            Id Curso
+                            Curso
                         </th>
                     </tr>
                 </thead>
@@ -24,9 +30,21 @@
                     @foreach (var item in Model)
                     {
                         <tr class="border-t border-t-[#D5D6DD]">
-                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">@item.IdCursoDocente</td>
-                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">@item.IdDocente</td>
-                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">@item.IdCurso</td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                @item.IdCursoDocente
+                            </td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                               @*  @{
+                                    int? idDocente = item.IdDocente;
+                                    string DocenteNombre = idDocente.HasValue ? docentes.GetValueOrDefault(idDocente.Value, "N/A") : "N/A";
+                                }
+                                @DocenteNombre *@
+                                @item.NombreDocente
+                                
+                            </td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                @item.NombreCurso
+                            </td>
                         </tr>
                     }
                 </tbody>
