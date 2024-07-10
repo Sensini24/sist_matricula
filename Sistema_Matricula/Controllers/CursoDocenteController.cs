@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.ViewsModels;
-
 namespace Sistema_Matricula.Controllers
 {
     public class CursoDocenteController : Controller
@@ -15,6 +14,7 @@ namespace Sistema_Matricula.Controllers
         {
             db = _db;
         }
+
 
         //public async Task<ActionResult> ListarCursoDocente()
         //{
@@ -53,6 +53,39 @@ namespace Sistema_Matricula.Controllers
                 .ToListAsync();
             return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
         }
+        public async Task<ActionResult> ListarCursosPorDocente(int id)
+        {
+            var cursosdeDocentes = await db.Cursos
+                .Where(c => c.CursoDocentes.Any(cd => cd.IdDocente == id))
+                .Select(c => new CursoDocenteViewModel
+                {
+                    IdCurso = c.IdCurso,
+                    NombreCurso = c.Nombre,
+                    IdCursoDocente = c.CursoDocentes.Where(cd => cd.IdDocente == id).Select(cd => cd.IdCursoDocente).FirstOrDefault()
+                }).ToListAsync();
+
+            return PartialView("_ListarCursoPorDocente",cursosdeDocentes);
+
+        }
+
+
+            public async Task<IActionResult> ListarDocentesYCantidadCursos()
+        {
+            var docentes = await db.Docentes.ToListAsync();
+            var cursos = await db.CursoDocentes.ToListAsync();
+
+            var cursoDocenteCountViewModel = await db.CursoDocentes
+            .GroupBy(cd => cd.IdDocente)
+            .Select(g => new CursoDocenteCountViewModel
+            {
+                IdDocente = g.Key,
+                NombreDocente = db.Docentes.Where(d => d.IdDocente == g.Key).Select(d => d.Nombre).FirstOrDefault(),
+                Cantidad = g.Count()
+            })
+            .ToListAsync();
+
+            return PartialView("_ListarDocentesYCantidadCursos", cursoDocenteCountViewModel);
+        }
 
         public async Task<ActionResult> ListarDocentePorId(int id)
         {
@@ -86,25 +119,13 @@ namespace Sistema_Matricula.Controllers
         [HttpPost]
         public async Task<ActionResult> AgregarCursoDocenteAsincrono(CursoDocenteViewModel viewModel)
         {
+            // Este es el model que se requiere para la vista de _ListarCursoDocente
             try
             {
-                if(viewModel.IdCurso == 0 || viewModel.IdDocente == 0)
+                if (viewModel.IdCurso == 0 || viewModel.IdDocente == 0)
                 {
-                    return BadRequest("Debe seleccionar un Docente y un Curso");
-                }
-                if (viewModel != null)
-                {
-                    var cursoDocente = new CursoDocente
-                    {
-                        IdDocente = viewModel.IdDocente,
-                        IdCurso = viewModel.IdCurso,
-                        IdCursoDocente = viewModel.IdCursoDocente
-                    };
+                    TempData["Error"] = "Debe seleccionar un Docente y un Curso";
 
-                    await db.CursoDocentes.AddAsync(cursoDocente);
-                    await db.SaveChangesAsync();
-
-                    // Convertir CursoDocente a CursoDocenteViewModel, ya que si no se envia este modelo, no se puede mostrar en la vista
                     var cursoDocenteViewModels = db.CursoDocentes.Select(cd => new CursoDocenteViewModel
                     {
                         IdDocente = cd.IdDocente,
@@ -116,18 +137,72 @@ namespace Sistema_Matricula.Controllers
 
                     return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
                 }
-            }catch(Exception ex)
+                if (viewModel != null)
+                {
+                    // Verificar si el curso ya existe para el docente
+                    var cursoExistente = db.CursoDocentes.Any(cd => cd.IdCurso == viewModel.IdCurso && cd.IdDocente == viewModel.IdDocente);
+
+                    if (!cursoExistente)
+                    {
+                        var cursoDocente = new CursoDocente
+                        {
+                            IdDocente = viewModel.IdDocente,
+                            IdCurso = viewModel.IdCurso,
+                            IdCursoDocente = viewModel.IdCursoDocente
+                        };
+
+                        await db.CursoDocentes.AddAsync(cursoDocente);
+                        await db.SaveChangesAsync();
+
+                        var cursoDocenteViewModels = db.CursoDocentes.Select(cd => new CursoDocenteViewModel
+                        {
+                            IdDocente = cd.IdDocente,
+                            IdCurso = cd.IdCurso,
+                            IdCursoDocente = cd.IdCursoDocente,
+                            NombreDocente = db.Docentes.Where(d => d.IdDocente == cd.IdDocente).Select(d => d.Nombre).FirstOrDefault(),
+                            NombreCurso = db.Cursos.Where(c => c.IdCurso == cd.IdCurso).Select(c => c.Nombre).FirstOrDefault()
+                        }).ToList();
+
+                        TempData["Success"] = $"El curso {cursoDocenteViewModels.Where(d => d.IdDocente == viewModel.IdDocente).Select(d => d.NombreCurso).LastOrDefault()}" +
+                            $" ha sido asignado al docente {cursoDocenteViewModels.Where(d => d.IdDocente == viewModel.IdDocente).Select(d => d.NombreDocente).FirstOrDefault()}.";
+                        // Se devueleve el partial y con este le model para que se actualice la tabla
+                        return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
+                    }
+                    else
+                    {
+
+                        var cursoDocenteViewModels = db.CursoDocentes.Select(cd => new CursoDocenteViewModel
+                        {
+                            IdDocente = cd.IdDocente,
+                            IdCurso = cd.IdCurso,
+                            IdCursoDocente = cd.IdCursoDocente,
+                            NombreDocente = db.Docentes.Where(d => d.IdDocente == cd.IdDocente).Select(d => d.Nombre).FirstOrDefault(),
+                            NombreCurso = db.Cursos.Where(c => c.IdCurso == cd.IdCurso).Select(c => c.Nombre).FirstOrDefault()
+                        }).ToList();
+                            var curso = from c in db.Cursos
+                                        where c.IdCurso == viewModel.IdCurso
+                                        select c.Nombre;
+
+                            TempData["Error"] = $"EL curso {cursoDocenteViewModels.Where(d => d.IdCurso == viewModel.IdCurso).Select(d => d.NombreCurso).LastOrDefault()}" +
+                                $" ya fue asignado al docente {cursoDocenteViewModels.Where(d => d.IdDocente == viewModel.IdDocente).Select(d => d.NombreDocente).FirstOrDefault()}.";
+                        
+                        
+                            
+                        return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
+                    }
+                }
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
-                
 
             ViewBag.Docentes = new SelectList(db.Docentes, "IdDocente", "Nombre");
             ViewBag.Cursos = new SelectList(db.Cursos, "IdCurso", "Nombre");
 
             return View(viewModel);
         }
+
 
         [HttpPost]
         public ActionResult AgregarCursoDocente(CursoDocente cursoDocente)
@@ -192,5 +267,22 @@ namespace Sistema_Matricula.Controllers
 
             return RedirectToAction("ListarCursoDocente");
         }
+
+
+        public async Task<IActionResult> EliminarCursoDocente(int id)
+        {
+            var cursoDocente = await db.CursoDocentes.FirstOrDefaultAsync(cd => cd.IdCursoDocente == id);
+
+            if (cursoDocente == null)
+            {
+                return NotFound("El curso asignado no existe.");
+            }
+
+            db.CursoDocentes.Remove(cursoDocente);
+            await db.SaveChangesAsync();
+
+            return Ok("Curso asignado eliminado exitosamente.");
+        }
+
     }
 }

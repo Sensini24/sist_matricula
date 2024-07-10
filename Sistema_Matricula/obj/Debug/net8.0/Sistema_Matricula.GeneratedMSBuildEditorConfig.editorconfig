@@ -86,8 +86,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29Eb2NlbnRlXF9MaXN0YXJDdXJzb0RvY2VudGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/CursoDocente/_ListarCursoPorDocente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29Eb2NlbnRlXF9MaXN0YXJDdXJzb1BvckRvY2VudGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/CursoDocente/_ListarDocentePorId.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29Eb2NlbnRlXF9MaXN0YXJEb2NlbnRlUG9ySWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/CursoDocente/_ListarDocentesYCantidadCursos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29Eb2NlbnRlXF9MaXN0YXJEb2NlbnRlc1lDYW50aWRhZEN1cnNvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Curso/AgregarCurso.cshtml]
