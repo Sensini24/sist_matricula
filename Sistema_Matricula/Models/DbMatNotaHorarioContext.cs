@@ -208,22 +208,20 @@ public partial class DbMatNotaHorarioContext : DbContext
 
         modelBuilder.Entity<CursoSeccion>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("CursoSeccion");
+            entity.HasKey(e => e.IdCursoSeccion);
 
+            entity.ToTable("CursoSeccion");
+
+            entity.Property(e => e.IdCursoSeccion).HasColumnName("id_cursoSeccion");
             entity.Property(e => e.IdCurso).HasColumnName("id_curso");
-            entity.Property(e => e.IdCursoSeccion)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id_cursoSeccion");
             entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
 
-            entity.HasOne(d => d.IdCursoNavigation).WithMany()
+            entity.HasOne(d => d.IdCursoNavigation).WithMany(p => p.CursoSeccions)
                 .HasForeignKey(d => d.IdCurso)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CursoSeccion_Curso");
 
-            entity.HasOne(d => d.IdSeccionNavigation).WithMany()
+            entity.HasOne(d => d.IdSeccionNavigation).WithMany(p => p.CursoSeccions)
                 .HasForeignKey(d => d.IdSeccion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CursoSeccion_Seccion");

@@ -54,7 +54,7 @@ namespace Sistema_Matricula.Controllers
         [HttpPost]
         public ActionResult AgregarCursoSeccion(CursoSeccion cursoSeccion)
         {
-            if (ModelState.IsValid)
+            if (cursoSeccion != null)
             {
                 ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion").ToList();
                 ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion").ToList();
@@ -65,7 +65,10 @@ namespace Sistema_Matricula.Controllers
                 db.SaveChanges();
                 return RedirectToAction("ListarCurso", "Curso");
             }
-            return View();
+            else
+            {
+                return View(cursoSeccion);
+            }
         }
 
 
