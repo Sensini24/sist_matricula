@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Sistema_Matricula.ViewsModels.CursoSeccionViewModel>
+
+    @{
+    ViewData["Title"] = "_ListarSeccionesYCursos";
+
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Error"]
+    </div>
+}
+<div class="layout-content-container flex flex-col w-full flex-1">
+    <div class="px-4 py-3 container">
+        <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+            <table class="flex-1">
+                <thead>
+                    <tr class="bg-[#212141]">
+                        <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
+                            Grado
+                        </th>
+                        <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
+                            Nivel
+                        </th>
+                        <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
+                            Seccion
+                        </th>
+                        <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
+                            Curso
+                        </th>
+                        <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
+                            Docente
+                        </th>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border-t border-t-[#D5D6DD]">
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                @item.NombreNivel
+                            </td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                @item.NombreGrado
+                            </td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                           
+                                @item.NombreSeccion
+                            </td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                @item.NombreCurso
+                            </td>
+                            <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                @item.NombreDocente
+                            </td>
+                            
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

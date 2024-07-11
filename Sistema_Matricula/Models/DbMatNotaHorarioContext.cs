@@ -214,12 +214,17 @@ public partial class DbMatNotaHorarioContext : DbContext
 
             entity.Property(e => e.IdCursoSeccion).HasColumnName("id_cursoSeccion");
             entity.Property(e => e.IdCurso).HasColumnName("id_curso");
+            entity.Property(e => e.IdDocente).HasColumnName("id_docente");
             entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
 
             entity.HasOne(d => d.IdCursoNavigation).WithMany(p => p.CursoSeccions)
                 .HasForeignKey(d => d.IdCurso)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CursoSeccion_Curso");
+
+            entity.HasOne(d => d.IdDocenteNavigation).WithMany(p => p.CursoSeccions)
+                .HasForeignKey(d => d.IdDocente)
+                .HasConstraintName("FK_CursoSeccion_Docente");
 
             entity.HasOne(d => d.IdSeccionNavigation).WithMany(p => p.CursoSeccions)
                 .HasForeignKey(d => d.IdSeccion)

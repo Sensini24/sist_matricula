@@ -1,13 +1,17 @@
 ﻿@model Sistema_Matricula.Models.CursoSeccion
-
+<head>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
 <h4>CursoSeccion</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AgregarCursoSeccion" >
+
+        
+        <form  id="cursoseccionForm" class="col-m-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            <div class="form-group" class="col-m-4">
                 <label for="nivel">Nivel</label>
                 <select id="nivel" class="form-control" asp-items="ViewBag.Niveles">
                     <option value="">Seleccione un nivel</option>
@@ -28,21 +32,36 @@
                 </select>
             </div>
 
+
             <div class="form-group">
-                <label asp-for="IdCurso" class="control-label"></label>
-                <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
+                <label  asp-for="IdCurso" class="control-label"></label>
+                <select id="curso" asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
                     <option value="">Seleccione un curso</option>
                 </select>
                 <span asp-validation-for="IdCurso" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="IdDocente" class="control-label"></label>
+                <select id="docente" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docente">
+                    <option value="">Seleccione un docente</option>
+                </select>
+                <span asp-validation-for="IdDocente" class="text-danger"></span>
+            </div>
+
+
+
             <input type="hidden" asp-for="IdSeccion" id="IdSeccion" />
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group" >
+                <input type="submit" value="Nuevo" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
+
+<div id="lista-cursoseccion">
+
 </div>
 
 <div>
@@ -51,6 +70,9 @@
 
 @section Scripts {
     <script>
+
+        
+
         document.addEventListener('DOMContentLoaded', function () {
             // Cargar grados cuando se selecciona un nivel
             document.getElementById('nivel').addEventListener('change', function () {
@@ -71,6 +93,29 @@
                 } else {
                     document.getElementById('grado').innerHTML = '<option value="">Seleccione un grado</option>';
                     document.getElementById('seccion').innerHTML = '<option value="">Seleccione una sección</option>';
+                }
+            });
+
+            fetch('@Url.Action("ListarSeccionesyCursos")')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('lista-cursoseccion').innerHTML = data;
+                });
+
+            const form = document.getElementById('cursoseccionForm');
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const response = await fetch('@Url.Action("AgregarCursoSeccion", "Curso")', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (response.ok) {
+                    const result = await response.text();
+                    document.getElementById('lista-cursoseccion').innerHTML = result;
+                } else {
+                    const error = await response.text();
+                    alert("Error: " + error);
                 }
             });
 
@@ -95,6 +140,29 @@
                     document.getElementById('seccion').innerHTML = '<option value="">Seleccione una sección</option>';
                 }
             });
+
+            document.getElementById('curso').addEventListener('change', function () {
+                var cursoId = this.value; // Obtener el valor seleccionado en el <select> de cursos
+                if (cursoId) {
+                    fetch(`/Curso/BuscarDocentePorCurso?idcurso=${cursoId}`) // Usar cursoId en la llamada fetch
+                        .then(response => response.json())
+                        .then(data => {
+                            var docenteSelect = document.getElementById('docente');
+                            docenteSelect.innerHTML = '<option value="">Seleccione un docente</option>';
+                            data.forEach(docente => {
+                                console.log(docente)
+                                var option = document.createElement('option');
+                                option.value = docente.idDocente;
+                                option.text = docente.nombreDocente;
+                                docenteSelect.appendChild(option);
+                            });
+                        });
+                } else {
+                    document.getElementById('docente').innerHTML = '<option value="">Seleccione un docente</option>';
+                }
+            });
+
+
 
             // Sincronizar el valor seleccionado en el campo oculto IdSeccion
             document.getElementById('seccion').addEventListener('change', function () {

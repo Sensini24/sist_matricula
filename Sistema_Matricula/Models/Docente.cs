@@ -25,6 +25,8 @@ public partial class Docente
 
     public virtual ICollection<CursoDocente> CursoDocentes { get; set; } = new List<CursoDocente>();
 
+    public virtual ICollection<CursoSeccion> CursoSeccions { get; set; } = new List<CursoSeccion>();
+
     public virtual Especialidad? IdEspecialidadNavigation { get; set; }
 
     public virtual ICollection<Notum> Nota { get; set; } = new List<Notum>();

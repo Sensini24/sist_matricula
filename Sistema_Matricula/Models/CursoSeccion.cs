@@ -11,7 +11,11 @@ public partial class CursoSeccion
 
     public int IdSeccion { get; set; }
 
+    public int? IdDocente { get; set; }
+
     public virtual Curso IdCursoNavigation { get; set; } = null!;
+
+    public virtual Docente? IdDocenteNavigation { get; set; }
 
     public virtual Seccion IdSeccionNavigation { get; set; } = null!;
 }
