@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.ViewsModels;
+using System.Linq;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -29,13 +30,42 @@ namespace Sistema_Matricula.Controllers
                 Select(cd => new CursoSeccionViewModel
                 {
                     IdSeccion = cd.IdSeccion,
-                    NombreSeccion = db.Seccions.Where(e=>e.IdSeccion == cd.IdSeccion).Select(e=>e.Nombre).FirstOrDefault(),
-                    NombreCurso = db.Cursos.Where(e=>e.IdCurso == cd.IdCurso).Select(e=>e.Nombre).FirstOrDefault(),
-                    NombreDocente = db.Docentes.Where(e=>e.IdDocente == cd.IdDocente).Select(e=>e.Nombre).FirstOrDefault(),
-                    NombreGrado = db.Grados.Where(e=>e.IdGrado == db.Seccions.Where(e=>e.IdSeccion == cd.IdSeccion).Select(e=>e.IdGrado).FirstOrDefault()).Select(e=>e.Descripcion).FirstOrDefault(),
-                    NombreNivel = db.Nivels.Where(e=>e.IdNivel == db.Grados.Where(e=>e.IdGrado == db.Seccions.Where(e=>e.IdSeccion == cd.IdSeccion).Select(e=>e.IdGrado).FirstOrDefault()).Select(e=>e.IdNivel).FirstOrDefault()).Select(e=>e.Descripcion).FirstOrDefault()
+                    NombreSeccion = db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.Nombre).FirstOrDefault(),
+                    NombreCurso = db.Cursos.Where(e => e.IdCurso == cd.IdCurso).Select(e => e.Nombre).FirstOrDefault(),
+                    NombreDocente = db.Docentes.Where(e => e.IdDocente == cd.IdDocente).Select(e => e.Nombre).FirstOrDefault(),
+                    NombreGrado = db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault(),
+                    NombreNivel = db.Nivels.Where(e => e.IdNivel == db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.IdNivel).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault()
                 }).ToListAsync();
 
+            return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ListarSeccionesyCursosConParametros(int? idgrado, int? idnivel, int? idseccion)
+        {
+            var cursoSeccionQuery = db.CursoSeccions
+                .Select(cd => new CursoSeccionViewModel
+                {
+                    IdSeccion = cd.IdSeccion,
+                    NombreSeccion = db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.Nombre).FirstOrDefault(),
+                    NombreCurso = db.Cursos.Where(e => e.IdCurso == cd.IdCurso).Select(e => e.Nombre).FirstOrDefault(),
+                    NombreDocente = db.Docentes.Where(e => e.IdDocente == cd.IdDocente).Select(e => e.Nombre).FirstOrDefault(),
+                    NombreGrado = db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault(),
+                    NombreNivel = db.Nivels.Where(e => e.IdNivel == db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.IdNivel).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault()
+                });
+
+            if (idgrado.HasValue && idnivel.HasValue && idseccion.HasValue)
+            {
+                cursoSeccionQuery = cursoSeccionQuery.Where(e => e.IdSeccion == idseccion);
+            }
+            else if (idnivel.HasValue)
+            {
+                cursoSeccionQuery = cursoSeccionQuery.Where(e => e.NombreNivel == db.Nivels.FirstOrDefault(n => n.IdNivel == idnivel.Value).Descripcion);
+            }
+            else if (idgrado.HasValue)
+            {
+                cursoSeccionQuery = cursoSeccionQuery.Where(e => e.NombreGrado == db.Grados.FirstOrDefault(n => n.IdGrado == idgrado.Value).Descripcion);
+            }
+            var cursoSeccionViewModel = await cursoSeccionQuery.ToListAsync();
             return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
         }
 
@@ -43,17 +73,17 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult AgregarCurso()
         {
-            return View();
+            return PartialView("_AgregarCurso");
         }
 
         // GET: CursoController/Create
         [HttpPost]
-        public ActionResult AgregarCurso(Curso curso)
+        public async Task<ActionResult> AgregarCurso(Curso curso)
         {
             if (ModelState.IsValid)
             {
-                db.Cursos.Add(curso);
-                db.SaveChanges();
+                await db.Cursos.AddAsync(curso);
+                await db.SaveChangesAsync();
                 return RedirectToAction("ListarCurso", "Curso");
             }
             return View(curso);
@@ -79,7 +109,8 @@ namespace Sistema_Matricula.Controllers
                 var cursoid = from c in db.Cursos
                               join cs in db.CursoSeccions on c.IdCurso equals cs.IdCurso
                               join s in db.Seccions on cs.IdSeccion equals s.IdSeccion
-                              where c.IdCurso == cursoSeccion.IdCurso
+                              where c.IdCurso == cursoSeccion.IdCurso && s.IdSeccion == cursoSeccion.IdSeccion
+                              
                               select new
                               {
                                   c.IdCurso
@@ -111,7 +142,6 @@ namespace Sistema_Matricula.Controllers
         }
 
 
-        // POST: CursoController/Create
         [HttpGet]
         public ActionResult EditarCurso(int id)
         {
@@ -126,7 +156,6 @@ namespace Sistema_Matricula.Controllers
 
         }
 
-        // GET: CursoController/Edit/5
         [HttpPost]
         public ActionResult EditarCurso(Curso curso)
         {

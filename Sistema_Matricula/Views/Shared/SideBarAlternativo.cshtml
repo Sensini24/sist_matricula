@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link de icons de google font-->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/css/sidealternativo.css" asp-append-version="true" />
+    <title>Menu</title>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="~/images/logo.jpg" alt="Logo">
+            <h2>La Merced</h2>
+        </div>
+        <ul class="sidebar-links" style="margin-left:5px">
+            <h4>
+                <span>Main Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+
+            <!--ESTUDIANTES-->
+            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+                <span class="material-symbols-outlined ">
+                    school
+                </span>Estudiantes
+                <svg class="w-4 h-4 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="hidden p-4 border-b border-gray-300">
+                <!-- Contenido del segundo elemento -->
+                <a class="nav-link text-dark text-white" asp-area="" asp-controller="Estudiante" asp-action="ListarEstudiantes">
+                    Lista Estudiantes
+                </a>
+            </div>
+
+            <!--DOCENTES-->
+            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+                <span class="material-symbols-outlined ">
+                    hail
+                </span>Docentes
+                <svg class="w-4 h-4 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="hidden p-4 border-b border-gray-300">
+                <!-- Contenido del segundo elemento -->
+                <div class="align-items-center">
+                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="Docente" asp-action="ListarDocente">
+                        Lista Docentes
+                    </a>
+                </div>
+                <div class=" align-content-center ">
+                    <a class="nav-link text-dark text-white mt-3 border-2" asp-area="" asp-controller="Docente" asp-action="AgregarDocente">
+                        Nuevo Docente
+                    </a>
+                </div>
+                
+            </div>
+
+
+            <!--CURSO-->
+            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+                <span class="material-symbols-outlined ">
+                    menu_book
+                </span>Cursos
+                <svg class="w-4 h-4 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="hidden p-4 border-b border-gray-300">
+                <!-- Contenido del segundo elemento -->
+                <div class="align-items-center">
+                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="Curso" asp-action="ListarCurso">
+                        Listar Cursos
+                    </a>
+                </div>
+                <div class=" align-content-center ">
+                    <a class="nav-link text-dark text-white mt-3 border-2" asp-area="" asp-controller="CursoDocente" asp-action="AgregarCursoDocenteView">
+                        
+                        Asignar Curso a Docentes
+                    </a>
+                </div>
+                <div class=" align-content-center ">
+                    <a class="nav-link text-dark text-white mt-3 border-2" asp-area="" asp-controller="Curso" asp-action="AgregarCursoSeccion">
+
+                        Asignar Curso a una Seccion
+                    </a>
+                </div>
+
+            </div>
+            
+            <li>
+                <a href="" id="button-active">
+                    <span class="material-symbols-outlined">
+                        monitoring
+                    </span>Analytic
+                </a>
+            </li>
+            <h4>
+                <span>General</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href="" id="button-active">
+                    <span class="material-symbols-outlined">
+                        folder
+                    </span>Projects
+                </a>
+            </li>
+
+            <li>
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Matricula" asp-action="ListarMatricula" id="ListarMatricula">-->
+                <!---->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Monto" asp-action="ListarMonto" id="ListarMonto">-->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="PeriodoEscolar" asp-action="ListarPeriodoEscolar" id="ListarPeriodoEscolar">-->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Nota" asp-action="ListarNota" id="ListarNota">-->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Grado" asp-action="ListarGrado">-->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Nivel" asp-action="ListarNivel">-->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Apoderado" asp-action="ListarApoderado" id="ListarApoderado" >-->
+                <!--<a class="nav-link text-dark" asp-area="" asp-controller="HorarioCurso" asp-action="Asignar" id="Asignar">-->
+                @* <a class="nav-link text-dark" asp-area="" asp-controller="HorarioCurso" asp-action="ListarCursoHorario" id="ListarCursoHorario"> *@
+                @* <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="ListarCursoDocente" id="ListarCursoDocente"> *@
+                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RegistrarUsuario" id="RegistrarUsuario">
+                    <!--<a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad">-->
+                    <span class="material-symbols-outlined">
+                        groups
+                    </span>Registrar Usuario
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="AgregarCursoDocenteView" id="AgregarCursoDocenteView">
+                    <span class="material-symbols-outlined">
+                        move_up
+                    </span>CursoDocente
+                </a>
+            </li>
+            <h4>
+                <span>Account</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad" id="ListarEspecialidad">
+                    <span class="material-symbols-outlined">
+                        lab_profile
+                    </span>Seccion
+                </a>
+            </li>
+
+
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                   data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
+                    <i class="lni lni-layout"></i>
+                    <span>Estudiantes</span>
+                </a>
+                <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <!-- Contenido válido para un menú desplegable -->
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Sublink 1</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Sublink 2</a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Curso" asp-action="AgregarCursoSeccion" id="AgregarCursoSeccion">
+                    <span class="material-symbols-outlined">
+                        notifications
+                    </span> Notifications
+                </a>
+
+            </li>
+            <li>
+                <a href="" id="button-active">
+                    <span class="material-symbols-outlined">
+                        account_circle
+                    </span>Profile
+                </a>
+            </li>
+            <li>
+                <a href="" id="button-active">
+                    <span class="material-symbols-outlined">
+                        settings_applications
+                    </span>Settings
+                </a>
+            </li>
+            <li>
+                <a href="" id="button-active">
+                    <span class="material-symbols-outlined">
+                        Logout
+                    </span>Logout
+                </a>
+            </li>
+        </ul>
+        <div class="user-account">
+            <div class="user-profile">
+                <img src="~/images/OIG3.jpg" alt="User">
+                <div class="user-detail" style="margin-left:30px">
+                    <h3>Brandon Quispe</h3>
+                    <span>Estudiante</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link src="~/js/site.js" asp-append-version="true"></link>
+    @* <link href="~/css/stilos.css" rel="stylesheet" /> *@
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('a');
+            const currentPath = window.location.pathname.split('/').pop();
+            //alert(currentPath);
+            links.forEach(link => {
+                const href = link.getAttribute('id').split('/').pop();
+
+                if (href === currentPath) {
+                    link.style.background = "#a01c15"
+                    link.style.borderRadius = "15px"
+                } else {
+                    link.style.color = "#dbd4d4e3"
+                }
+            });
+        });
+
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            content.classList.toggle('hidden');
+            const svg = element.querySelector('svg');
+            svg.classList.toggle('rotate-180');
+        }
+
+
+    </script>
+</body>
+</html>

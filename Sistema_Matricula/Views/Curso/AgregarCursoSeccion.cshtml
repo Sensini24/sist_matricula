@@ -5,59 +5,69 @@
 <h4>CursoSeccion</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-12">
+    <div class="col-md-12">
+        <form id="cursoseccionForm" class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger col-md-12"></div>
 
-        
-        <form  id="cursoseccionForm" class="col-m-12">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Columna izquierda (primeros tres elementos) -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nivel">Nivel</label>
+                    <select id="nivel" class="form-control" asp-items="ViewBag.Niveles">
+                        <option value="">Seleccione un nivel</option>
+                    </select>
+                </div>
 
-            <div class="form-group" class="col-m-4">
-                <label for="nivel">Nivel</label>
-                <select id="nivel" class="form-control" asp-items="ViewBag.Niveles">
-                    <option value="">Seleccione un nivel</option>
-                </select>
+                <div class="form-group">
+                    <label for="grado">Grado</label>
+                    <select id="grado" class="form-control">
+                        <option value="">Seleccione un grado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="seccion">Sección</label>
+                    <select id="seccion" class="form-control">
+                        <option value="">Seleccione una sección</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="grado">Grado</label>
-                <select id="grado" class="form-control">
-                    <option value="">Seleccione un grado</option>
-                </select>
-            </div>
+            <!-- Columna derecha (últimos dos elementos) -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="IdCurso" class="control-label"></label>
+                    <select id="curso" asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
+                        <option value="">Seleccione un curso</option>
+                    </select>
+                    <span asp-validation-for="IdCurso" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label for="seccion">Sección</label>
-                <select id="seccion" class="form-control">
-                    <option value="">Seleccione una sección</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label asp-for="IdDocente" class="control-label"></label>
+                    <select id="docente" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docente">
+                        <option value="">Seleccione un docente</option>
+                    </select>
+                    <span asp-validation-for="IdDocente" class="text-danger"></span>
+                </div>
 
+                <input type="hidden" asp-for="IdSeccion" id="IdSeccion" />
 
-            <div class="form-group">
-                <label  asp-for="IdCurso" class="control-label"></label>
-                <select id="curso" asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
-                    <option value="">Seleccione un curso</option>
-                </select>
-                <span asp-validation-for="IdCurso" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="IdDocente" class="control-label"></label>
-                <select id="docente" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docente">
-                    <option value="">Seleccione un docente</option>
-                </select>
-                <span asp-validation-for="IdDocente" class="text-danger"></span>
-            </div>
-
-
-
-            <input type="hidden" asp-for="IdSeccion" id="IdSeccion" />
-
-            <div class="form-group" >
-                <input type="submit" value="Nuevo" class="btn btn-primary" />
+                    <div class="form-group" >
+                        <input type="submit" value="Nuevo" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2 " />
+                </div>
             </div>
         </form>
+
     </div>
+    </div>
+    <div>
+        <input type="checkbox" name="name" value="cbnivel" id="cbnivel"/>
+
+    </div>
+    <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">Buscar</button>
+
 </div>
 
 <div id="lista-cursoseccion">
@@ -70,15 +80,13 @@
 
 @section Scripts {
     <script>
-
         
-
         document.addEventListener('DOMContentLoaded', function () {
             // Cargar grados cuando se selecciona un nivel
             document.getElementById('nivel').addEventListener('change', function () {
-                var nivelId = this.value; // Obtener el valor seleccionado en el <select> de niveles
+                var nivelId = this.value;
                 if (nivelId) {
-                    fetch(`/Curso/BuscarGradoPorNivel?idNivel=${nivelId}`) // Usar nivelId en la llamada fetch
+                    fetch(`/Curso/BuscarGradoPorNivel?idNivel=${nivelId}`)
                         .then(response => response.json())
                         .then(data => {
                             var gradoSelect = document.getElementById('grado');
@@ -96,12 +104,7 @@
                 }
             });
 
-            fetch('@Url.Action("ListarSeccionesyCursos")')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('lista-cursoseccion').innerHTML = data;
-                });
-
+            // GUARDAR ASIGNACION DE UN CURSO A UNA SECCION
             const form = document.getElementById('cursoseccionForm');
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
@@ -129,7 +132,7 @@
                             var seccionSelect = document.getElementById('seccion');
                             seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
                             data.forEach(seccion => {
-                                console.log(seccion)
+                                console.log(seccion);
                                 var option = document.createElement('option');
                                 option.value = seccion.idSeccion;
                                 option.text = seccion.nombre;
@@ -141,16 +144,17 @@
                 }
             });
 
+            // Cargar docentes cuando se selecciona un curso
             document.getElementById('curso').addEventListener('change', function () {
-                var cursoId = this.value; // Obtener el valor seleccionado en el <select> de cursos
+                var cursoId = this.value;
                 if (cursoId) {
-                    fetch(`/Curso/BuscarDocentePorCurso?idcurso=${cursoId}`) // Usar cursoId en la llamada fetch
+                    fetch(`/Curso/BuscarDocentePorCurso?idcurso=${cursoId}`)
                         .then(response => response.json())
                         .then(data => {
                             var docenteSelect = document.getElementById('docente');
                             docenteSelect.innerHTML = '<option value="">Seleccione un docente</option>';
                             data.forEach(docente => {
-                                console.log(docente)
+                                console.log(docente);
                                 var option = document.createElement('option');
                                 option.value = docente.idDocente;
                                 option.text = docente.nombreDocente;
@@ -162,12 +166,31 @@
                 }
             });
 
+            // Cargar la lista de secciones y cursos
+            fetch('@Url.Action("ListarSeccionesyCursos", "Curso")')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('lista-cursoseccion').innerHTML = data;
+                });
 
+            document.getElementById('buscarBtn').addEventListener('click', function () {
+                var nivelId = document.getElementById('nivel').value;
+                var gradoId = document.getElementById('grado').value;
+                var seccionId = document.getElementById('seccion').value;
 
+                fetch(`@Url.Action("ListarSeccionesyCursosConParametros")?idgrado=${gradoId}&idnivel=${nivelId}&idseccion=${seccionId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('lista-cursoseccion').innerHTML = data;
+                    });
+            });
+
+            
             // Sincronizar el valor seleccionado en el campo oculto IdSeccion
             document.getElementById('seccion').addEventListener('change', function () {
                 document.getElementById('IdSeccion').value = this.value;
             });
         });
+
     </script>
 }
