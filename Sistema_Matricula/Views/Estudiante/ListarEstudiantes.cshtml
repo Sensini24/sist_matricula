@@ -25,13 +25,18 @@
 
     <form asp-controller="Estudiante" asp-action="ListarEstudiantes" method="get" class="ml-6" id="formEstudiantes">
         <p>
-            <input type="text" name="palabra" placeholder="Nombre...">
-            <input type="number" name="codigo" placeholder="Código..."><br />
-            <button type="submit" value="Buscar" id="cargar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-                Buscar
-            </button>
+            <div class="flex">
+                <input type="text" name="palabra" placeholder="Nombre...">
+                <input type="number" name="codigo" placeholder="Código..."><br />
+                <button type="submit" value="Buscar" id="cargar" class="bg-[#FFFFFF] hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-2">
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+                </button>
+            </div>
+            
 
-            <select name="estado" id="estados" class="mr-4 bg-[#212141] text-white mt-2">
+            <select name="estado" id="estados" class="mr-4 bg-[#FFFFFF] text-[#14213D] mt-2 rounded-xl">
                 <option value="">Filtrar por Estado</option>
                 <option value="Todos">Todos</option>
                 <option value="Activo">Activo</option>
@@ -46,7 +51,11 @@
     
 
     <div class="flex  align-items-end justify-content-between">
-        <a href="@Url.Action("AgregarEstudiante", "Estudiante")" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 ">Nuevo</a>
+        <a href="@Url.Action("AgregarEstudiante", "Estudiante")" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 ">
+            <span class="material-symbols-outlined">
+                person_add
+            </span>
+        </a>
         <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:40px; margin-right:25px">
             <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
             <span>Exportar a Excel</span>
@@ -57,7 +66,7 @@
               <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
                 <table class="flex-1">
                   <thead>
-                        <tr class="bg-[#212141]">
+                        <tr class="bg-[#FCA311]">
                       <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
                                 Codigo Estudiante
                           </th>

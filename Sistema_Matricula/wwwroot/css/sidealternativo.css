@@ -9,7 +9,7 @@
 
 body {
     min-height: 100vh;
-    background: #d2d2d2;
+    background: #E5E5E5;
 }
 
 .sidebar {
@@ -21,7 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    background: #161a2d;
+    background: #14213D;
     padding: 25px 20px;
     transition: all 0.4s ease;
 }

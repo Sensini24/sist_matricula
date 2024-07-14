@@ -1,130 +1,166 @@
 ﻿@model Sistema_Matricula.ViewsModels.CursoDocenteViewModel
 
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb5gLl1PLTT3/rxxqOWP5PlJp/5hb5gLl1PLTT3r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        .blur-background {
+            filter: blur(5px);
+        }
 
-<hr />
-<div class="row">
-    
-
-    <div class="row-md-12" style="display:flex; justify-content:space-between; margin-bottom:10px; margin-top:15px">
-        
-        <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-5">
-            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px">
-                Asignar Cursos a Docentes
-            </h1>
-            <hr />
-            <form id="cursoDocenteForm" asp-action="AgregarCursoDocenteView" class="col-md-6  ">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="IdDocente" class="control-label">Docente</label>
-                    <select id="docentes" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docentes">
-                        <option value="">Seleccione un Docente</option>
-                    </select>
-                    <span asp-validation-for="IdDocente" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdCurso" class="control-label">Curso</label>
-                    <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
-                        <option value="">Seleccione un Curso</option>
-                    </select>
-                    <span asp-validation-for="IdCurso" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Ingresar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2" />
-                    <a id="nuevo-curso" href="@Url.Action("AgregarCurso", "Curso")" style="align-items: end; margin-bottom:400px" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">
-                        Nuevo Curso
-                    </a>
-                </div>
-            
-            
-           </form>
-           </div>
-
-        <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-6">
-            <h1 class="mb-4 text-4xl ml-6  font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px;">
-                Datos de Docente
-            </h1>
-            <hr />
-            <div class="col-md-12 flex flex-column justify-content-around">
-                <div id="docente-list">
-                </div>
-            </div>
-        </div>
-        
-    </div>
-    <br />
-    <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-12" >
-        <div style= "margin-top:10px" class="flex">
-            <div class="col-md-6">
+        .modal-bg {
+            background-color: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body style="background:#BE8C29">
+    <div class="row">
+        <div class="row-md-12" style="display:flex; justify-content:space-between; margin-bottom:10px; margin-top:15px">
+            <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-5">
                 <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px">
-                    Cursos y Docentes
-                    </h1>
-                
-                <div id="curso-docente-list">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px">
-                    Cursos por Docente
+                    Asignar Cursos a Docentes
                 </h1>
-                <div id="cantidad-cursos">
+                <hr />
+                <form id="cursoDocenteForm" asp-action="AgregarCursoDocenteView" class="col-md-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="IdDocente" class="control-label">Docente</label>
+                        <select id="docentes" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docentes">
+                            <option value="">Seleccione un Docente</option>
+                        </select>
+                        <span asp-validation-for="IdDocente" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdCurso" class="control-label">Curso</label>
+                        <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
+                            <option value="">Seleccione un Curso</option>
+                        </select>
+                        <span asp-validation-for="IdCurso" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Ingresar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2" />
+                        <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline">Agregar Docente</a>
+                    </div>
+                </form>
+            </div>
+            <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-6">
+                <h1 class="mb-4 text-4xl ml-6 font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px;">
+                    Datos de Docente
+                </h1>
+                <hr />
+                <div class="col-md-12 flex flex-column justify-content-around">
+                    <div id="docente-list"></div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-12">
+            <div style="margin-top:10px" class="flex">
+                <div class="col-md-6">
+                    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px">
+                        Cursos y Docentes
+                    </h1>
+                    <div id="curso-docente-list"></div>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size:25px">
+                        Cursos por Docente
+                    </h1>
+                    <div id="cantidad-cursos"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bg-green" id="agregarCursoModal" tabindex="-1" aria-labelledby="agregarProveedorModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarProveedorModalLabel">Agregar Curso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @await Component.InvokeAsync("AgregarCurso")
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    
-</div>
-    
 
     <script>
-        var alertas = document.getElementById('alertas')
-
         document.addEventListener("DOMContentLoaded", function () {
-                    fetch('@Url.Action("ListarCursoDocente")')
-                        .then(response => response.text())
-                        .then(html => {
-                            document.getElementById('curso-docente-list').innerHTML = html;
-                        });
-        });
-
-        var docentes = document.getElementById('docentes');
-
-        docentes.addEventListener("change", function () {
-            var docenteId = this.value;
-
-            // Cargar los cursos del docente seleccionado
-            fetch('@Url.Action("ListarDocentePorId", "CursoDocente")/' + docenteId)
+            fetch('@Url.Action("ListarCursoDocente")')
                 .then(response => response.text())
                 .then(html => {
-                    document.getElementById('docente-list').innerHTML = html;
+                    document.getElementById('curso-docente-list').innerHTML = html;
                 });
 
-            fetch('@Url.Action("ListarCursosPorDocente", "CursoDocente")/' + docenteId)
-                .then(response => response.text())
-                .then(html => {
-                document.getElementById('cantidad-cursos').innerHTML = html;
-                });
+            var docentes = document.getElementById('docentes');
+            docentes.addEventListener("change", function () {
+                var docenteId = this.value;
 
+                fetch('@Url.Action("ListarDocentePorId", "CursoDocente")/' + docenteId)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('docente-list').innerHTML = html;
+                    });
 
-        });
-
-        const form = document.getElementById('cursoDocenteForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const response = await fetch('@Url.Action("AgregarCursoDocenteAsincrono")', {
-                method: 'POST',
-                body: formData
+                fetch('@Url.Action("ListarCursosPorDocente", "CursoDocente")/' + docenteId)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('cantidad-cursos').innerHTML = html;
+                    });
             });
-            const html = await response.text();
-            document.getElementById('curso-docente-list').innerHTML = html;
-            
+
+            const form = document.getElementById('cursoDocenteForm');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const response = await fetch('@Url.Action("AgregarCursoDocenteAsincrono")', {
+                    method: 'POST',
+                    body: formData
+                });
+                const html = await response.text();
+                document.getElementById('curso-docente-list').innerHTML = html;
+            });
+
+            $('#boton_modal').click(function () {
+                $('#agregarCursoModal').modal('show');
+
+                $('#agregarCursoForm').submit(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: "post",
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            if (response.success) {
+                                $('#resultmessage').html(response.message).show();
+                                $('#agregarCursoModal').modal('hide');
+                                location.reload();
+                            } else {
+                                $('#resultmessage').html(response.message).show();
+                            }
+                        },
+                        error: function (response) {
+                            alert("ocurrió un error al agregar el proveedor.");
+                        }
+                    });
+                });
+            });
         });
-
-
     </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <div>
         <a asp-action="Index">Back to List</a>
     </div>
+</body>

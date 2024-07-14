@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace Sistema_Matricula.Controllers
 {
+    [Route("api/")]
     public class CursoController : Controller
     {
         private readonly DbMatNotaHorarioContext db;
@@ -22,6 +24,14 @@ namespace Sistema_Matricula.Controllers
             var cursos = db.Cursos.ToList();
             return View(cursos);
         }
+
+        [HttpGet("Curso/BuscarCurso")]
+        public async Task<IActionResult> ListarCursosApi()
+        {
+            var cursos = await db.Cursos.ToListAsync();
+            return Ok(cursos);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> ListarSeccionesyCursos()
@@ -73,7 +83,7 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult AgregarCurso()
         {
-            return PartialView("_AgregarCurso");
+            return View();
         }
 
         // GET: CursoController/Create
@@ -84,6 +94,8 @@ namespace Sistema_Matricula.Controllers
             {
                 await db.Cursos.AddAsync(curso);
                 await db.SaveChangesAsync();
+                TempData["Success"] = "Curso agregado correctamente";
+                
                 return RedirectToAction("ListarCurso", "Curso");
             }
             return View(curso);
@@ -106,6 +118,11 @@ namespace Sistema_Matricula.Controllers
         {
             if (cursoSeccion != null)
             {
+                if(cursoSeccion.IdCurso == 0 || cursoSeccion.IdDocente == 0 || cursoSeccion.IdDocente == null)
+                {
+                    TempData["Error"] = "Debe seleccionar un curso y un docente";
+                    return RedirectToAction("ListarSeccionesyCursos", "Curso");
+                }
                 var cursoid = from c in db.Cursos
                               join cs in db.CursoSeccions on c.IdCurso equals cs.IdCurso
                               join s in db.Seccions on cs.IdSeccion equals s.IdSeccion
@@ -118,7 +135,11 @@ namespace Sistema_Matricula.Controllers
                               ;
 
                 var cursoidList = await cursoid.ToListAsync();
-
+                if(cursoSeccion.IdSeccion == 0 || cursoSeccion.IdSeccion == null)
+                {
+                    TempData["Error"] = "Seleccione la sección al desea asignar el curso y docente";
+                    return RedirectToAction("ListarSeccionesyCursos", "Curso");
+                }
                 if (cursoidList.Count > 0 )
                 {
                     TempData["Error"] = "El curso ya se encuentra asignado a esta sección";
@@ -133,6 +154,8 @@ namespace Sistema_Matricula.Controllers
 
                 await db.CursoSeccions.AddAsync(cursoSeccion);
                 await db.SaveChangesAsync();
+                TempData["Success"] = $"El curso {db.Cursos.Where(c=>c.IdCurso == cursoSeccion.IdCurso).Select(e=>e.Nombre).FirstOrDefault()} fue " +
+                    $"asignado a la {db.Seccions.Where(s=>s.IdSeccion == cursoSeccion.IdSeccion).Select(e=>e.Nombre).FirstOrDefault()}";
                 return RedirectToAction("ListarSeccionesyCursos", "Curso");
             }
             else
@@ -172,6 +195,7 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult BuscarGradoPorNivel(int idNivel)
         {
+
             var grados = db.Grados.Where(e => e.IdNivel == idNivel).ToList();
             return Json(grados);
         }

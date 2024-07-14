@@ -1,0 +1,56 @@
+﻿@model Sistema_Matricula.Models.Curso
+
+@{
+    ViewData["Title"] = "_AgregarCurso";
+}
+
+<h1>Agregar Curso</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="agregarCursoForm" asp-action="AgregarCurso" asp-controller="Curso">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Nuevo" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div id="resultMessage" style="display:none;"></div>
+
+<div>
+    <a asp-action="Index">Volver al Listado</a>
+</div>
+
+ <script>
+    // const form = document.getElementById('agregarCursoForm');
+    //     form.addEventListener('submit', async (e) => {
+    //         e.preventDefault();
+    //         const formData = new FormData(form);
+
+    //         try {
+    //             const response = await fetch('@Url.Action("AgregarCurso", "Curso")', {
+    //                 method: 'POST',
+    //                 body: formData
+    //             });
+
+    //             if (response.ok) {
+    //                 alert('Curso registrado correctamente');
+    //                 location.reload(); // Opcional: redirigir a otra página después de registrar
+    //             } else {
+    //                 console.error('Error al registrar el curso:', response.status);
+    //                 alert('Error al registrar el curso. Por favor, intente de nuevo.');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error inesperado:', error);
+    //             alert('Error inesperado al registrar el curso. Por favor, intente de nuevo.');
+    //         }
+    //     });
+    </script> 
+

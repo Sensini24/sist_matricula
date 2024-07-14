@@ -10,10 +10,10 @@
 
 <div class="layout-content-container flex flex-col w-full flex-1">
     <div class="px-4 py-3 container">
-        <div class="flex flex-wrap align-items-center w-100 overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+        <div class="flex flex-wrap items-center w-100 overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
             @foreach (var item in Model)
             {
-                <div class="m-2 flex-auto  w-15 p-4 rounded-lg bg-white text-center text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white curso-docente" data-id="@item.IdCursoDocente">
+                <div class="m-2 flex-auto w-0 p-4 rounded-lg bg-white text-center text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white curso-docente" data-id="@item.IdCursoDocente">
                     <div class="p-6">
                         <h5 class="mb-2 text-xl font-medium leading-tight">
                             @item.IdCursoDocente
@@ -21,11 +21,12 @@
                         <p class="mb-4 text-base">
                             @item.NombreCurso
                         </p>
-                        <a class="eliminar-curso-asignado  w-50 mr-1 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300">
-                            <span class="material-symbols-outlined text-white text-lg align-items-center">
+                        <a class="eliminar-curso-asignado flex items-center justify-center w-auto mr-1 text-[#212141] bg-red-400 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300 no-underline">
+                            <span class="material-symbols-outlined text-white text-xxl pt-0">
                                 delete_forever
                             </span>
                         </a>
+
                     </div>
                 </div>
             }
