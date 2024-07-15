@@ -100,33 +100,6 @@
 
 @section Scripts {
     <script>
-            // $('#boton_modal').click(function () {
-            //     // Mostrar el modal automáticamente al cargar la página
-            //     $('#agregarCursoModal').modal('show');
-
-            //     $('#agregarCursoForm').submit(function (event) {
-            //         event.preventDefault();
-            //         $.ajax({
-            //             type: "post",
-            //             url: $(this).attr('action'),
-            //             data: $(this).serialize(),
-            //             success: function (response) {
-            //                 if (response.success) {
-            //                     $('#resultmessage').html(response.message).show();
-            //                     $('#agregarCursoModal').modal('hide');
-            //                     // recargar la lista de proveedores
-            //                     location.reload();
-
-            //                 } else {
-            //                     $('#resultmessage').html(response.message).show();
-            //                 }
-            //             },
-            //             error: function (response) {
-            //                 alert("ocurrió un error al agregar el proveedor.");
-            //             }
-            //         });
-            //     });
-            // });
         document.addEventListener('DOMContentLoaded', function () {
             // Cargar grados cuando se selecciona un nivel
             document.getElementById('nivel').addEventListener('change', function () {

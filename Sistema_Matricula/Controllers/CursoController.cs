@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Sistema_Matricula.Controllers
 {
-    [Route("api/")]
+    //[Route("api/")]
     public class CursoController : Controller
     {
         private readonly DbMatNotaHorarioContext db;
@@ -96,7 +96,7 @@ namespace Sistema_Matricula.Controllers
                 await db.SaveChangesAsync();
                 TempData["Success"] = "Curso agregado correctamente";
                 
-                return RedirectToAction("ListarCurso", "Curso");
+                return RedirectToAction("AgregarCursoDocenteView", "CursoDocente");
             }
             return View(curso);
         }

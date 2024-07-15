@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Ingresar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2" />
-                        <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline">Agregar Docente</a>
+                        <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline">Agregar Curso</a>
                     </div>
                 </form>
             </div>
@@ -135,26 +135,26 @@
             $('#boton_modal').click(function () {
                 $('#agregarCursoModal').modal('show');
 
-                $('#agregarCursoForm').submit(function (event) {
-                    event.preventDefault();
-                    $.ajax({
-                        type: "post",
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        success: function (response) {
-                            if (response.success) {
-                                $('#resultmessage').html(response.message).show();
-                                $('#agregarCursoModal').modal('hide');
-                                location.reload();
-                            } else {
-                                $('#resultmessage').html(response.message).show();
-                            }
-                        },
-                        error: function (response) {
-                            alert("ocurrió un error al agregar el proveedor.");
-                        }
-                    });
-                });
+                // $('#agregarCursoForm').submit(function (event) {
+                //     event.preventDefault();
+                //     $.ajax({
+                //         type: "post",
+                //         url: $(this).attr('action'),
+                //         data: $(this).serialize(),
+                //         success: function (response) {
+                //             if (response.success) {
+                //                 $('#resultmessage').html(response.message).show();
+                //                 $('#agregarCursoModal').modal('hide');
+                //                 location.reload();
+                //             } else {
+                //                 $('#resultmessage').html(response.message).show();
+                //             }
+                //         },
+                //         error: function (response) {
+                //             alert("ocurrió un error al agregar el curso.");
+                //         }
+                //     });
+                // });
             });
         });
     </script>

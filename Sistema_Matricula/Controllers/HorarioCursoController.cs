@@ -77,7 +77,7 @@ namespace Sistema_Matricula.Controllers
             List<string> dias = new List<string> { 
                 "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" 
             };
-
+            
             var cursos = db.Cursos.ToList();
 
             var horarios = db.Horarios.ToList();
@@ -93,6 +93,8 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Secciones = new SelectList(secciones, "IdSeccion", "Nombre");
             ViewBag.Aulas = new SelectList(aulas, "IdAula", "IdAula");
             ViewBag.Dias = new SelectList(diasSemanas);
+            ViewBag.Niveles = new SelectList(db.Nivels, "IdNivel", "Descripcion");
+            ViewBag.Grados = new SelectList(db.Grados, "IdGrado", "Descripcion");
 
             return View(model);
         }

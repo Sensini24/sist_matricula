@@ -29,28 +29,28 @@
 </div>
 
  <script>
-    // const form = document.getElementById('agregarCursoForm');
-    //     form.addEventListener('submit', async (e) => {
-    //         e.preventDefault();
-    //         const formData = new FormData(form);
+    const form = document.getElementById('agregarCursoForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
 
-    //         try {
-    //             const response = await fetch('@Url.Action("AgregarCurso", "Curso")', {
-    //                 method: 'POST',
-    //                 body: formData
-    //             });
+            try {
+                const response = await fetch('@Url.Action("AgregarCurso", "Curso")', {
+                    method: 'POST',
+                    body: formData
+                });
 
-    //             if (response.ok) {
-    //                 alert('Curso registrado correctamente');
-    //                 location.reload(); // Opcional: redirigir a otra página después de registrar
-    //             } else {
-    //                 console.error('Error al registrar el curso:', response.status);
-    //                 alert('Error al registrar el curso. Por favor, intente de nuevo.');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error inesperado:', error);
-    //             alert('Error inesperado al registrar el curso. Por favor, intente de nuevo.');
-    //         }
-    //     });
+                if (response.ok) {
+                    alert('Curso registrado correctamente');
+                window.location.href = '@Url.Action("AgregarCursoDocenteView", "CursoDocente")';
+                } else {
+                    console.error('Error al registrar el curso:', response.status);
+                    alert('Error al registrar el curso. Por favor, intente de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+                alert('Error inesperado al registrar el curso. Por favor, intente de nuevo.');
+            }
+        });
     </script> 
 

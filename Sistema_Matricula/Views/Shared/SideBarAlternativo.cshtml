@@ -94,6 +94,30 @@
                 </div>
 
             </div>
+
+            <!--HORARIOS-->
+            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+                <span class="material-symbols-outlined">
+                    calendar_month
+                </span>Horarios
+                <svg class="w-4 h-4 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="hidden p-4 border-b border-gray-300">
+                <!-- Contenido del segundo elemento -->
+                <div class="align-items-center">
+                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="HorarioCurso" asp-action="Asignar">
+                        Asignar Horarios
+                    </a>
+                </div>
+                <div class="align-items-center">
+                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="HorarioCurso" asp-action="ListarCursoHorario">
+                        Listar asignaciones Cursos a horario
+                    </a>
+                </div>
+            </div>
+                
             
             <li>
                 <a href="" id="button-active">
