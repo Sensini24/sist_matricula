@@ -62,8 +62,6 @@
         
         <div class="form-container">
             <form asp-action="Asignar" method="post" class="d-flex flex-wrap justify-content-between">
-                
-
                 <div class="form-group">
                     <div class="container mb-12">
                         <label for="nivel">Nivel</label>
@@ -71,7 +69,7 @@
                             <option value="">Seleccione un Nivel</option>
                         </select>
                         <label for="grado">Grado</label>
-                        <select id="grado" class="form-control" asp-items="ViewBag.Grados">
+                        <select id="grado" class="form-control" >
                             <option value="">Seleccione un Grado</option>
                         </select>
                     </div>
@@ -80,21 +78,13 @@
                         <option value="">Seleccione un curso</option>
                     </select>
                     <label asp-for="IdHorario">Horario</label>
-                    <select asp-for="IdHorario" class="form-control" asp-items="ViewBag.horarios">
+                    <select asp-for="IdHorario" id="horario" class="form-control" asp-items="ViewBag.horarios">
                         <option value="">Nuevo Horario</option>
                     </select>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="HoraInicio">Hora de Inicio</label>
-                    <input asp-for="HoraInicio" class="form-control" type="time" />
-                    <label asp-for="HoraFin">Hora de Fin</label>
-                    <input asp-for="HoraFin" class="form-control" type="time" />
-                </div>
-
                 <div class="form-group">
                     <label asp-for="IdSeccion">Sección</label>
-                    <select asp-for="IdSeccion" class="form-control" id="seccionSelect" asp-items="ViewBag.secciones">
+                    <select asp-for="IdSeccion" class="form-control" id="seccionSelect">
                         <option value="">Seleccione una seccion</option>
                     </select>
                     <label asp-for="IdAula">Aula</label>
@@ -102,7 +92,12 @@
                         <option value="">Seleccione un aula</option>
                     </select>
                 </div>
-
+                <div class="form-group">
+                    <label asp-for="HoraInicio">Hora de Inicio</label>
+                    <input asp-for="HoraInicio" class="form-control" type="time" />
+                    <label asp-for="HoraFin">Hora de Fin</label>
+                    <input asp-for="HoraFin" class="form-control" type="time" />
+                </div>
                 <div class="form-group">
                     <label asp-for="DiaSemana">Día de la Semana</label>
                     <select asp-for="DiaSemana" class="form-control" asp-items="ViewBag.dias">
@@ -123,6 +118,24 @@
         
 
     document.addEventListener('DOMContentLoaded', function () {
+
+        //LISTAR HORARIO POR SU HORA INICIO Y HORA FIN EN EL MISMO SELECT
+        var horario = document.getElementById('horario')
+        if (horario) {
+            fetch('/Horario/ObtenerHorarioJson')
+                .then(response => response.json())
+                .then(data => {
+                    horario.innerHTML = '<option value="">Nuevo Horario</option>';
+                    data.forEach(horarioItems => {
+                        var option = document.createElement('option');
+                        option.value = horarioItems.idHorario;
+                        option.text = `${horarioItems.horaInicio} - ${horarioItems.horaFin}`;
+                        horario.appendChild(option);
+                    });
+                });
+        } else {
+            document.getElementById('aulaSelect').innerHTML = '<option value="">Seleccione un aula</option>';
+        }
         //OBTENER GRADOS POR NIVELES
         document.getElementById('nivel').addEventListener('change', function () {
             var nivelId = this.value;
@@ -213,5 +226,9 @@
             }
             
         })
+
+        
+        
+
     });
     </script>

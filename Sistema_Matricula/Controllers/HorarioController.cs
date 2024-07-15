@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
 
 namespace Sistema_Matricula.Controllers
@@ -16,6 +17,12 @@ namespace Sistema_Matricula.Controllers
         {
             var horarios = db.Horarios.ToList();
             return View(horarios);
+        }
+
+        public IActionResult ObtenerHorarioJson()
+        {
+            var horarios =  db.Horarios.ToList();
+            return Json(horarios);
         }
 
         public IActionResult AgregarHorario()
