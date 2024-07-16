@@ -11,15 +11,7 @@ public partial class Horario
 
     public TimeSpan HoraFin { get; set; }
 
-    public int? IdAula { get; set; }
-
-    public int? IdSeccion { get; set; }
-
     public string? DiaSemana { get; set; }
 
     public virtual ICollection<HorarioCurso> HorarioCursos { get; set; } = new List<HorarioCurso>();
-
-    public virtual Aula? IdAulaNavigation { get; set; }
-
-    public virtual Seccion? IdSeccionNavigation { get; set; }
 }

@@ -79,6 +79,23 @@ namespace Sistema_Matricula.Controllers
             return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
         }
 
+        public IActionResult ListarCursoPorSeccion(int id)
+        {
+            var cursos = from c in db.Cursos
+                         join cs in db.CursoSeccions
+                         on c.IdCurso equals cs.IdCurso
+                         join s in db.Seccions
+                         on cs.IdSeccion equals s.IdSeccion
+                         where s.IdSeccion == id
+                         select new
+                         {
+                             c.IdCurso,
+                             c.Nombre
+                         };
+            return Json(cursos);
+                         
+        }
+
         // GET: CursoController/Details/5
         [HttpGet]
         public ActionResult AgregarCurso()

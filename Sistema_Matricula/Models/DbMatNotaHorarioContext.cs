@@ -391,16 +391,6 @@ public partial class DbMatNotaHorarioContext : DbContext
             entity.Property(e => e.HoraInicio)
                 .HasPrecision(0)
                 .HasColumnName("hora_inicio");
-            entity.Property(e => e.IdAula).HasColumnName("id_aula");
-            entity.Property(e => e.IdSeccion).HasColumnName("id_seccion");
-
-            entity.HasOne(d => d.IdAulaNavigation).WithMany(p => p.Horarios)
-                .HasForeignKey(d => d.IdAula)
-                .HasConstraintName("FK_Horario_Aula");
-
-            entity.HasOne(d => d.IdSeccionNavigation).WithMany(p => p.Horarios)
-                .HasForeignKey(d => d.IdSeccion)
-                .HasConstraintName("FK_Horario_Seccion");
         });
 
         modelBuilder.Entity<HorarioCurso>(entity =>

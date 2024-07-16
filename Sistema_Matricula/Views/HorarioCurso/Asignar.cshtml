@@ -74,7 +74,7 @@
                         </select>
                     </div>
                     <label asp-for="IdCurso">Curso</label>
-                    <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.cursos">
+                    <select asp-for="IdCurso" id="curso" class="form-control" asp-items="ViewBag.cursos">
                         <option value="">Seleccione un curso</option>
                     </select>
                     <label asp-for="IdHorario">Horario</label>
@@ -86,10 +86,6 @@
                     <label asp-for="IdSeccion">Sección</label>
                     <select asp-for="IdSeccion" class="form-control" id="seccionSelect">
                         <option value="">Seleccione una seccion</option>
-                    </select>
-                    <label asp-for="IdAula">Aula</label>
-                    <select asp-for="IdAula" class="form-control" id="aulaSelect" asp-items="ViewBag.aulas">
-                        <option value="">Seleccione un aula</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -227,7 +223,26 @@
             
         })
 
-        
+        //OBTENER CURSOS POR SECCION
+        var seccionSelect = document.getElementById('seccionSelect')
+        seccionSelect.addEventListener('change', function(){
+            var idSelect = this.value;
+            console.log(idSelect)
+            fetch(`@Url.Action("ListarCursoPorSeccion", "Curso")/${idSelect}`).
+                then(response =>
+                    response.json()
+                ).
+                then(data => {
+                    var curso = document.getElementById('curso');
+                    curso.innerHTML = '<option value="">Seleccione un curso</option>';
+                    data.forEach(cursoItems => {
+                        var option = document.createElement('option');
+                        option.value = cursoItems.idCurso;
+                        option.text = cursoItems.nombre;
+                        curso.appendChild(option);
+                    })
+                })
+        })
         
 
     });

@@ -15,8 +15,6 @@ public partial class Seccion
 
     public virtual ICollection<CursoSeccion> CursoSeccions { get; set; } = new List<CursoSeccion>();
 
-    public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
-
     public virtual Grado? IdGradoNavigation { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();

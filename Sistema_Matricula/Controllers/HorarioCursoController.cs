@@ -118,8 +118,6 @@ namespace Sistema_Matricula.Controllers
                         {
                             HoraInicio = model.HoraInicio,
                             HoraFin = model.HoraFin,
-                            IdAula = model.IdAula,
-                            IdSeccion = model.IdSeccion,
                             DiaSemana = model.DiaSemana
                         };
                         db.Horarios.Add(horario);
