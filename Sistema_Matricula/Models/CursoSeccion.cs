@@ -13,6 +13,8 @@ public partial class CursoSeccion
 
     public int? IdDocente { get; set; }
 
+    public virtual ICollection<HorarioCursoSeccion> HorarioCursoSeccions { get; set; } = new List<HorarioCursoSeccion>();
+
     public virtual Curso IdCursoNavigation { get; set; } = null!;
 
     public virtual Docente? IdDocenteNavigation { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sistema_Matricula.Models;
 
-public partial class HorarioCurso
+public partial class HorarioCursoSeccion
 {
     public int IdHorarioCursoSeccion { get; set; }
 

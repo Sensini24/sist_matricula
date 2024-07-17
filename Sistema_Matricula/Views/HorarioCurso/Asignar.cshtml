@@ -1,5 +1,5 @@
 ﻿@using Sistema_Matricula.ViewsModels
-@model HorarioCursoViewModel
+@model HorarioCursoSeccionViewModel
 
 <!DOCTYPE html>
 <html lang="es">
@@ -73,20 +73,17 @@
                             <option value="">Seleccione un Grado</option>
                         </select>
                     </div>
-                    <label asp-for="IdCurso">Curso</label>
-                    <select asp-for="IdCurso" id="curso" class="form-control" asp-items="ViewBag.cursos">
-                        <option value="">Seleccione un curso</option>
-                    </select>
                     <label asp-for="IdHorario">Horario</label>
                     <select asp-for="IdHorario" id="horario" class="form-control" asp-items="ViewBag.horarios">
                         <option value="">Nuevo Horario</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="IdSeccion">Sección</label>
+                    <label asp-for="IdSeccion" >Sección</label>
                     <select asp-for="IdSeccion" class="form-control" id="seccionSelect">
                         <option value="">Seleccione una seccion</option>
                     </select>
+                    
                 </div>
                 <div class="form-group">
                     <label asp-for="HoraInicio">Hora de Inicio</label>
@@ -105,6 +102,13 @@
                 </div>
             </form>
         </div>
+        <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">
+            Buscar
+        </button>
+        <div id="lista-cursoseccion">
+
+        </div>
+
     </div>
 
     
@@ -243,6 +247,43 @@
                     })
                 })
         })
+
+        // Cargar la lista inicial de secciones y cursos
+        fetch('@Url.Action("ListarSeccionesyCursos", "Curso")')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('lista-cursoseccion').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+        // Agregar evento al botón de búsqueda
+        document.getElementById('buscarBtn').addEventListener('click', function () {
+            var nivelId = document.getElementById('nivel').value;
+            var gradoId = document.getElementById('grado').value;
+            var seccionId = document.getElementById('seccionSelect').value;
+
+            fetch(`@Url.Action("ListarSeccionesyCursosConParametros", "Curso")?idgrado=${gradoId}&idnivel=${nivelId}&idseccion=${seccionId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('No hubo respuesta positvia ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('lista-cursoseccion').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Hubo un problema con fetch', error);
+                });
+        });
+
         
 
     });

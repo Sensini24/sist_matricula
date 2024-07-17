@@ -43,7 +43,7 @@ public partial class DbMatNotaHorarioContext : DbContext
 
     public virtual DbSet<Horario> Horarios { get; set; }
 
-    public virtual DbSet<HorarioCurso> HorarioCursos { get; set; }
+    public virtual DbSet<HorarioCursoSeccion> HorarioCursoSeccions { get; set; }
 
     public virtual DbSet<Matricula> Matriculas { get; set; }
 
@@ -393,22 +393,21 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasColumnName("hora_inicio");
         });
 
-        modelBuilder.Entity<HorarioCurso>(entity =>
+        modelBuilder.Entity<HorarioCursoSeccion>(entity =>
         {
-            entity.HasKey(e => e.IdHorarioCurso).HasName("PK__HorarioC__506D9692F15C63F0");
+            entity.HasKey(e => e.IdHorarioCursoSeccion).HasName("PK__HorarioC__506D9692F15C63F0");
 
-            entity.ToTable("HorarioCurso");
+            entity.ToTable("HorarioCursoSeccion");
 
-            entity.Property(e => e.IdHorarioCurso).HasColumnName("id_horarioCurso");
-            entity.Property(e => e.IdCurso).HasColumnName("id_curso");
+            entity.Property(e => e.IdHorarioCursoSeccion).HasColumnName("id_horarioCursoSeccion");
+            entity.Property(e => e.IdCursoSeccion).HasColumnName("id_cursoSeccion");
             entity.Property(e => e.IdHorario).HasColumnName("id_horario");
 
-            entity.HasOne(d => d.IdCursoNavigation).WithMany(p => p.HorarioCursos)
-                .HasForeignKey(d => d.IdCurso)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HorarioCurso_Curso");
+            entity.HasOne(d => d.IdCursoSeccionNavigation).WithMany(p => p.HorarioCursoSeccions)
+                .HasForeignKey(d => d.IdCursoSeccion)
+                .HasConstraintName("FK_HorarioCursoSeccion_CursoSeccion");
 
-            entity.HasOne(d => d.IdHorarioNavigation).WithMany(p => p.HorarioCursos)
+            entity.HasOne(d => d.IdHorarioNavigation).WithMany(p => p.HorarioCursoSeccions)
                 .HasForeignKey(d => d.IdHorario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HorarioCurso_Horario");

@@ -13,7 +13,5 @@ public partial class Curso
 
     public virtual ICollection<CursoSeccion> CursoSeccions { get; set; } = new List<CursoSeccion>();
 
-    public virtual ICollection<HorarioCurso> HorarioCursos { get; set; } = new List<HorarioCurso>();
-
     public virtual ICollection<Notum> Nota { get; set; } = new List<Notum>();
 }

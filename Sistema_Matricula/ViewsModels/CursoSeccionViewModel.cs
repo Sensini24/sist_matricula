@@ -9,6 +9,5 @@
         public string NombreGrado { get; set; }
         public string NombreNivel { get; set; }
         
-
     }
 }

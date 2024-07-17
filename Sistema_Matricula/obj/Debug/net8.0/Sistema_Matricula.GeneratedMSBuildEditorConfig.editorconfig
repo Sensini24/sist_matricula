@@ -190,12 +190,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9yYXJpb0N1cnNvXEFzaWduYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/HorarioCurso/EditarCursoHorario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9yYXJpb0N1cnNvXEVkaXRhckN1cnNvSG9yYXJpby5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/HorarioCurso/ListarCursoHorario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9yYXJpb0N1cnNvXExpc3RhckN1cnNvSG9yYXJpby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/HorarioCurso/_ListarCursoSeccion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9yYXJpb0N1cnNvXF9MaXN0YXJDdXJzb1NlY2Npb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Horario/AgregarHorario.cshtml]
