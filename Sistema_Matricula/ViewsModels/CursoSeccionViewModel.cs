@@ -2,6 +2,7 @@
 {
     public class CursoSeccionViewModel
     {
+        public int IdCursoSeccion { get; set; }
         public int IdSeccion { get; set; }
         public string NombreSeccion { get; set; }
         public string NombreCurso { get; set; }

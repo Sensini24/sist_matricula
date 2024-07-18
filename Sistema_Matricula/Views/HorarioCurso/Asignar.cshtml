@@ -61,7 +61,7 @@
         <h1 class="text-center mb-4">Asignar un Horario a un Curso</h1>
         
         <div class="form-container">
-            <form asp-action="Asignar" method="post" class="d-flex flex-wrap justify-content-between">
+            <form  id="cursoseccionForm" class="d-flex flex-wrap justify-content-between">
                 <div class="form-group">
                     <div class="container mb-12">
                         <label for="nivel">Nivel</label>
@@ -72,6 +72,10 @@
                         <select id="grado" class="form-control" >
                             <option value="">Seleccione un Grado</option>
                         </select>
+                        <label asp-for="IdCursoSeccion">Curso Y Seccion</label>
+                        <select asp-for="IdCursoSeccion" id="cursoSeccion" class="form-control">
+                            <option value="">Seleccione el curso</option>
+                        </select>
                     </div>
                     <label asp-for="IdHorario">Horario</label>
                     <select asp-for="IdHorario" id="horario" class="form-control" asp-items="ViewBag.horarios">
@@ -79,32 +83,37 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="IdSeccion" >Sección</label>
-                    <select asp-for="IdSeccion" class="form-control" id="seccionSelect">
+                    <label for="seccion">Sección</label>
+                    <select class="form-control" id="seccionSelect">
                         <option value="">Seleccione una seccion</option>
                     </select>
-                    
-                </div>
-                <div class="form-group">
                     <label asp-for="HoraInicio">Hora de Inicio</label>
                     <input asp-for="HoraInicio" class="form-control" type="time" />
                     <label asp-for="HoraFin">Hora de Fin</label>
                     <input asp-for="HoraFin" class="form-control" type="time" />
                 </div>
+                @* <div class="form-group">
+                    <label asp-for="HoraInicio">Hora de Inicio</label>
+                    <input asp-for="HoraInicio" class="form-control" type="time" />
+                    <label asp-for="HoraFin">Hora de Fin</label>
+                    <input asp-for="HoraFin" class="form-control" type="time" />
+                </div> *@
                 <div class="form-group">
                     <label asp-for="DiaSemana">Día de la Semana</label>
                     <select asp-for="DiaSemana" class="form-control" asp-items="ViewBag.dias">
                         <option value="">Seleccione un día</option>
                     </select>
+                    
                 </div>
                 <div class="form-group w-100">
                     <button type="submit" class="btn btn-primary w-100">Guardar</button>
                 </div>
             </form>
+            <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">
+                Buscar
+            </button>
         </div>
-        <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">
-            Buscar
-        </button>
+        
         <div id="lista-cursoseccion">
 
         </div>
@@ -118,6 +127,7 @@
         
 
     document.addEventListener('DOMContentLoaded', function () {
+
 
         //LISTAR HORARIO POR SU HORA INICIO Y HORA FIN EN EL MISMO SELECT
         var horario = document.getElementById('horario')
@@ -136,6 +146,9 @@
         } else {
             document.getElementById('aulaSelect').innerHTML = '<option value="">Seleccione un aula</option>';
         }
+
+        
+
         //OBTENER GRADOS POR NIVELES
         document.getElementById('nivel').addEventListener('change', function () {
             var nivelId = this.value;
@@ -278,12 +291,66 @@
                 })
                 .then(data => {
                     document.getElementById('lista-cursoseccion').innerHTML = data;
+                    
                 })
                 .catch(error => {
                     console.error('Hubo un problema con fetch', error);
                 });
         });
 
+
+        var seccionSelect = document.getElementById('seccionSelect');
+
+        seccionSelect.addEventListener('change', function () {
+            var seccionId = seccionSelect.value; // Asegúrate de que `seccionId` tenga el valor correcto
+
+            fetch(`@Url.Action("ListarCursoSeccion", "HorarioCurso")?idseccion=${seccionId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    // Usa `response.json()` para manejar la respuesta JSON
+                    return response.json();
+                })
+                .then(data => {
+                    var cursoSeccion = document.getElementById('cursoSeccion');
+                    cursoSeccion.innerHTML = '<option value="">Seleccione un curso y sección</option>';
+                    // Iterar sobre el array de objetos JSON
+                    data.forEach(cursoSeccionItems => {
+                        var option = document.createElement('option');
+                        console.log(cursoSeccionItems)
+                        option.value = cursoSeccionItems.idCursoSeccion;
+                        option.text = `${cursoSeccionItems.nombreCurso} - ${cursoSeccionItems.nombreSeccion}`;
+                        cursoSeccion.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+
+        const form = document.getElementById('cursoseccionForm');
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('@Url.Action("Asignar", "HorarioCurso")', {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                const result = await response.text();
+                document.getElementById('lista-cursoseccion').innerHTML = result;
+            } else {
+                const error = await response.text();
+                alert("Error: " + error);
+            }
+        });
+
+
+        var cursoseccion = document.getElementById('cursoSeccion');
+        cursoseccion.addEventListener('change', function(){
+            console.log(cursoseccion.value);
+        })
         
 
     });

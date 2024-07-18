@@ -8,7 +8,6 @@ namespace Sistema_Matricula.ViewsModels
         public int IdHorarioCursoSeccion { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
-        public int IdSeccion { get; set; }
         public string DiaSemana { get; set; }
     }
 }
