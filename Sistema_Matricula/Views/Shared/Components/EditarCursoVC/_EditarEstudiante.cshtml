@@ -1,0 +1,115 @@
+﻿@model Sistema_Matricula.Models.Estudiante
+
+@{
+    ViewData["Title"] = "_EditarEstudiante";
+}
+
+
+<h4>Estudiante</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12" style="background: #FCA311">
+        <form asp-action="EditarEstudiante" id="editarEstudianteForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdEstudiante" id="estudiante" class="control-label"></label>
+                <input asp-for="IdEstudiante" class="form-control" readonly />
+                <span asp-validation-for="IdEstudiante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apellido" class="control-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechNacimiento" class="control-label"></label>
+                <input asp-for="FechNacimiento" class="form-control" />
+                <span asp-validation-for="FechNacimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dni" class="control-label"></label>
+                <input asp-for="Dni" class="form-control" />
+                <span asp-validation-for="Dni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     document.querySelectorAll('.activar-estudiante').forEach(function (element) {
+    //         element.addEventListener('click', function (event) {
+    //             event.preventDefault();
+
+    //             var idEstudiante = this.getAttribute('data-id');
+    //             var agregarEstudianteModal = document.getElementById('agregarEstudianteModal');
+    //             var modalContent = agregarEstudianteModal.querySelector('.modal-body');
+
+    //             fetch(`/Estudiante/CargarEditarEstudiante?idEstudiante=${idEstudiante}`)
+    //                 .then(response => response.text())
+    //                 .then(data => {
+    //                     modalContent.innerHTML = data;
+
+    //                     var modal = new bootstrap.Modal(agregarEstudianteModal);
+    //                     modal.show();
+
+    //                     // Añadir el evento submit al formulario dentro del modal
+    //                     var form = modalContent.querySelector('#editarEstudianteForm');
+    //                     if (form) {
+    //                         form.addEventListener('submit', async (e) => {
+    //                             e.preventDefault();
+    //                             const formData = new FormData(form);
+
+    //                             try {
+    //                                 const response = await fetch(`/Estudiante/EditarEstudiante/${idEstudiante}`, {
+    //                                     method: 'POST',
+    //                                     body: formData
+    //                                 });
+
+    //                                 if (response.ok) {
+    //                                     alert('Estudiante editado correctamente');
+    //                                     window.location.href = '/Estudiante/ListarEstudiantes';
+    //                                 } else {
+    //                                     console.error('Error al editar el estudiante:', response.status);
+    //                                     alert('Error al editar el estudiante. Por favor, intente de nuevo.');
+    //                                 }
+    //                             } catch (error) {
+    //                                 console.error('Error inesperado:', error);
+    //                                 alert('Error inesperado al editar el estudiante. Por favor, intente de nuevo.');
+    //                             }
+    //                         });
+    //                     }
+    //                 })
+    //                 .catch(error => console.error('Error al cargar el contenido del modal:', error));
+    //         });
+    //     });
+    // });
+</script>

@@ -47,9 +47,14 @@
                         </select>
                         <span asp-validation-for="IdCurso" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group flex">
                         <input type="submit" value="Ingresar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2" />
-                        <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline">Agregar Curso</a>
+                        <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline  flex items-center justify-center w-25">
+                            <span class="material-symbols-outlined">
+                                book_5
+                            </span>
+                        </a>
+
                     </div>
                 </form>
             </div>
@@ -84,7 +89,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="agregarProveedorModalLabel">Agregar Curso</h5>
+                        <h5 class="modal-title mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white" style="font-size: 45px" id="agregarProveedorModalLabel">Agregar Curso</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

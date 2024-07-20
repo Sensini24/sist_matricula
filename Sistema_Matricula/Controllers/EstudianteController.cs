@@ -157,17 +157,11 @@ namespace Sistema_Matricula.Controllers
 
         // GET: EstudianteController/Edit/5
         [HttpGet]
-        public ActionResult EditarEstudiante(int id)
+        public IActionResult CargarEditarEstudiante(int idEstudiante)
         {
-
-            Estudiante estudiante = db.Estudiantes.Where(e => e.IdEstudiante == id).FirstOrDefault();
-            if(estudiante != null)
-            {
-                return View(estudiante);
-                
-            }
-            return RedirectToAction("ListarEstudiantes", "Estudiante");
+            return ViewComponent("EditarCursoVC", new { idEstudiante });
         }
+
 
         // POST: EstudianteController/Edit/5
         [HttpPost]

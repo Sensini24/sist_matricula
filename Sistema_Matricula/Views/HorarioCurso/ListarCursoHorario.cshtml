@@ -1,16 +1,15 @@
-﻿@* @model IEnumerable<Sistema_Matricula.Models.HorarioCurso>
-
+﻿@model IEnumerable<Sistema_Matricula.Models.HorarioCursoSeccion>
 <p>
-    <a asp-action="AgregarCursoHorario">Nuevo</a>
+    <a asp-action="agregarcursohorario">nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdHorarioCurso)
+                @Html.DisplayNameFor(model => model.IdHorarioCursoSeccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCurso)
+                @Html.DisplayNameFor(model => model.IdCursoSeccion)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdHorario)
@@ -19,24 +18,23 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdHorarioCurso)
+                    @Html.DisplayNameFor(modelitem => item.IdHorarioCursoSeccion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCurso)
+                    @Html.DisplayNameFor(modelitem => item.IdCursoSeccion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdHorario)
+                    @Html.DisplayNameFor(modelitem => item.IdHorario)
             </td>
             <td>
-                    @Html.ActionLink("Editar", "EditarCursoHorario", new { id = item.IdHorarioCurso }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("editar", "editarcursohorario", new { id = item.IdHorarioCursoSeccion }) |
+                    @Html.ActionLink("details", "details", new { /* id=item.primarykey */ }) |
+                    @Html.ActionLink("delete", "delete", new { /* id=item.primarykey */ })
             </td>
         </tr>
 }
     </tbody>
 </table>
- *@

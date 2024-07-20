@@ -17,7 +17,7 @@ public partial class Docente
 
     public string? Telefono { get; set; }
 
-    public DateOnly FechNacimiento { get; set; }
+    public DateTime FechNacimiento { get; set; }
 
     public int? IdEspecialidad { get; set; }
 

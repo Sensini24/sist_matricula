@@ -4,7 +4,6 @@
     ViewData["Title"] = "_AgregarCurso";
 }
 
-<h1>Agregar Curso</h1>
 
 <hr />
 <div class="row">
@@ -22,14 +21,14 @@
         </form>
     </div>
 </div>
-<div id="resultMessage" style="display:none;"></div>
+<div class="alert alert-success" role="alert"  id="resultMessage" style="display:none;">
 
-<div>
-    <a asp-action="Index">Volver al Listado</a>
 </div>
 
+
  <script>
-    const form = document.getElementById('agregarCursoForm');
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('agregarCursoForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
@@ -41,8 +40,10 @@
                 });
 
                 if (response.ok) {
-                    alert('Curso registrado correctamente');
-                window.location.href = '@Url.Action("AgregarCursoDocenteView", "CursoDocente")';
+                    const resultMessage = document.getElementById('resultMessage');
+                    resultMessage.style.display = 'block';
+                    resultMessage.textContent = 'Curso registrado correctamente';
+                    form.reset(); // Resetear el formulario
                 } else {
                     console.error('Error al registrar el curso:', response.status);
                     alert('Error al registrar el curso. Por favor, intente de nuevo.');
@@ -52,5 +53,6 @@
                 alert('Error inesperado al registrar el curso. Por favor, intente de nuevo.');
             }
         });
+    });
     </script> 
 

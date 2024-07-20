@@ -5,26 +5,23 @@
 }
 
 <html>
-    <head>
-      <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-      <link
-        rel="stylesheet"
-        as="style"
-        onload="this.rel='stylesheet'"
-        />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet"
+          as="style"
+          onload="this.rel='stylesheet'"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <title>Galileo Design</title>
-        
-      <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <title>Estudiantes</title>
+
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb5gLl1PLTT3/rxxqOWP5PlJp/5hb5gLl1PLTT3r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-
 </head>
+
     <body style="align-content:start; margin-left:280px; margin-top:20px; background:#E5E5E5">
     <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Mantenimiento de estudiante</h1>
 
@@ -62,119 +59,103 @@
             <span>Exportar a Excel</span>
         </button>
     </div>
-        <div class="layout-content-container flex flex-col w-full flex-1" >
-            <div class="px-4 py-3 container">
-              <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
-                <table class="flex-1">
-                  <thead>
+   @*  <div class="layout-content-container flex flex-col w-full flex-1" >
+        <div class=" container w-full"> *@
+    <div class="layout-content-container flex flex-col w-full flex-1">
+        <div class="px-4 py-3 container w-full">
+            <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+                <table class="min-w-full">
+                    <thead>
                         <tr class="bg-[#FCA311]">
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
-                                Codigo Estudiante
-                          </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                                Nombres
-                            </th>
-                            <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                                Apellidos
-                            </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                                Fech. Nacimiento
-                      </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                                Email
-                      </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                        Telefono
-                      </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                        Direccion
-                      </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                                Estado
-                      </th>
-                      <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                        DNI
-                      </th>
-                            <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296 px-4 py-3 text-left text-[#FFFFFF] w-[400px] text-sm font-medium leading-normal">
-                                Mantenimiento
-                            </th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Codigo Estudiante</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Nombres</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Apellidos</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Fech. Nacimiento</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Email</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Telefono</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Direccion</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Estado</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">DNI</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Mantenimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @foreach (var item in Model)
                         {
                             <tr class="border-t border-t-[#D5D6DD]">
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal" id="idestudiante">
                                     <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
                                          style='background-image: url("https://cdn.usegalileo.ai/sdxl10/53a13668-0845-41fa-857d-eb5c45fb9191.png");'>
                                     </div>@Html.DisplayFor(modelItem => item.IdEstudiante)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Apellido)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.FechNacimiento)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Email)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Telefono)
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Direccion)
                                 </td>
-                                <td id="datoEstado" class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
-                                    <span id="span-pintado"  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
+                                <td id="datoEstado" class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <span id="span-pintado" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
                                         @Html.DisplayFor(modelItem => item.Estado)
-                                    </span> 
+                                    </span>
                                 </td>
-                                <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176 h-[72px] px-4 py-2 w-[400px] text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Dni)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
-                                    <div class="flex justify-content-center">
-                                        <a href="@Url.Action("EditarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 mr-1 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300">
-                                            <span class="material-symbols-outlined text-white text-lg">
-                                                edit
-                                            </span>
+                                    <div class="flex justify-center space-x-2">
+                                        <a id="activarEstudiante" href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300 no-underline">
+                                            <span class="material-symbols-outlined text-white text-lg">check</span>
                                         </a>
-                                        <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 mr-1 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300">
-                                            <span class="material-symbols-outlined text-white text-lg">
-                                                delete_forever
-                                            </span>
+                                        <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300 no-underline">
+                                            <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
                                         </a>
-                                        <a id="activarEstudiante"  href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300">
-                                            <span class="material-symbols-outlined text-white text-lg">
-                                                check
-                                            </span>
+                                        <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante" href="#">
+                                            <span class="material-symbols-outlined text-white text-lg">edit</span>
                                         </a>
-
-                                        @* <a href="@Url.Action("Detalles", "EstudianteDetalles", new { id = item.IdEstudiante })" class="flex justify-center items-center w-50 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300">
-                                            <span class="material-symbols-outlined text-white text-lg">
-                                                delete_forever
-                                            </span>
-                                        </a> *@
+                                        
                                     </div>
-                                    
                                 </td>
                             </tr>
                         }
-                  </tbody>
+                    </tbody>
                 </table>
-              </div>
-              <style>
-                          container(max-width:56px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56{display: none;}}
-                container(max-width:176px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-176{display: none;}}
-                container(max-width:296px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-296{display: none;}}
-                container(max-width:416px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-416{display: none;}}
-                container(max-width:536px){.table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-536{display: none;}}
-              </style>
             </div>
-          </div>
+        </div>
+        
+    </div>
+    <!-- Botón para abrir el modal -->
+    <button id="boton_modal" type="button" class="btn btn-primary">Abrir Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="agregarEstudianteModal" tabindex="-1" aria-labelledby="agregarEstudianteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarEstudianteModalLabel">Editar Estudiante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se cargará el contenido del formulario -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+            @* </div>
+        </div> *@
     @* <link href="~/css/stilos.css" rel="stylesheet" /> *@
   </body>
 </html>
@@ -202,9 +183,9 @@
         window.location.href = '/Estudiante/PasarTablaExcel';
     });
     
+
     document.addEventListener("DOMContentLoaded", function () {
         var datoEstado = document.querySelectorAll('#datoEstado span');
-
         datoEstado.forEach(e => {
             var estado = e.innerText.trim(); // Asegurarse de que no haya espacios en blanco
             var eliminarEstudiante = e.closest('tr').querySelector('#eliminarEstudiante');
@@ -225,6 +206,59 @@
         formEstudiantes.submit();
     });
     
+
+
+    // ABRIR EL MODAl
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.activar-estudiante').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var idEstudiante = this.getAttribute('data-id');
+                var agregarEstudianteModal = document.getElementById('agregarEstudianteModal');
+                var modalContent = agregarEstudianteModal.querySelector('.modal-body');
+
+                fetch(`/Estudiante/CargarEditarEstudiante?idEstudiante=${idEstudiante}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        modalContent.innerHTML = data;
+
+                        var modal = new bootstrap.Modal(agregarEstudianteModal);
+                        modal.show();
+
+                        // Añadir el evento submit al formulario dentro del modal
+                        var form = modalContent.querySelector('#editarEstudianteForm');
+                        if (form) {
+                            form.addEventListener('submit', async (e) => {
+                                e.preventDefault();
+                                const formData = new FormData(form);
+
+                                try {
+                                    const response = await fetch(`/Estudiante/EditarEstudiante/${idEstudiante}`, {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+
+                                    if (response.ok) {
+                                        alert('Estudiante editado correctamente');
+                                        window.location.href = '/Estudiante/ListarEstudiantes';
+                                    } else {
+                                        console.error('Error al editar el estudiante:', response.status);
+                                        alert('Error al editar el estudiante. Por favor, intente de nuevo.');
+                                    }
+                                } catch (error) {
+                                    console.error('Error inesperado:', error);
+                                    alert('Error inesperado al editar el estudiante. Por favor, intente de nuevo.');
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error al cargar el contenido del modal:', error));
+            });
+        });
+    });
+
+
 
     document.getElementById('estados').addEventListener('window')
 </script>

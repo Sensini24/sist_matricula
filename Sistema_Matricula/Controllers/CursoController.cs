@@ -111,13 +111,33 @@ namespace Sistema_Matricula.Controllers
             {
                 await db.Cursos.AddAsync(curso);
                 await db.SaveChangesAsync();
-                TempData["Success"] = "Curso agregado correctamente";
+                TempData["Course"] = "Curso agregado correctamente";
                 
                 return RedirectToAction("AgregarCursoDocenteView", "CursoDocente");
             }
             return View(curso);
         }
 
+        [HttpGet]
+        public ActionResult AgregarCursoNoModal()
+        {
+            return View();
+        }
+
+        // GET: CursoController/Create
+        [HttpPost]
+        public async Task<ActionResult> AgregarCursoNoModal(Curso curso)
+        {
+            if (ModelState.IsValid)
+            {
+                await db.Cursos.AddAsync(curso);
+                await db.SaveChangesAsync();
+                TempData["Success"] = "Curso agregado correctamente";
+
+                return RedirectToAction("_ListarCurso", "Curso");
+            }
+            return View(curso);
+        }
 
         [HttpGet]
         public ActionResult AgregarCursoSeccion()
