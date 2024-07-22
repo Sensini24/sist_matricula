@@ -16,18 +16,18 @@
 
     </head>
     <body style="align-content:start; margin-left:280px; margin-top:20px; background:#E5E5E5">
-    <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Mantenimiento de Cursos</h1>
+    
 
     <div id="agregar-curso">
 
     </div>
-    <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline  flex items-center justify-center w-25">
+    @* <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2 no-underline  flex items-center justify-center w-25">
         <span class="material-symbols-outlined">
             book_5
         </span>
-    </a>
-    <div class="layout-content-container flex flex-col w-full flex-1">
-        <div class="px-4 py-3 container w-full">
+    </a> *@
+    <div class="layout-content-container flex flex-col flex-1">
+        <div class="px-4 py-3 mx-auto max-w-4xl">
             <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
                 <table class="min-w-full">
                     <thead>
@@ -41,33 +41,33 @@
                         @foreach (var item in Model)
                         {
                             <tr class="border-t border-t-[#D5D6DD]">
-                                <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal" id="idestudiante">@Html.DisplayFor(modelItem => item.IdCurso)
-                                </td>
-                                <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal" id="idestudiante">@Html.DisplayFor(modelItem => item.Nombre)
-                                </td>
+                                <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">@Html.DisplayFor(modelItem => item.IdCurso)</td>
+                                <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">@Html.DisplayFor(modelItem => item.Nombre)</td>
                                 <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
                                     <div class="flex justify-center space-x-2">
-                                        <a id="activarestudiante" href="#" class="flex justify-center items-center w-8 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300 no-underline">
+                                        <a href="#" class="flex justify-center items-center w-8 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300 no-underline">
                                             <span class="material-symbols-outlined text-white text-lg">check</span>
                                         </a>
-                                        <a id="eliminarestudiante" href="#" class="flex justify-center items-center w-8 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300 no-underline">
+                                        <a href="@Url.Action("EliminarCurso", "Curso", new { id = item.IdCurso })" data-id="@item.IdCurso" class="eliminarestudiante flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-600 transition-colors duration-300 no-underline">
                                             <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
                                         </a>
-                                        <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300 no-underline" @* data-id="@item.idestudiante" *@ href="#">
+                                        <a href="@Url.Action("EditarCurso", "Curso", new { id = item.IdCurso })" class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300 no-underline" @* data-id="@item.idestudiante" *@ href="#">
                                             <span class="material-symbols-outlined text-white text-lg">edit</span>
                                         </a>
-
                                     </div>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+
+
             </div>
         </div>
-
     </div>
-    <div class="modal fade bg-green" id="agregarCursoModal" tabindex="-1" aria-labelledby="agregarProveedorModalLabel" aria-hidden="true">
+
+
+    @* <div class="modal fade bg-green" id="agregarCursoModal" tabindex="-1" aria-labelledby="agregarProveedorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
     
     </body>
 </html>
@@ -89,44 +89,49 @@
     }
 </style>
 <script>
-    // document.addEventListener('DOMContentLoaded', function(){
-    //     var agregar_curso = document.getElementById('agregar-curso');
-    //     fetch('AgregarCurso').
-    //     then(response=>response.text()).
-    //     then(html => {
-    //         console.log("datos obtneidos")
-    //             agregar_curso.innerHTML = html;
-    //     });
-
-
-    //     //aqui agregaria curso
-    // })
     document.addEventListener("DOMContentLoaded", function () {
-        $('#boton_modal').click(function () {
-            $('#agregarCursoModal').modal('show');
+        // $('#boton_modal').click(function () {
+        //     $('#agregarCursoModal').modal('show');
 
-            // $('#agregarCursoForm').submit(function (event) {
-            //     event.preventDefault();
-            //     $.ajax({
-            //         type: "post",
-            //         url: $(this).attr('action'),
-            //         data: $(this).serialize(),
-            //         success: function (response) {
-            //             if (response.success) {
-            //                 $('#resultmessage').html(response.message).show();
-            //                 $('#agregarCursoModal').modal('hide');
-            //                 location.reload();
-            //             } else {
-            //                 $('#resultmessage').html(response.message).show();
-            //             }
-            //         },
-            //         error: function (response) {
-            //             alert("ocurrió un error al agregar el curso.");
-            //         }
-            //     });
-            // });
-        });
-        });
+        // });
+
+        // document.body.addEventListener('click', function (event) {
+        //     const target = event.target.closest('.eliminarestudiante');
+
+        //     if (target) {
+        //         event.preventDefault();
+        //         const idCurso = target.dataset.id;
+
+        //         fetch('/Curso/EliminarCurso', {
+        //             method: 'DELETE',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify({ idCurso: idCurso }) // Envía el idCurso como un objeto JSON
+        //         })
+        //             .then(response => {
+        //                 if (response.ok) {
+        //                     // Eliminación exitosa, puedes recargar la página o actualizar la tabla
+        //                     window.location.reload();
+        //                 } else {
+        //                     // Manejo de errores
+        //                     console.error('Error al eliminar el curso');
+        //                     response.json().then(data => {
+        //                         console.error('Detalles del error:', data);
+        //                     });
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error:', error);
+        //             });
+        //     }
+        // });
+    });
+
+    
+
+
+
     
 
 </script>

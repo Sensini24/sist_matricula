@@ -1,8 +1,10 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.ViewsModels;
 using System.Linq;
@@ -24,6 +26,35 @@ namespace Sistema_Matricula.Controllers
             var cursos = db.Cursos.ToList();
             return View(cursos);
         }
+
+        [HttpGet]
+        public IActionResult ListarCursos(int pageNumber = 1, int pageSize = 6, string nombre = "")
+        {
+            IQueryable<Curso> query = db.Cursos.OrderBy(c => c.IdCurso);
+
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                query = query.Where(c => c.Nombre.Contains(nombre));
+            }
+
+            var totalCursos = query.Count();
+
+            var cursos = query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var model = new PagedResult<Curso>
+            {
+                Items = cursos,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCursos
+            };
+
+            return PartialView("_ListarCurso", model);
+        }
+
 
         [HttpGet("Curso/BuscarCurso")]
         public async Task<IActionResult> ListarCursosApi()
@@ -111,7 +142,7 @@ namespace Sistema_Matricula.Controllers
             {
                 await db.Cursos.AddAsync(curso);
                 await db.SaveChangesAsync();
-                TempData["Course"] = "Curso agregado correctamente";
+                TempData["Curso"] = "Curso agregado correctamente";
                 
                 return RedirectToAction("AgregarCursoDocenteView", "CursoDocente");
             }
@@ -132,9 +163,9 @@ namespace Sistema_Matricula.Controllers
             {
                 await db.Cursos.AddAsync(curso);
                 await db.SaveChangesAsync();
-                TempData["Success"] = "Curso agregado correctamente";
+                TempData["CursoPartial"] = "Curso agregado correctamente";
 
-                return RedirectToAction("_ListarCurso", "Curso");
+                return RedirectToAction("ListarCursos", "Curso");
             }
             return View(curso);
         }
@@ -227,6 +258,32 @@ namespace Sistema_Matricula.Controllers
             }
             return View(curso);
         }
+
+        [HttpDelete]
+        public IActionResult EliminarCurso(int idCurso)
+        {
+            try
+            {
+                var curso = db.Cursos.FirstOrDefault(e => e.IdCurso == idCurso);
+                if (curso == null)
+                {
+                    return RedirectToAction("AgregarCursoNoModal"); // Devuelve un error 404 si no se encuentra el curso
+                }
+
+                db.Cursos.Remove(curso);
+                db.SaveChanges();
+                return RedirectToAction("AgregarCursoNoModal"); // Devuelve un estado 200 si la eliminación es exitosa
+            }
+            catch (Exception ex)
+            {
+                // Registrar el error para diagnóstico
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Error interno del servidor"); // Devuelve un estado 500 en caso de error
+            }
+        }
+
+
+
 
 
         [HttpGet]

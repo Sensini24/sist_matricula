@@ -34,7 +34,7 @@
             </button>
             <div class="hidden p-4 border-b border-gray-300">
                 <!-- Contenido del segundo elemento -->
-                <a class="nav-link text-dark text-white" asp-area="" asp-controller="Estudiante" asp-action="ListarEstudiantes">
+                <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="Estudiante" asp-action="ListarEstudiantes">
                     Lista Estudiantes
                 </a>
             </div>
@@ -51,7 +51,7 @@
             <div class="hidden p-4 border-b border-gray-300">
                 <!-- Contenido del segundo elemento -->
                 <div class="align-items-center">
-                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="Docente" asp-action="ListarDocente">
+                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="Docente" asp-action="ListarDocente" >
                         Lista Docentes
                     </a>
                 </div>
@@ -138,18 +138,7 @@
                 </a>
             </li>
 
-            <li>
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Matricula" asp-action="ListarMatricula" id="ListarMatricula">-->
-                <!---->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Monto" asp-action="ListarMonto" id="ListarMonto">-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="PeriodoEscolar" asp-action="ListarPeriodoEscolar" id="ListarPeriodoEscolar">-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Nota" asp-action="ListarNota" id="ListarNota">-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Grado" asp-action="ListarGrado">-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Nivel" asp-action="ListarNivel">-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="Apoderado" asp-action="ListarApoderado" id="ListarApoderado" >-->
-                <!--<a class="nav-link text-dark" asp-area="" asp-controller="HorarioCurso" asp-action="Asignar" id="Asignar">-->
-                @* <a class="nav-link text-dark" asp-area="" asp-controller="HorarioCurso" asp-action="ListarCursoHorario" id="ListarCursoHorario"> *@
-                @* <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="ListarCursoDocente" id="ListarCursoDocente"> *@
+            <li> @* <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="ListarCursoDocente" id="ListarCursoDocente"> *@
                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RegistrarUsuario" id="RegistrarUsuario">
                     <!--<a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad">-->
                     <span class="material-symbols-outlined">
@@ -175,26 +164,6 @@
                     </span>Seccion
                 </a>
             </li>
-
-
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                   data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
-                    <i class="lni lni-layout"></i>
-                    <span>Estudiantes</span>
-                </a>
-                <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <!-- Contenido válido para un menú desplegable -->
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Sublink 1</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Sublink 2</a>
-                    </li>
-                </ul>
-            </li>
-
-
 
             <li>
                 <a class="nav-link text-dark" asp-area="" asp-controller="Curso" asp-action="AgregarCursoSeccion" id="AgregarCursoSeccion">
@@ -243,6 +212,7 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -276,6 +246,20 @@
             svg.classList.toggle('rotate-180');
         }
 
+            // const buttons = document.querySelectorAll('button[data-url]');
+            // buttons.forEach(button => {
+            //     button.addEventListener('click', function () {
+            //         const url = this.dataset.url;
+            //         fetch(url)
+            //             .then(response => response.text())
+            //             .then(data => {
+            //                 const contenedorInterfaz = document.getElementById('interfaz');
+            //                 contenedorInterfaz.replaceChildren(); // Limpiar el contenido previo
+            //                 contenedorInterfaz.innerHTML = data; // Agregar el nuevo contenido
+            //                 window.history.pushState({}, '', url);
+            //             });
+            //     });
+            // });
 
     </script>
 </body>
