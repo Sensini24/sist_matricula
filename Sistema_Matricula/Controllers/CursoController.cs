@@ -63,12 +63,28 @@ namespace Sistema_Matricula.Controllers
             return Ok(cursos);
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> ListarSeccionesyCursos()
+        //{
+        //    var cursoSeccionViewModel = await db.CursoSeccions.
+        //        Select(cd => new CursoSeccionViewModel
+        //        {
+        //            IdSeccion = cd.IdSeccion,
+        //            NombreSeccion = db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.Nombre).FirstOrDefault(),
+        //            NombreCurso = db.Cursos.Where(e => e.IdCurso == cd.IdCurso).Select(e => e.Nombre).FirstOrDefault(),
+        //            NombreDocente = db.Docentes.Where(e => e.IdDocente == cd.IdDocente).Select(e => e.Nombre).FirstOrDefault(),
+        //            NombreGrado = db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault(),
+        //            NombreNivel = db.Nivels.Where(e => e.IdNivel == db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.IdNivel).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault()
+        //        }).ToListAsync();
+
+        //    return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
+        //}
 
         [HttpGet]
-        public async Task<IActionResult> ListarSeccionesyCursos()
+        public async Task<IActionResult> ListarSeccionesyCursos(int pageNumber = 1, int pageSize = 6)
         {
-            var cursoSeccionViewModel = await db.CursoSeccions.
-                Select(cd => new CursoSeccionViewModel
+            var cursoSeccionViewModel = await db.CursoSeccions
+                .Select(cd => new CursoSeccionViewModel
                 {
                     IdSeccion = cd.IdSeccion,
                     NombreSeccion = db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.Nombre).FirstOrDefault(),
@@ -76,14 +92,60 @@ namespace Sistema_Matricula.Controllers
                     NombreDocente = db.Docentes.Where(e => e.IdDocente == cd.IdDocente).Select(e => e.Nombre).FirstOrDefault(),
                     NombreGrado = db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault(),
                     NombreNivel = db.Nivels.Where(e => e.IdNivel == db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.IdNivel).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault()
-                }).ToListAsync();
+                })
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-            return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
+            var totalCursos = await db.CursoSeccions.CountAsync();
+
+            var model = new PagedResult<CursoSeccionViewModel>
+            {
+                Items = cursoSeccionViewModel,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCursos
+            };
+
+            return PartialView("_ListarSeccionesYCursos", model);
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> ListarSeccionesyCursosConParametros(int? idgrado, int? idnivel, int? idseccion)
+        //{
+        //    var cursoSeccionQuery = db.CursoSeccions
+        //        .Select(cd => new CursoSeccionViewModel
+        //        {
+        //            IdSeccion = cd.IdSeccion,
+        //            NombreSeccion = db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.Nombre).FirstOrDefault(),
+        //            NombreCurso = db.Cursos.Where(e => e.IdCurso == cd.IdCurso).Select(e => e.Nombre).FirstOrDefault(),
+        //            NombreDocente = db.Docentes.Where(e => e.IdDocente == cd.IdDocente).Select(e => e.Nombre).FirstOrDefault(),
+        //            NombreGrado = db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault(),
+        //            NombreNivel = db.Nivels.Where(e => e.IdNivel == db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.IdNivel).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault()
+        //        });
+
+        //    if (idgrado.HasValue && idnivel.HasValue && idseccion.HasValue)
+        //    {
+        //        cursoSeccionQuery = cursoSeccionQuery.Where(e => e.IdSeccion == idseccion);
+        //    }
+        //    else if (idnivel.HasValue)
+        //    {
+        //        cursoSeccionQuery = cursoSeccionQuery.Where(e => e.NombreNivel == db.Nivels.FirstOrDefault(n => n.IdNivel == idnivel.Value).Descripcion);
+        //    }
+        //    else if (idgrado.HasValue)
+        //    {
+        //        cursoSeccionQuery = cursoSeccionQuery.Where(e => e.NombreGrado == db.Grados.FirstOrDefault(n => n.IdGrado == idgrado.Value).Descripcion);
+        //    }
+        //    var cursoSeccionViewModel = await cursoSeccionQuery.ToListAsync();
+
+
+        //    return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> ListarSeccionesyCursosConParametros(int? idgrado, int? idnivel, int? idseccion)
+        public async Task<IActionResult> ListarSeccionesyCursosConParametros(int? idgrado, int? idnivel, int? idseccion, int pageNumber = 1, int pageSize = 6)
         {
-            var cursoSeccionQuery = db.CursoSeccions
+            var query = db.CursoSeccions
                 .Select(cd => new CursoSeccionViewModel
                 {
                     IdSeccion = cd.IdSeccion,
@@ -93,21 +155,38 @@ namespace Sistema_Matricula.Controllers
                     NombreGrado = db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault(),
                     NombreNivel = db.Nivels.Where(e => e.IdNivel == db.Grados.Where(e => e.IdGrado == db.Seccions.Where(e => e.IdSeccion == cd.IdSeccion).Select(e => e.IdGrado).FirstOrDefault()).Select(e => e.IdNivel).FirstOrDefault()).Select(e => e.Descripcion).FirstOrDefault()
                 });
+            var totalCursos = await db.CursoSeccions.CountAsync();
 
             if (idgrado.HasValue && idnivel.HasValue && idseccion.HasValue)
             {
-                cursoSeccionQuery = cursoSeccionQuery.Where(e => e.IdSeccion == idseccion);
+                query = query.Where(e => e.IdSeccion == idseccion);
+                totalCursos = query.Count();
             }
             else if (idnivel.HasValue)
             {
-                cursoSeccionQuery = cursoSeccionQuery.Where(e => e.NombreNivel == db.Nivels.FirstOrDefault(n => n.IdNivel == idnivel.Value).Descripcion);
+                query = query.Where(e => e.NombreNivel == db.Nivels.FirstOrDefault(n => n.IdNivel == idnivel.Value).Descripcion);
+                totalCursos = query.Count();
             }
             else if (idgrado.HasValue)
             {
-                cursoSeccionQuery = cursoSeccionQuery.Where(e => e.NombreGrado == db.Grados.FirstOrDefault(n => n.IdGrado == idgrado.Value).Descripcion);
+                query = query.Where(e => e.NombreGrado == db.Grados.FirstOrDefault(n => n.IdGrado == idgrado.Value).Descripcion);
+                totalCursos = query.Count();
             }
-            var cursoSeccionViewModel = await cursoSeccionQuery.ToListAsync();
-            return PartialView("_ListarSeccionesYCursos", cursoSeccionViewModel);
+
+
+            var cursoSeccionViewModel = await query.Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var model = new PagedResult<CursoSeccionViewModel>
+            {
+                Items = cursoSeccionViewModel,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCursos
+            };
+
+            return PartialView("_ListarSeccionesYCursos", model);
         }
 
         public IActionResult ListarCursoPorSeccion(int id)

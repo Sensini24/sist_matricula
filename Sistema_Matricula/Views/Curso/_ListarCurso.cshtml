@@ -1,41 +1,53 @@
 ﻿@model PagedResult<Curso>
 
+@if (TempData["CursoPartial"] != null)
+{
+    <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+        Éxito
+    </div>
+    <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+        @TempData["CursoPartial"]
+    </div>
+}
 <div>
-    <table class="min-w-full">
-        <thead>
-            <tr class="bg-[#FCA311]">
-                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Id</th>
-                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Nombre</th>
-                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Mantenimiento</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
-                <tr class="border-t border-t-[#D5D6DD]">
-                    <td id="idCurso" class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
-                        @Html.DisplayFor(modelItem => item.IdCurso)
-                    </td>
-                    <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
-                        <div class="flex justify-center space-x-2">
-                            <a id="activarestudiante" href="#" class="flex justify-center items-center w-8 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300 no-underline">
-                                <span class="material-symbols-outlined text-white text-lg">check</span>
-                            </a>
-                            <a id="eliminarestudiante" href="#" data-id="@item.IdCurso" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-600 transition-colors duration-300 no-underline">
-                                <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
-                            </a>
-                            <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300 no-underline" @* data-id="@item.idestudiante" *@ href="#">
-                                <span class="material-symbols-outlined text-white text-lg">edit</span>
-                            </a>
-                        </div>
-                    </td>
+    <div>
+        <table class="min-w-full">
+            <thead>
+                <tr class="bg-[#FCA311]">
+                    <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Id</th>
+                    <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Nombre</th>
+                    <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Mantenimiento</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr class="border-t border-t-[#D5D6DD]">
+                        <td id="idCurso" class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                            @Html.DisplayFor(modelItem => item.IdCurso)
+                        </td>
+                        <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                            <div class="flex justify-center space-x-2">
+                                <a id="activarestudiante" href="#" class="flex justify-center items-center w-8 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300 no-underline">
+                                    <span class="material-symbols-outlined text-white text-lg">check</span>
+                                </a>
+                                <a id="eliminarestudiante" href="#" data-id="@item.IdCurso" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-600 transition-colors duration-300 no-underline">
+                                    <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
+                                </a>
+                                <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300 no-underline" @* data-id="@item.idestudiante" *@ href="#">
+                                    <span class="material-symbols-outlined text-white text-lg">edit</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
 
     <div class="flex justify-between mt-4">
         <!--No le pasaba los datos de nombre-->

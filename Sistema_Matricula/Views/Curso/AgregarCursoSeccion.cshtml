@@ -100,6 +100,25 @@
 
 @section Scripts {
     <script>
+
+        function loadPage(pageNumber, nombre) {
+            fetch(`ListarSeccionesyCursos?pageNumber=${pageNumber}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('lista-cursoseccion').innerHTML = html;
+                })
+                .catch(error => console.error('Error al cargar la página:', error));
+        }
+
+        function loadPage2(nivel, grado, seccion, pageNumber) {
+            fetch(`@Url.Action("ListarSeccionesyCursosConParametros")?idgrado=${grado}&idnivel=${nivel}&idseccion=${seccion}&pageNumber=${pageNumber}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('lista-cursoseccion').innerHTML = html;
+                })
+                .catch(error => console.error('Error al cargar la página:', error));
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Cargar grados cuando se selecciona un nivel
             document.getElementById('nivel').addEventListener('change', function () {
@@ -185,24 +204,35 @@
                 }
             });
 
-            // Cargar la lista de secciones y cursos
-            fetch('@Url.Action("ListarSeccionesyCursos", "Curso")')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('lista-cursoseccion').innerHTML = data;
-                });
+            loadPage(1);
+            // // Cargar la lista de secciones y cursos
+            // fetch('@Url.Action("ListarSeccionesyCursos", "Curso")')
+            //     .then(response => response.text())
+            //     .then(data => {
+            //         document.getElementById('lista-cursoseccion').innerHTML = data;
+            //     });
+
+            // document.getElementById('buscarBtn').addEventListener('click', function () {
+            //     var nivelId = document.getElementById('nivel').value;
+            //     var gradoId = document.getElementById('grado').value;
+            //     var seccionId = document.getElementById('seccion').value;
+
+            //     fetch(`@Url.Action("ListarSeccionesyCursosConParametros")?idgrado=${gradoId}&idnivel=${nivelId}&idseccion=${seccionId}`)
+            //         .then(response => response.text())
+            //         .then(data => {
+            //             document.getElementById('lista-cursoseccion').innerHTML = data;
+            //         });
+            // });
 
             document.getElementById('buscarBtn').addEventListener('click', function () {
                 var nivelId = document.getElementById('nivel').value;
                 var gradoId = document.getElementById('grado').value;
                 var seccionId = document.getElementById('seccion').value;
 
-                fetch(`@Url.Action("ListarSeccionesyCursosConParametros")?idgrado=${gradoId}&idnivel=${nivelId}&idseccion=${seccionId}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('lista-cursoseccion').innerHTML = data;
-                    });
+                loadPage2(nivelId, gradoId, seccionId, 1);
             });
+
+
 
             
             // Sincronizar el valor seleccionado en el campo oculto IdSeccion

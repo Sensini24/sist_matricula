@@ -1,181 +1,194 @@
 ﻿@model Sistema_Matricula.ViewsModels.RegistroEstudianteViewModel
 
-<h4>Registro de Estudiante</h4>
-<hr />
-<div class="container">
-    <form asp-action="RegistrarUsuario" method="post" class="w-full max-w-sm">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-                <div class="form-group">
-                    <label asp-for="Nombre" class="control-label"></label>
-                    <input asp-for="Nombre" class="form-control" />
-                    <span asp-validation-for="Nombre" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Apellido" class="control-label"></label>
-                    <input asp-for="Apellido" class="form-control" />
-                    <span asp-validation-for="Apellido" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FechNacimiento" class="control-label"></label>
-                    <input asp-for="FechNacimiento" class="form-control" type="date" />
-                    <span asp-validation-for="FechNacimiento" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" type="email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Telefono" class="control-label"></label>
-                    <input asp-for="Telefono" class="form-control" />
-                    <span asp-validation-for="Telefono" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Direccion" class="control-label"></label>
-                    <input asp-for="Direccion" class="form-control" />
-                    <span asp-validation-for="Direccion" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Dni" class="control-label"></label>
-                    <input asp-for="Dni" class="form-control" />
-                    <span asp-validation-for="Dni" class="text-danger"></span>
-                </div>
-            </div>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title>
 
-            <!-- Segunda Sección -->
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="NombreApoderado" class="control-label"></label>
-                    <input asp-for="NombreApoderado" class="form-control" />
-                    <span asp-validation-for="NombreApoderado" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ApellidoApoderado" class="control-label"></label>
-                    <input asp-for="ApellidoApoderado" class="form-control" />
-                    <span asp-validation-for="ApellidoApoderado" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Edad" class="control-label"></label>
-                    <input asp-for="Edad" class="form-control" type="number" />
-                    <span asp-validation-for="Edad" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Sexo" class="control-label"></label>
-                    <select asp-for="Sexo" class="form-control" asp-items="ViewBag.Sexo">
-                        <option value="">-- Seleccione su sexo --</option>
-                    </select>
-                    <span asp-validation-for="Sexo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Ocupacion" class="control-label"></label>
-                    <input asp-for="Ocupacion" class="form-control" />
-                    <span asp-validation-for="Ocupacion" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TelefonoApoderado" class="control-label"></label>
-                    <input asp-for="TelefonoApoderado" class="form-control" />
-                    <span asp-validation-for="TelefonoApoderado" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DireccionApoderado" class="control-label"></label>
-                    <input asp-for="DireccionApoderado" class="form-control" />
-                    <span asp-validation-for="DireccionApoderado" class="text-danger"></span>
-                </div>
-            </div>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-            <!-- Tercera Sección -->
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="Parentesco" class="control-label">Parentesco con Apoderado</label>
-                    <input asp-for="Parentesco" class="form-control" />
-                    <span asp-validation-for="Parentesco" class="text-danger"></span>
+    </head>
+    <body>
+    <h4>Registro de Estudiante</h4>
+    <hr />
+    <div class="container">
+        <form asp-action="RegistrarUsuario" method="post" class="w-full mb-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="md:flex md:items-center mb-6">
+
+                <div class="md-4">
+                    <h4>
+                        DATOS DE ESTUDIANTE
+                    </h4>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Nombre" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Nombre" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Apellido" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Apellido" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="FechNacimiento" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fecha de Nacimiento</label>
+                        <input asp-for="FechNacimiento" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="date" />
+                        <span asp-validation-for="FechNacimiento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Email" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Email" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Telefono" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Telefono" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Direccion" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Direccion" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Direccion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Dni" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Dni" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Dni" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="NombreUsuario" class="control-label"></label>
-                    <input asp-for="NombreUsuario" class="form-control" />
-                    <span asp-validation-for="NombreUsuario" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EmailUsuario" class="control-label"></label>
-                    <input asp-for="EmailUsuario" class="form-control" type="email" />
-                    <span asp-validation-for="EmailUsuario" class="text-danger"></span>
+                <!-- Segunda Sección -->
+                <div class="col-md-4 ml-5">
+                    <h4 class="ml-4">
+                        DATOS DE APODERADO
+                    </h4>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="NombreApoderado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre de Apoderado</label>
+                        <input asp-for="NombreApoderado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="NombreApoderado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="ApellidoApoderado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Apellido de Apoderado</label>
+                        <input asp-for="ApellidoApoderado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="ApellidoApoderado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Edad" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Edad" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" />
+                        <span asp-validation-for="Edad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Sexo" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <select asp-for="Sexo" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Sexo">
+                            <option value="">-- Seleccione su sexo --</option>
+                        </select>
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="Ocupacion" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="Ocupacion" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Ocupacion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full px-3 mb-6 md:mb-0">
+                        <label asp-for="TelefonoApoderado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono</label>
+                        <input asp-for="TelefonoApoderado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="TelefonoApoderado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full px-3 mb-6 md:mb-0">
+                        <label asp-for="DireccionApoderado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Dirección</label>
+                        <input asp-for="DireccionApoderado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="DireccionApoderado" class="text-danger"></span>
+                    </div>
                 </div>
 
-                <div class="form-group w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label asp-for="PasswordHash" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >Contraseña</label>
-                    <input asp-for="PasswordHash" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="password" />
-                    <span asp-validation-for="PasswordHash" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Registrar" class="btn btn-primary" />
-                </div>
-            </div>
-        </div>
-    </form>
-    <form class="w-full max-w-lg">
-        <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    First Name
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane">
-                <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                    Last Name
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe">
-            </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-                    Password
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************">
-                <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
-            </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-2">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-                    City
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque">
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                    State
-                </label>
-                <div class="relative">
-                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                        <option>New Mexico</option>
-                        <option>Missouri</option>
-                        <option>Texas</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                <!-- Tercera Sección -->
+                <div class="col-md-4">
+                    <div class="form-group w-full px-3 mb-6 md:mb-0">
+                        <label asp-for="Parentesco" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Parentesco con Apoderado</label>
+                        <input asp-for="Parentesco" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="Parentesco" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full px-3 mb-6 md:mb-0">
+                        <label asp-for="NombreUsuario" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                        <input asp-for="NombreUsuario" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full px-3 mb-6 md:mb-0">
+                        <label asp-for="EmailUsuario" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
+                        <input asp-for="EmailUsuario" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" />
+                        <span asp-validation-for="EmailUsuario" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group w-full px-3 mb-6 md:mb-0">
+                        <label asp-for="PasswordHash" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Contraseña</label>
+                        <input asp-for="PasswordHash" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="password" />
+                        <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Registrar" class="btn btn-primary" />
                     </div>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-                    Zip
-                </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder="90210">
-            </div>
+        </form>
+        @* <form class="w-full max-w-lg">
+        <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+        First Name
+        </label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane">
+        <p class="text-red-500 text-xs italic">Please fill out this field.</p>
         </div>
-    </form>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-</div>
-
-<div>
-    <a asp-action="Index">Volver a la lista</a>
-</div>
-
+        <div class="w-full md:w-1/2 px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+        Last Name
+        </label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe">
+        </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        Password
+        </label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************">
+        <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
+        </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-2">
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
+        City
+        </label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque">
+        </div>
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        State
+        </label>
+        <div class="relative">
+        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+        <option>New Mexico</option>
+        <option>Missouri</option>
+        <option>Texas</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+        </div>
+        </div>
+        </div>
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+        Zip
+        </label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder="90210">
+        </div>
+        </div>
+        </form> *@
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    </div>
+    </body>
+</html>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

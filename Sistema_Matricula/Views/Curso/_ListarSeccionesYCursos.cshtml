@@ -1,8 +1,7 @@
-﻿@model IEnumerable<Sistema_Matricula.ViewsModels.CursoSeccionViewModel>
+﻿@model PagedResult<Sistema_Matricula.ViewsModels.CursoSeccionViewModel>
 
-    @{
+@{
     ViewData["Title"] = "_ListarSeccionesYCursos";
-
 }
 
 @if (TempData["Error"] != null)
@@ -23,6 +22,7 @@
         @TempData["Success"]
     </div>
 }
+
 <div class="layout-content-container flex flex-col w-full flex-1">
     <div class="px-4 py-3 container">
         <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -36,7 +36,7 @@
                             Nivel
                         </th>
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
-                            Seccion
+                            Sección
                         </th>
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
                             Curso
@@ -44,12 +44,10 @@
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
                             Docente
                         </th>
-                        
-                        
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Items)
                     {
                         <tr class="border-t border-t-[#D5D6DD]">
                             <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
@@ -59,7 +57,6 @@
                                 @item.NombreGrado
                             </td>
                             <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
-                           
                                 @item.NombreSeccion
                             </td>
                             <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
@@ -68,12 +65,22 @@
                             <td class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
                                 @item.NombreDocente
                             </td>
-                            
-                            
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+    </div>
+    <!-- Renderiza los controles de paginación aquí -->
+    <div class="flex justify-content-center">
+        @if (Model.PageNumber > 1)
+        {
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage(@(Model.PageNumber - 1))">Anterior</button>
+        }
+        <span>Página @Model.PageNumber de @Model.TotalPages</span>
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage(@(Model.PageNumber + 1))">Siguiente</button>
+        }
     </div>
 </div>

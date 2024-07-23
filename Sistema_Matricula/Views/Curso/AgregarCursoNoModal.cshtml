@@ -80,6 +80,7 @@
         loadPage(1, "");
 
         var formadata = document.getElementById('formdata');
+        var nombre = document.getElementById('nombre').value;
         formadata.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -98,6 +99,7 @@
                 let html = await response.text();
                 let listaCursos = document.getElementById('lista-cursos');
                 listaCursos.innerHTML = html;
+                nombre.innerHTML = ""
 
                 // Limpiar el formulario después de agregar un nuevo curso
                 formadata.reset();

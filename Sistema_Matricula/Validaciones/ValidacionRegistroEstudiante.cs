@@ -18,7 +18,7 @@ namespace Sistema_Matricula.Validaciones
             RuleFor(e => e.ApellidoApoderado).NotEmpty()
                 .WithMessage("Se requiere el apellido del Apoderado").Length(3).WithMessage("Ingrese apellidos válidos");
             RuleFor(x => x.Edad)
-                .InclusiveBetween(3, 25).WithMessage("La edad debe estar entre 3 y 25 años.");
+                .InclusiveBetween(18,70).WithMessage("La edad debe estar entre 3 y 25 años.");
             RuleFor(e => e.Sexo).NotEmpty().WithMessage("Se requiere el sexo del Apoderado");
             RuleFor(e => e.Ocupacion).NotEmpty().WithMessage("Se requiere la ocupación del Apoderado");
             RuleFor(e => e.TelefonoApoderado).NotEmpty().WithMessage("Se requiere el apellido del Apoderado").MaximumLength(11).MinimumLength(8).WithMessage("Ingrese un numero de telefono válido");
