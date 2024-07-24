@@ -74,29 +74,6 @@ namespace Sistema_Matricula.Controllers
             {
                 try
                 {
-                    var estudiante = new Estudiante
-                    {
-                        Nombre = usuarioViewModel.Nombre,
-                        Apellido = usuarioViewModel.Apellido,
-                        FechNacimiento = usuarioViewModel.FechNacimiento,
-                        Email = usuarioViewModel.Email,
-                        Telefono = usuarioViewModel.Telefono,
-                        Direccion = usuarioViewModel.Direccion,
-                        Estado = "Pendiente",
-                        Dni = usuarioViewModel.Dni,
-                    };
-
-                    var apoderado = new Apoderado
-                    {
-                        Nombre = usuarioViewModel.NombreApoderado,
-                        Apellido = usuarioViewModel.ApellidoApoderado,
-                        Edad = usuarioViewModel.Edad,
-                        Sexo = usuarioViewModel.Sexo,
-                        Ocupacion = usuarioViewModel.Ocupacion,
-                        Telefono = usuarioViewModel.TelefonoApoderado,
-                        Direccion = usuarioViewModel.DireccionApoderado,
-                    };
-
                     var usuario = new Usuario
                     {
                         Nombre = usuarioViewModel.NombreUsuario,
@@ -104,11 +81,44 @@ namespace Sistema_Matricula.Controllers
                         PasswordHash = usuarioViewModel.PasswordHash,
                     };
 
-                    usuario.Email = estudiante.Email;
+                    db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+
+
+                    var estudiante = new Estudiante
+                    {
+                        Nombre = usuarioViewModel.Nombre,
+                        Apellido = usuarioViewModel.Apellido,
+                        Sexo = usuarioViewModel.SexoEstudiante,
+                        FechNacimiento = usuarioViewModel.FechNacimiento,
+                        Direccion = usuarioViewModel.Direccion,
+                        Estado = "Pendiente",
+                        Dni = usuarioViewModel.Dni,
+                        IdUsuario = usuario.IdUsuario,
+                    };
+
+                    var apoderado = new Apoderado
+                    {
+                        Nombre = usuarioViewModel.NombreApoderado,
+                        Apellido = usuarioViewModel.ApellidoApoderado,
+                        FechNacimiento = usuarioViewModel.FechNacimientoApoderado,
+                        Sexo = usuarioViewModel.Sexo,
+                        Ocupacion = usuarioViewModel.Ocupacion,
+                        Telefono = usuarioViewModel.TelefonoApoderado,
+                        Direccion = usuarioViewModel.DireccionApoderado,
+                    };
+
+                    
+
+                    var usuarioRol = new UsuarioRol
+                    {
+                        IdUsuario = usuario.IdUsuario,
+                        IdRol = 3,
+                    };
 
                     db.Estudiantes.Add(estudiante);
                     db.Apoderados.Add(apoderado);
-                    db.Usuarios.Add(usuario);
+                    db.UsuarioRols.Add(usuarioRol);
                     db.SaveChanges();
 
                     var estudianteAPoderado = new ApoderadoAlumno
@@ -120,9 +130,9 @@ namespace Sistema_Matricula.Controllers
 
                     db.ApoderadoAlumnos.Add(estudianteAPoderado);
                     db.SaveChanges();
-
+                    TempData["RegistroEstudianteSuccess"] = $"Estudiante {estudiante.Nombre} - {estudiante.Apellido} registrado correctamente";
                     transaction.Commit();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ListarEstudiantes", "Estudiante");
                 }
                 catch (Exception e)
                 {

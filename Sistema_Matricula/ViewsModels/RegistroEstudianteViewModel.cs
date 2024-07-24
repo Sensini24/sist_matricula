@@ -7,10 +7,10 @@ namespace Sistema_Matricula.ViewsModels
         public int IdEstudiante { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
+        public string SexoEstudiante { get; set; }
         public DateTime FechNacimiento { get; set; }
-        public string? Email { get; set; }
-        public string Telefono { get; set; }
         public string Direccion { get; set; } = null!;
+        public int IdUsuarioEstudiante { get; set; }
 
         [BindNever]
         public string Estado { get; set; } = null!;
@@ -19,8 +19,8 @@ namespace Sistema_Matricula.ViewsModels
         public int IdApoderado { get; set; }
         public string NombreApoderado { get; set; } = null!;
         public string ApellidoApoderado { get; set; } = null!;
-        public int Edad { get; set; }
-        public string Sexo { get; set; } = null!;
+        public DateTime FechNacimientoApoderado { get; set; }
+        public string Sexo { get; set; }
         public string Ocupacion { get; set; } = null!;
         public string TelefonoApoderado { get; set; } = null!;
         public string DireccionApoderado { get; set; } = null!;

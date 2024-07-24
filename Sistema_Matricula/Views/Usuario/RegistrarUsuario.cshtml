@@ -32,19 +32,14 @@
                         <span asp-validation-for="Apellido" class="text-danger"></span>
                     </div>
                     <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                        <label asp-for="SexoEstudiante" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Sexo</label>
+                        <input asp-for="SexoEstudiante" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
+                        <span asp-validation-for="SexoEstudiante" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
                         <label asp-for="FechNacimiento" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fecha de Nacimiento</label>
                         <input asp-for="FechNacimiento" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="date" />
                         <span asp-validation-for="FechNacimiento" class="text-danger"></span>
-                    </div>
-                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
-                        <label asp-for="Email" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
-                        <input asp-for="Email" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group w-full  px-3 mb-6 md:mb-0">
-                        <label asp-for="Telefono" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
-                        <input asp-for="Telefono" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
-                        <span asp-validation-for="Telefono" class="text-danger"></span>
                     </div>
                     <div class="form-group w-full  px-3 mb-6 md:mb-0">
                         <label asp-for="Direccion" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
@@ -73,9 +68,9 @@
                         <span asp-validation-for="ApellidoApoderado" class="text-danger"></span>
                     </div>
                     <div class="form-group w-full  px-3 mb-6 md:mb-0">
-                        <label asp-for="Edad" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
-                        <input asp-for="Edad" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" />
-                        <span asp-validation-for="Edad" class="text-danger"></span>
+                        <label asp-for="FechNacimientoApoderado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fecha de Nacimiento</label>
+                        <input asp-for="FechNacimientoApoderado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="date" />
+                        <span asp-validation-for="FechNacimientoApoderado" class="text-danger"></span>
                     </div>
                     <div class="form-group w-full  px-3 mb-6 md:mb-0">
                         <label asp-for="Sexo" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>

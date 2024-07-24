@@ -88,7 +88,7 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("direccion");
-            entity.Property(e => e.Edad).HasColumnName("edad");
+            entity.Property(e => e.FechNacimiento).HasColumnName("fech_nacimiento");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
                 .IsUnicode(false)
@@ -250,6 +250,7 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasColumnName("estado");
             entity.Property(e => e.FechNacimiento).HasColumnName("fech_nacimiento");
             entity.Property(e => e.IdEspecialidad).HasColumnName("id_especialidad");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
                 .IsUnicode(false)
@@ -266,6 +267,10 @@ public partial class DbMatNotaHorarioContext : DbContext
             entity.HasOne(d => d.IdEspecialidadNavigation).WithMany(p => p.Docentes)
                 .HasForeignKey(d => d.IdEspecialidad)
                 .HasConstraintName("FK_Docente_Especialidad");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Docentes)
+                .HasForeignKey(d => d.IdUsuario)
+                .HasConstraintName("FK_Docente_Usuario");
         });
 
         modelBuilder.Entity<Especialidad>(entity =>
@@ -300,23 +305,24 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("dni");
-            entity.Property(e => e.Email)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("email");
             entity.Property(e => e.Estado)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("estado");
             entity.Property(e => e.FechNacimiento).HasColumnName("fech_nacimiento");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
-            entity.Property(e => e.Telefono)
-                .HasMaxLength(12)
+            entity.Property(e => e.Sexo)
+                .HasMaxLength(10)
                 .IsUnicode(false)
-                .HasColumnName("telefono");
+                .HasColumnName("sexo");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Estudiantes)
+                .HasForeignKey(d => d.IdUsuario)
+                .HasConstraintName("FK_Estudiante_Usuario");
         });
 
         modelBuilder.Entity<Factura>(entity =>

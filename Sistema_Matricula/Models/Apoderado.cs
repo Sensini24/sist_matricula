@@ -11,7 +11,7 @@ public partial class Apoderado
 
     public string Apellido { get; set; } = null!;
 
-    public int Edad { get; set; }
+    public DateTime? FechNacimiento { get; set; }
 
     public string Sexo { get; set; } = null!;
 

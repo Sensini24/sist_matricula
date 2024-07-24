@@ -11,11 +11,9 @@ public partial class Estudiante
 
     public string Apellido { get; set; } = null!;
 
+    public string? Sexo { get; set; }
+
     public DateTime FechNacimiento { get; set; }
-
-    public string? Email { get; set; }
-
-    public string? Telefono { get; set; }
 
     public string Direccion { get; set; } = null!;
 
@@ -23,9 +21,13 @@ public partial class Estudiante
 
     public string Dni { get; set; } = null!;
 
+    public int? IdUsuario { get; set; }
+
     public virtual ICollection<ApoderadoAlumno> ApoderadoAlumnos { get; set; } = new List<ApoderadoAlumno>();
 
     public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
+
+    public virtual Usuario? IdUsuarioNavigation { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 

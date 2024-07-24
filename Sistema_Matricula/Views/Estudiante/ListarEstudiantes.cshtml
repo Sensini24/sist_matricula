@@ -70,9 +70,8 @@
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Codigo Estudiante</th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Nombres</th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Apellidos</th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Sexo</th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Fech. Nacimiento</th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Email</th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Telefono</th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Direccion</th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Estado</th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">DNI</th>
@@ -95,13 +94,10 @@
                                     @Html.DisplayFor(modelItem => item.Apellido)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Sexo)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.FechNacimiento)
-                                </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.Telefono)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Direccion)

@@ -175,8 +175,6 @@ namespace Sistema_Matricula.Controllers
                     estudiActual.Nombre = estudiante.Nombre;
                     estudiActual.Apellido = estudiante.Apellido;
                     estudiActual.FechNacimiento = estudiante.FechNacimiento;
-                    estudiActual.Email = estudiante.Email;
-                    estudiActual.Telefono = estudiante.Telefono;
                     estudiActual.Direccion = estudiante.Direccion;
                     estudiActual.Estado = estudiante.Estado;
                     estudiActual.Dni = estudiante.Dni;
@@ -251,8 +249,6 @@ namespace Sistema_Matricula.Controllers
                 worksheet.Cell("B1").Value = "Nombre";
                 worksheet.Cell("C1").Value = "Apellido";
                 worksheet.Cell("D1").Value = "FechNacimiento";
-                worksheet.Cell("E1").Value = "Email";
-                worksheet.Cell("F1").Value = "Telefono";
                 worksheet.Cell("G1").Value = "Direccion";
                 worksheet.Cell("H1").Value = "Estado";
                 worksheet.Cell("I1").Value = "DNI";
@@ -264,8 +260,6 @@ namespace Sistema_Matricula.Controllers
                     worksheet.Cell(currentRow, 2).Value = estudiante.Nombre;
                     worksheet.Cell(currentRow, 3).Value = estudiante.Apellido;
                     worksheet.Cell(currentRow, 4).Value = estudiante.FechNacimiento;
-                    worksheet.Cell(currentRow, 5).Value = estudiante.Email;
-                    worksheet.Cell(currentRow, 6).Value = estudiante.Telefono;
                     worksheet.Cell(currentRow, 7).Value = estudiante.Direccion;
                     worksheet.Cell(currentRow, 8).Value = estudiante.Estado;
                     worksheet.Cell(currentRow, 9).Value = estudiante.Dni;

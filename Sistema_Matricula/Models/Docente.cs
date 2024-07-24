@@ -23,11 +23,15 @@ public partial class Docente
 
     public string Estado { get; set; } = null!;
 
+    public int? IdUsuario { get; set; }
+
     public virtual ICollection<CursoDocente> CursoDocentes { get; set; } = new List<CursoDocente>();
 
     public virtual ICollection<CursoSeccion> CursoSeccions { get; set; } = new List<CursoSeccion>();
 
     public virtual Especialidad? IdEspecialidadNavigation { get; set; }
+
+    public virtual Usuario? IdUsuarioNavigation { get; set; }
 
     public virtual ICollection<Notum> Nota { get; set; } = new List<Notum>();
 }

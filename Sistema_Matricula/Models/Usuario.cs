@@ -13,5 +13,9 @@ public partial class Usuario
 
     public string PasswordHash { get; set; } = null!;
 
+    public virtual ICollection<Docente> Docentes { get; set; } = new List<Docente>();
+
+    public virtual ICollection<Estudiante> Estudiantes { get; set; } = new List<Estudiante>();
+
     public virtual ICollection<UsuarioRol> UsuarioRols { get; set; } = new List<UsuarioRol>();
 }
