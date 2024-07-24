@@ -51,12 +51,12 @@
             <div class="hidden p-4 border-b border-gray-300">
                 <!-- Contenido del segundo elemento -->
                 <div class="align-items-center">
-                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="Docente" asp-action="ListarDocente" >
+                    <a class="nav-link text-dark text-white mt-1 border-1" asp-area="" asp-controller="Docente" asp-action="ListarDocente" >
                         Lista Docentes
                     </a>
                 </div>
                 <div class=" align-content-center ">
-                    <a class="nav-link text-dark text-white mt-3 border-2" asp-area="" asp-controller="Docente" asp-action="AgregarDocente">
+                    <a class="nav-link text-dark text-white mt-3 border-1" asp-area="" asp-controller="Docente" asp-action="AgregarDocente">
                         Nuevo Docente
                     </a>
                 </div>
@@ -188,7 +188,7 @@
                 </a>
             </li>
             <li>
-                <a href="" id="button-active">
+                <a asp-controller="Auth" asp-action="Salir">
                     <span class="material-symbols-outlined">
                         Logout
                     </span>Logout

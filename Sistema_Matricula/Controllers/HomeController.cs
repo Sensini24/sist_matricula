@@ -15,6 +15,7 @@ namespace Sistema_Matricula.Controllers
 
         public IActionResult Index()
         {
+            TempData["Nombre"] = User.Identity.Name;
             return View();
         }
 

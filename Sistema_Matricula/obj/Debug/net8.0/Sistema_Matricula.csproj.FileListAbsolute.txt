@@ -577,3 +577,4 @@ D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Irony.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\SixLabors.Fonts.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\System.IO.Packaging.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\XLParser.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

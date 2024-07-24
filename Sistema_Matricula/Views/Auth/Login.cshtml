@@ -1,0 +1,69 @@
+﻿ @model Sistema_Matricula.Utils.ViewModelUsuario
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/login.css">
+    <title>Login</title>
+</head>
+<body id="cuerpoEntero">
+    <div id="dark-light-div">
+        <input type="checkbox" id="dark-light">
+        <label for="dark-light" id="nombre-checkbox">Cambiar Estilo</label>
+    </div>
+    <div id="card-login">
+        <h1 class="frases">Login to continue</h1>
+        <form asp-action="Login" asp-controller="Auth" method="post" class="formulario">
+            <input type="text" asp-for="Email" class="fields" placeholder="Ingrese su correo">
+            <input type="password" asp-for="Password" class="form-control fields" placeholder="Ingrese su password">
+            <div id="recuerdame">
+                <input type="checkbox" id="remember">
+                <label for="remember" class="frases">Remember me</label>
+            </div>
+            <button type="submit" id="button-login">Ingresar</button>
+            <a href="#" id="forgot-password" class="frases">Forgot Password?</a>
+            <p>New here? <a href="#" id="sign-up" class="frases">Sign up now</a></p>
+        </form>
+    </div>
+    <script src="~/js/login.js"></script>
+</body>
+</html>
+
+@section Scripts {
+    <script src="~/js/login.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @* <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('@Url.Action("Login", "Auth")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.cookie = `AuthToken=${data.token};path=/;secure;HttpOnly`;
+                // Redirigir a una página protegida después del login
+                window.location.href = '/protected';
+            } else {
+                alert('Login failed');
+            }
+        });
+
+    </script> *@
+} 
