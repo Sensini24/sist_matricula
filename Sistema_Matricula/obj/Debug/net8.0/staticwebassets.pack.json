@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\botones.css"
     },
     {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\login.css",
+      "PackagePath": "staticwebassets\\css\\login.css"
+    },
+    {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\side.css",
       "PackagePath": "staticwebassets\\css\\side.css"
     },
@@ -35,6 +39,10 @@
     {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\images\\logo.jpg",
       "PackagePath": "staticwebassets\\images\\logo.jpg"
+    },
+    {
+      "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\js\\login.js",
+      "PackagePath": "staticwebassets\\js\\login.js"
     },
     {
       "Id": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\js\\site.js",

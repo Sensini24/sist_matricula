@@ -13,30 +13,44 @@
     <title>Login</title>
 </head>
 <body id="cuerpoEntero">
-    <div id="dark-light-div">
-        <input type="checkbox" id="dark-light">
-        <label for="dark-light" id="nombre-checkbox">Cambiar Estilo</label>
-    </div>
-    <div id="card-login">
-        <h1 class="frases">Login to continue</h1>
-        <form asp-action="Login" asp-controller="Auth" method="post" class="formulario">
-            <input type="text" asp-for="Email" class="fields" placeholder="Ingrese su correo">
-            <input type="password" asp-for="Password" class="form-control fields" placeholder="Ingrese su password">
-            <div id="recuerdame">
-                <input type="checkbox" id="remember">
-                <label for="remember" class="frases">Remember me</label>
+    <div>
+        <div style="width: 400px;
+        padding: 30px;
+        background-color: #212141;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom:15px;
+        font-family: "Poppins", sans-serif;">
+
+            <div style="display:flex">
+                <img src="~/images/logo.jpg" style="border-radius:5px" alt="logo" id="logo">
+                <h1 class="frases" style="margin-top:45px; margin-left:10px; color:white">I.E. La Merced</h1>
             </div>
-            <button type="submit" id="button-login">Ingresar</button>
-            <a href="#" id="forgot-password" class="frases">Forgot Password?</a>
-            <p>New here? <a href="#" id="sign-up" class="frases">Sign up now</a></p>
-        </form>
+        </div>
+        <div id="card-login" style="background-color: #212141;">
+            <h3 style="color:white">Ingrese sus credenciales</h3>
+            <form asp-action="Login" asp-controller="Auth" method="post" class="formulario">
+                <input type="text" asp-for="Email" class="fields" placeholder="Ingrese su correo">
+                <input type="password" asp-for="Password" class="form-control fields" placeholder="Ingrese su password">
+                @* <div id="recuerdame">
+                    <input type="checkbox" id="remember">
+                    <label for="remember" class="frases">remember me</label>
+                </div> *@
+                <button type="submit" id="button-login">Ingresar</button>
+                <!--
+
+                <a href="#" id="forgot-password" class="frases">Forgot Password?</a>
+                <p>New here? <a href="#" id="sign-up" class="frases">Sign up now</a></p>
+                -->
+
+            </form>
+        </div>
     </div>
-    <script src="~/js/login.js"></script>
+        
 </body>
 </html>
 
 @section Scripts {
-    <script src="~/js/login.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

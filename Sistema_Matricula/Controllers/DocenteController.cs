@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Matricula.Models;
+using Sistema_Matricula.ViewsModels;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -43,9 +44,94 @@ namespace Sistema_Matricula.Controllers
         }
 
         [HttpGet]
+        public ActionResult AgregarDocenteVM()
+        {
+            List<string> sexo = new List<string> {
+                "Masculino", "Femenino"
+            };
+            var sexos = sexo.ToList();
+            ViewBag.Sexo = new SelectList(sexos);
+            ViewBag.Especialidad = new SelectList(db.Especialidads, "IdEspecialidad", "Especialidad1").ToList();
+            var docenteviewmodel = new RegistroDocenteViewModel();
+            return View(docenteviewmodel);
+        }
+
+        [HttpPost]
+        public ActionResult AgregarDocenteVM(RegistroDocenteViewModel docenteviewmodel)
+        {
+            ViewBag.Especialidades = new SelectList(db.Especialidads, "IdEspecialidad", "Especialidad1").ToList();
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var usuario = new Usuario
+                    {
+                        Nombre = docenteviewmodel.NombreUsuario,
+                        Email = docenteviewmodel.EmailUsuario,
+                        PasswordHash = docenteviewmodel.PasswordHash,
+                    };
+
+                    db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+
+                    var docente = new Docente
+                    {
+                        IdUsuario = usuario.IdUsuario,
+                        Nombre = docenteviewmodel.Nombre,
+                        Apellido = docenteviewmodel.Apellido,
+                        Edad = docenteviewmodel.Edad,
+                        Sexo = docenteviewmodel.Sexo,
+                        Telefono = docenteviewmodel.Telefono,
+                        FechNacimiento = docenteviewmodel.FechNacimiento,
+                        IdEspecialidad = docenteviewmodel.IdEspecialidad,
+                        Estado = "Pendiente",
+                    };
+                    
+                    var usuarioRol = new UsuarioRol
+                    {
+                        IdUsuario = usuario.IdUsuario,
+                        IdRol = 2,
+                    };
+
+                    db.Docentes.Add(docente);
+                    db.UsuarioRols.Add(usuarioRol);
+                    db.SaveChanges();
+
+
+                    TempData["RegistroDocenteSuccess"] = $"Docente {docente.Nombre} - {docente.Apellido} registrado correctamente";
+                    transaction.Commit();
+                    return RedirectToAction("ListarDocente", "Docente");
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    // Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError(string.Empty, "No se pudo registrar el usuario. Inténtelo de nuevo.");
+
+                    // Configurar ViewBag.Sexo nuevamente antes de devolver la vista
+                    List<string> sexo = new List<string> {
+                        "Masculino", "Femenino"
+                    };
+                    var sexos = sexo.ToList();
+                    ViewBag.Sexo = new SelectList(sexos);
+                    ViewBag.Especialidad = new SelectList(db.Docentes, "IdEspecialidad", "Especialidad1").ToList();
+
+                    return View(docenteviewmodel);
+                }
+            }
+        }
+
+
+        [HttpGet]
         public ActionResult EditarDocente(int id)
         {
-
+            List<SelectListItem> estados = new List<SelectListItem>
+            {
+                new SelectListItem {Value = "Activo", Text= "Activo"},
+                new SelectListItem {Value = "Inactivo", Text= "Inactivo"}
+            };
+            ViewBag.Estados = estados;
             var docente = db.Docentes.Find(id);
             return View(docente);
         }
@@ -57,6 +143,12 @@ namespace Sistema_Matricula.Controllers
             {
                 return View(docente);
             }
+            List<SelectListItem> estados = new List<SelectListItem>
+            {
+                new SelectListItem {Value = "Activo", Text= "Activo"},
+                new SelectListItem {Value = "Inactivo", Text= "Inactivo"}
+            };
+            ViewBag.Estados = estados;
             db.Docentes.Update(docente);
             db.SaveChanges();
             return RedirectToAction("ListarDocente");

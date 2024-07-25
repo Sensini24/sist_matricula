@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.ViewsModels;
+using System.Security.Claims;
 using System.Transactions;
 
 namespace Sistema_Matricula.Controllers
@@ -24,6 +25,16 @@ namespace Sistema_Matricula.Controllers
             var usuarios = db.Usuarios.ToList();
             return View(usuarios);
         }
+
+        public IActionResult GetUserDetails()
+        {
+            var username = User.Identity.Name;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;  // Obtener el rol
+
+            return Ok(new { Username = username, UserId = userId, UserRole = userRole });
+        }
+
 
         public IActionResult RegistrarUsuario()
         {

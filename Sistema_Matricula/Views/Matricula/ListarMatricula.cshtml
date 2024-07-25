@@ -1,71 +1,93 @@
 ﻿@model IEnumerable<Sistema_Matricula.Models.Matricula>
 
-<p>
-    <a asp-action="AgregarMatricula">Nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdMatricula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdNivel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdGrado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdSeccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPeriodEscolar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEstudiante)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdMonto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdMatricula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdNivel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdGrado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdSeccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPeriodEscolar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEstudiante)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdMonto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                    @Html.ActionLink("Editar", "EditarMatricula", new { id = item.IdMatricula })|
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <title></title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb5gLl1PLTT3/rxxqOWP5PlJp/5hb5gLl1PLTT3r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    </head>
+<body style="align-content:start; margin-left:280px; margin-top:20px; background:#E5E5E5">
+    <p>
+        <a asp-action="AgregarMatricula">Nuevo</a>
+    </p>
+
+    <div class="layout-content-container flex flex-col w-full flex-1">
+        <div class="px-4 py-3 container w-full">
+            <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-[#FCA311]">
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdMatricula)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdNivel)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdGrado)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdSeccion)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdPeriodEscolar)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdEstudiante)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.IdMonto)
+                            </th>
+                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                                @Html.DisplayNameFor(model => model.Estado)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-t border-t-[#D5D6DD]">
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdMatricula)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdNivel)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdGrado)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdSeccion)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdPeriodEscolar)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdEstudiante)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.IdMonto)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.DisplayFor(modelItem => item.Estado)
+                                </td>
+                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    @Html.ActionLink("Editar", "EditarMatricula", new { id = item.IdMatricula })|
+                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+             </div>
+        </div>
+    </div>
+    </body>
+</html>

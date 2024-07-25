@@ -28,8 +28,8 @@
     <form asp-controller="Estudiante" asp-action="ListarEstudiantes" method="get" class="ml-6" id="formEstudiantes">
         <p>
             <div class="flex">
-                <input type="text" name="palabra" placeholder="Nombre...">
-                <input type="number" name="codigo" placeholder="Código..."><br />
+                <input type="text" name="palabra" placeholder="Nombre..." class="form-control appearance-none block w-25 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                <input type="number" name="codigo" placeholder="Código..." class="form-control appearance-none block w-25 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"><br />
                 <button type="submit" value="Buscar" id="cargar" class="bg-[#FFFFFF] hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-2">
                     <span class="material-symbols-outlined">
                         search
@@ -49,7 +49,7 @@
         </p>
     </form>
     <div class="flex align-items-end justify-content-between">
-        <a href="@Url.Action("AgregarEstudiante", "Estudiante")" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 ">
+        <a href="@Url.Action("RegistrarUsuario", "Usuario")" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 ">
             <span class="material-symbols-outlined">
                 person_add
             </span>
@@ -61,6 +61,16 @@
     </div>
    @*  <div class="layout-content-container flex flex-col w-full flex-1" >
         <div class=" container w-full"> *@
+    
+    @if (TempData["RegistroEstudianteSuccess"] != null)
+    {
+        <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+            Éxito
+        </div>
+        <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+            @TempData["RegistroEstudianteSuccess"]
+        </div>
+    }
     <div class="layout-content-container flex flex-col w-full flex-1">
         <div class="px-4 py-3 container w-full">
             <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -102,7 +112,7 @@
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Direccion)
                                 </td>
-                                <td id="datoEstado" class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td id="datoEstado" class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal" >
                                     <span id="span-pintado" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
                                         @Html.DisplayFor(modelItem => item.Estado)
                                     </span>
@@ -112,13 +122,13 @@
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
                                     <div class="flex justify-center space-x-2">
-                                        <a id="activarEstudiante" href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-green-300 px-2 py-2 rounded hover:bg-green-500 transition-colors duration-300 no-underline">
+                                        <a id="activarEstudiante" href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-green-500 px-2 py-2 rounded hover:bg-green-700 transition-colors duration-300 no-underline">
                                             <span class="material-symbols-outlined text-white text-lg">check</span>
                                         </a>
-                                        <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-red-300 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300 no-underline">
+                                        <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-700 transition-colors duration-300 no-underline">
                                             <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
                                         </a>
-                                        <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-300 px-2 py-2 rounded hover:bg-yellow-500 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante" href="#">
+                                        <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante" href="#">
                                             <span class="material-symbols-outlined text-white text-lg">edit</span>
                                         </a>
                                         

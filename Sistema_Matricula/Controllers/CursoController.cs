@@ -246,7 +246,9 @@ namespace Sistema_Matricula.Controllers
 
                 return RedirectToAction("ListarCursos", "Curso");
             }
-            return View(curso);
+
+            TempData["CursoInvalidoPartial"] = "Ingresa un curso válido";
+            return View("ListarCursos", "Curso");
         }
 
         [HttpGet]

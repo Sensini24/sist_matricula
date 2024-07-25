@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,14 +18,32 @@
             <img src="~/images/logo.jpg" alt="Logo">
             <h2>La Merced</h2>
         </div>
-        <ul class="sidebar-links" style="margin-left:5px">
+        <ul class="sidebar-links" >
             <h4>
-                <span>Main Menu</span>
+                <span>Menu</span>
                 <div class="menu-separator"></div>
             </h4>
 
+            <!--MATRICULA-->
+            <button class="w-full text-white mt-1 rounded-lg  border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+                <span class="material-symbols-outlined">
+                    person_add
+                </span>Matricula
+                <svg class="w-4 h-4 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="hidden p-4 border-b border-gray-300">
+                <!-- Contenido del segundo elemento -->
+                <div class="align-items-center">
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="Matricula" asp-action="ListarMatricula">
+                        Listado Matricula
+                    </a>
+                    </div>
+            </div>
+
             <!--ESTUDIANTES-->
-            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+            <button class="w-full text-white mt-1 rounded-lg  border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
                 <span class="material-symbols-outlined ">
                     school
                 </span>Estudiantes
@@ -34,13 +53,20 @@
             </button>
             <div class="hidden p-4 border-b border-gray-300">
                 <!-- Contenido del segundo elemento -->
-                <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="Estudiante" asp-action="ListarEstudiantes">
-                    Lista Estudiantes
-                </a>
+                <div class="align-items-center">
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="Estudiante" asp-action="ListarEstudiantes">
+                        Lista Estudiantes
+                    </a>
+                    </div>
+                <div class="align-items-center">
+                    <a class="nav-link text-dark text-white mt-1 border-1" asp-area="" asp-controller="Usuario" asp-action="RegistrarUsuario">
+                        Registrar Estudiante
+                    </a>
+                </div>
             </div>
 
             <!--DOCENTES-->
-            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+            <button class="w-full text-white mt-1 rounded-lg border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
                 <span class="material-symbols-outlined ">
                     hail
                 </span>Docentes
@@ -56,7 +82,7 @@
                     </a>
                 </div>
                 <div class=" align-content-center ">
-                    <a class="nav-link text-dark text-white mt-3 border-1" asp-area="" asp-controller="Docente" asp-action="AgregarDocente">
+                    <a class="nav-link text-dark text-white mt-3 border-1" asp-area="" asp-controller="Docente" asp-action="AgregarDocenteVM">
                         Nuevo Docente
                     </a>
                 </div>
@@ -65,7 +91,7 @@
 
 
             <!--CURSO-->
-            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+            <button class="w-full text-white mt-1 rounded-lg border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
                 <span class="material-symbols-outlined ">
                     menu_book
                 </span>Cursos
@@ -96,7 +122,7 @@
             </div>
 
             <!--HORARIOS-->
-            <button class="w-full text-white mt-1 rounded-lg border-3 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
+            <button class="w-full text-white mt-1 rounded-lg border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
                 <span class="material-symbols-outlined">
                     calendar_month
                 </span>Horarios
@@ -118,58 +144,11 @@
                 </div>
             </div>
                 
-            
             <li>
-                <a href="" id="button-active">
-                    <span class="material-symbols-outlined">
-                        monitoring
-                    </span>Analytic
-                </a>
-            </li>
-            <h4>
-                <span>General</span>
-                <div class="menu-separator"></div>
-            </h4>
-            <li>
-                <a href="" id="button-active">
-                    <span class="material-symbols-outlined">
-                        folder
-                    </span>Projects
-                </a>
-            </li>
-
-            <li> @* <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="ListarCursoDocente" id="ListarCursoDocente"> *@
-                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RegistrarUsuario" id="RegistrarUsuario">
-                    <!--<a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad">-->
-                    <span class="material-symbols-outlined">
-                        groups
-                    </span>Registrar Usuario
-                </a>
-            </li>
-            <li>
-                <a class="nav-link text-dark" asp-area="" asp-controller="CursoDocente" asp-action="AgregarCursoDocenteView" id="AgregarCursoDocenteView">
-                    <span class="material-symbols-outlined">
-                        move_up
-                    </span>CursoDocente
-                </a>
-            </li>
-            <h4>
-                <span>Account</span>
-                <div class="menu-separator"></div>
-            </h4>
-            <li>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Especialidad" asp-action="ListarEspecialidad" id="ListarEspecialidad">
-                    <span class="material-symbols-outlined">
-                        lab_profile
-                    </span>Seccion
-                </a>
-            </li>
-
-            <li>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Curso" asp-action="AgregarCursoSeccion" id="AgregarCursoSeccion">
+                <a @* class="nav-link text-dark" asp-area="" asp-controller="Curso" asp-action="AgregarCursoSeccion" *@ id="AgregarCursoSeccion">
                     <span class="material-symbols-outlined">
                         notifications
-                    </span> Notifications
+                    </span> Notificaciones
                 </a>
 
             </li>
@@ -177,30 +156,31 @@
                 <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         account_circle
-                    </span>Profile
+                    </span>Perfil
                 </a>
             </li>
             <li>
                 <a href="" id="button-active">
                     <span class="material-symbols-outlined">
                         settings_applications
-                    </span>Settings
+                    </span>Opciones
                 </a>
             </li>
             <li>
                 <a asp-controller="Auth" asp-action="Salir">
                     <span class="material-symbols-outlined">
                         Logout
-                    </span>Logout
+                    </span>Salir
                 </a>
             </li>
         </ul>
         <div class="user-account">
-            <div class="user-profile">
-                <img src="~/images/OIG3.jpg" alt="User">
-                <div class="user-detail" style="margin-left:30px">
-                    <h3>Brandon Quispe</h3>
-                    <span>Estudiante</span>
+            <div class="user-profile align-items-center">
+                
+                <div class="user-detail flex flex-col items-center" style="margin-left:5px">
+                    <img src="~/images/OIG3.jpg" alt="User">
+                    <h3>@User.Identity.Name</h3>
+                    <span>@User.FindFirst(ClaimTypes.Role)?.Value</span> <!-- Mostrar el rol -->
                 </div>
             </div>
         </div>

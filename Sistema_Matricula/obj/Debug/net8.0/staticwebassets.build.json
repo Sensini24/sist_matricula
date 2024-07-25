@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "le1ELnmYkGUcZGiHe6kzbKty0/CguW50dDrb3jqC38Y=",
+  "Hash": "pdmR0+xe5w1uoH1PAHbrtzqYedEWocq0SZf9OS8aOeM=",
   "Source": "Sistema_Matricula",
   "BasePath": "_content/Sistema_Matricula",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\botones.css"
+    },
+    {
+      "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\login.css",
+      "SourceId": "Sistema_Matricula",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\",
+      "BasePath": "_content/Sistema_Matricula",
+      "RelativePath": "css/login.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\login.css"
     },
     {
       "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\css\\side.css",
@@ -205,6 +224,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\OIG3.jpg"
+    },
+    {
+      "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\js\\login.js",
+      "SourceId": "Sistema_Matricula",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\",
+      "BasePath": "_content/Sistema_Matricula",
+      "RelativePath": "js/login.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\login.js"
     },
     {
       "Identity": "D:\\Proyectos c#\\Sistema_Matricula\\Sistema_Matricula\\wwwroot\\js\\site.js",
