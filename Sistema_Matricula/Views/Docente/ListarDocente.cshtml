@@ -19,15 +19,31 @@
         <a asp-action="AgregarDocenteVM" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 no-underline">Nuevo Docente</a>
     </p>
 
-    @if (TempData["RegistroDocenteSuccess"] != null)
-    {
-        <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
-            Éxito
-        </div>
-        <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
-            @TempData["RegistroDocenteSuccess"]
-        </div>
-    }
+    <div id="docente-registrado">
+        @if (TempData["RegistroDocenteSuccess"] != null)
+        {
+            <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+                Éxito
+            </div>
+            <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                @TempData["RegistroDocenteSuccess"]
+            </div>
+        }
+    </div>
+
+    <div id="docente-editado">
+        @if (TempData["DocenteEditado"] != null)
+        {
+            <div class="bg-yellow-500 text-white font-bold rounded-t px-4 py-2">
+                Éxito
+            </div>
+            <div class="border border-t-0 border-yellow-400 rounded-b bg-yellow-100 px-4 py-3 text-yellow-700">
+                @TempData["DocenteEditado"]
+            </div>
+        }
+    </div>
+    
+
     <div class="layout-content-container flex flex-col w-full flex-1">
         <div class="px-4 py-3 container w-full">
             <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -99,10 +115,10 @@
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal flex">
 
-                                    <a id="activarEstudiante" href="@Url.Action("EliminarDocente", "Docente", new { id = item.IdDocente })" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-700 mr-2 transition-colors duration-300 no-underline">
+                                    <a  href="@Url.Action("EliminarDocente", "Docente", new { id = item.IdDocente })" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-700 mr-2 transition-colors duration-300 no-underline">
                                         <span class="material-symbols-outlined text-white text-xl-center">delete_forever</span>
                                     </a>
-                                    <a href="@Url.Action("EditarDocente", "Docente", new { id = item.IdDocente })"  class=" flex justify-center items-center w-8 text-[#212141] bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdDocente">
+                                    <a id="activarEstudiante" data-id="@item.IdDocente" class="activarEstudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdDocente">
                                         <span class="material-symbols-outlined text-white text-lg">edit</span>
                                     </a>
                                 </td>
@@ -113,7 +129,20 @@
             </div>
         </div>
     </div>
-
+    <!-- Modal -->
+    <div class="modal fade" id="agregarEstudianteModal" tabindex="-1" aria-labelledby="agregarEstudianteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarEstudianteModalLabel">Editar Curso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se cargará el contenido del formulario -->
+                </div>
+            </div>
+        </div>
+    </div>
     </body>
 </html>
 <style>
@@ -121,3 +150,35 @@
         margin-left: 120px;
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        //editar modal
+        document.querySelectorAll('.activarEstudiante').forEach(button => {
+            button.addEventListener('click', function () {
+                const idDocente = this.getAttribute('data-id');
+                fetch(`/Docente/EditarDocente?idDocente=${idDocente}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('#agregarEstudianteModal .modal-body').innerHTML = html;
+                        const modal = new bootstrap.Modal(document.getElementById('agregarEstudianteModal'));
+                        modal.show();
+                    })
+
+                    .catch(error => console.error('Error al cargar contenido del modal:', error));
+            });
+        });
+
+
+        var docenteEditado= document.getElementById('docente-editado');
+        setTimeout(() => {
+            docenteEditado.innerHTML = '';
+        }, 3000);
+
+        var docenteRegistrado = document.getElementById('docente-registrado');
+        setTimeout(() => {
+            docenteRegistrado.innerHTML = '';
+        }, 3000);
+        
+    });
+</script>

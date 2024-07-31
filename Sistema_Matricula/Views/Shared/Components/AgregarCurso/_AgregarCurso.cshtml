@@ -28,31 +28,7 @@
 
  <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('agregarCursoForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch('@Url.Action("AgregarCurso", "Curso")', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    const resultMessage = document.getElementById('resultMessage');
-                    resultMessage.style.display = 'block';
-                    resultMessage.textContent = 'Curso registrado correctamente';
-                    form.reset(); // Resetear el formulario
-                } else {
-                    console.error('Error al registrar el curso:', response.status);
-                    alert('Error al registrar el curso. Por favor, intente de nuevo.');
-                }
-            } catch (error) {
-                console.error('Error inesperado:', error);
-                alert('Error inesperado al registrar el curso. Por favor, intente de nuevo.');
-            }
-        });
+        
     });
     </script> 
 

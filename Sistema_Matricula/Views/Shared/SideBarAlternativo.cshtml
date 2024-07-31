@@ -24,7 +24,7 @@
                 <div class="menu-separator"></div>
             </h4>
 
-            <!--MATRICULA-->
+            @* <!--MATRICULA-->
             <button class="w-full text-white mt-1 rounded-lg  border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
                 <span class="material-symbols-outlined">
                     person_add
@@ -40,7 +40,7 @@
                         Listado Matricula
                     </a>
                     </div>
-            </div>
+            </div> *@
 
             <!--ESTUDIANTES-->
             <button class="w-full text-white mt-1 rounded-lg  border-1 flex justify-between items-center p-4 border-b border-gray-300 hover:bg-gray-100 hover:text-black focus:outline-none" onclick="toggleAccordion(this)">
@@ -137,21 +137,16 @@
                         Asignar Horarios
                     </a>
                 </div>
-                <div class="align-items-center">
-                    <a class="nav-link text-dark text-white mt-1 border-2" asp-area="" asp-controller="HorarioCurso" asp-action="ListarCursoHorario">
-                        Listar asignaciones Cursos a horario
-                    </a>
-                </div>
             </div>
                 
-            <li>
+            <!-- <li>
                 <a @* class="nav-link text-dark" asp-area="" asp-controller="Curso" asp-action="AgregarCursoSeccion" *@ id="AgregarCursoSeccion">
                     <span class="material-symbols-outlined">
                         notifications
                     </span> Notificaciones
                 </a>
 
-            </li>
+            </li>-->
             <li>
                 <a href="" id="button-active">
                     <span class="material-symbols-outlined">

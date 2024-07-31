@@ -102,6 +102,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
             fetch('@Url.Action("ListarCursoDocente")')
                 .then(response => response.text())
                 .then(html => {
@@ -122,7 +123,27 @@
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('cantidad-cursos').innerHTML = html;
+                        
+
+                        var elimcursodocente = document.querySelectorAll('.eliminar-curso-asignado');
+                        elimcursodocente.forEach(elemento => {
+                            elemento.addEventListener('click', function () {
+                                var id = elemento.getAttribute('data-id');
+                                console.log(id);
+                                fetch('@Url.Action("EliminarCursoDocente", "CursoDocente")/' + id)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        document.getElementById('cantidad-cursos').innerHTML = html;
+                                    });
+
+
+                            })
+                        })
+
+
                     });
+
+                
             });
 
             const form = document.getElementById('cursoDocenteForm');
@@ -134,33 +155,50 @@
                     body: formData
                 });
                 const html = await response.text();
-                document.getElementById('curso-docente-list').innerHTML = html;
+                //cambie de devolver la lista de cursos y docentes solo por los cursos del docente
+                document.getElementById('cantidad-cursos').innerHTML = html;
+
+                var cursoyaAsignado = document.getElementById('cursoyaAsignado');
+                var exitoAsignacion = document.getElementById('exitoAsignacion');
+
+                setTimeout(() => {
+                    cursoyaAsignado.innerHTML = '';
+                    exitoAsignacion.innerHTML = '';
+                }, 3000);
             });
 
             $('#boton_modal').click(function () {
                 $('#agregarCursoModal').modal('show');
 
-                // $('#agregarCursoForm').submit(function (event) {
-                //     event.preventDefault();
-                //     $.ajax({
-                //         type: "post",
-                //         url: $(this).attr('action'),
-                //         data: $(this).serialize(),
-                //         success: function (response) {
-                //             if (response.success) {
-                //                 $('#resultmessage').html(response.message).show();
-                //                 $('#agregarCursoModal').modal('hide');
-                //                 location.reload();
-                //             } else {
-                //                 $('#resultmessage').html(response.message).show();
-                //             }
-                //         },
-                //         error: function (response) {
-                //             alert("ocurrió un error al agregar el curso.");
-                //         }
-                //     });
-                // });
+                const form = document.getElementById('agregarCursoForm');
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    try {
+                        const response = await fetch('@Url.Action("AgregarCurso", "Curso")', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (response.ok) {
+                            // redirgir a agregardocentivew
+                            window.location.href = 'AgregarCursoDocenteView';
+
+                            form.reset(); // Resetear el formulario
+                        } else {
+                            console.error('Error al registrar el curso:', response.status);
+                            alert('Error al registrar el curso. Por favor, intente de nuevo.');
+                        }
+                    } catch (error) {
+                        console.error('Error inesperado:', error);
+                        alert('Error inesperado al registrar el curso. Por favor, intente de nuevo.');
+                    }
+                });
             });
+
+            
+
         });
     </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>

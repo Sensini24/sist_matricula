@@ -54,23 +54,37 @@
                 person_add
             </span>
         </a>
-        <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:2px; margin-right:25px">
+        @* <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:2px; margin-right:25px">
             <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
             <span>Exportar a Excel</span>
-        </button>
+        </button> *@
     </div>
    @*  <div class="layout-content-container flex flex-col w-full flex-1" >
         <div class=" container w-full"> *@
-    
-    @if (TempData["RegistroEstudianteSuccess"] != null)
-    {
-        <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
-            Éxito
-        </div>
-        <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
-            @TempData["RegistroEstudianteSuccess"]
-        </div>
-    }
+
+    <div id="alerta-editar-estudiantes">
+        @if (TempData["EditarEstudianteSuccess"] != null)
+        {
+            <div class="bg-yellow-500 text-white font-bold rounded-t px-4 py-2">
+                Editado
+            </div>
+            <div class="border border-t-0 border-yellow-400 rounded-b bg-yellow-100 px-4 py-3 text-yellow-700">
+                @TempData["EditarEstudianteSuccess"]
+            </div>
+        }
+    </div>
+    <div id="alerta-registro-estudiantes">
+        @if (TempData["RegistroEstudianteSuccess"] != null)
+        {
+            <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+                Éxito
+            </div>
+            <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                @TempData["RegistroEstudianteSuccess"]
+            </div>
+        }
+    </div>
+
     <div class="layout-content-container flex flex-col w-full flex-1">
         <div class="px-4 py-3 container w-full">
             <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -93,9 +107,7 @@
                         {
                             <tr class="border-t border-t-[#D5D6DD]">
                                 <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal" id="idestudiante">
-                                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
-                                         style='background-image: url("https://cdn.usegalileo.ai/sdxl10/53a13668-0845-41fa-857d-eb5c45fb9191.png");'>
-                                    </div>@Html.DisplayFor(modelItem => item.IdEstudiante)
+                                    @Html.DisplayFor(modelItem => item.IdEstudiante)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Nombre)
@@ -112,7 +124,7 @@
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Direccion)
                                 </td>
-                                <td id="datoEstado" class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal" >
+                                <td id="datoEstado" class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     <span id="span-pintado" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
                                         @Html.DisplayFor(modelItem => item.Estado)
                                     </span>
@@ -128,14 +140,14 @@
                                         <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-700 transition-colors duration-300 no-underline">
                                             <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
                                         </a>
-                                        <a class="activar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante" href="#">
+                                        <a class="editar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante">
                                             <span class="material-symbols-outlined text-white text-lg">edit</span>
                                         </a>
-                                        
                                     </div>
                                 </td>
                             </tr>
                         }
+    
                     </tbody>
                 </table>
             </div>
@@ -156,13 +168,64 @@
             </div>
         </div>
     </div>
-
+    <script>
+        
+    </script>
             @* </div>
         </div> *@
     @* <link href="~/css/stilos.css" rel="stylesheet" /> *@
   </body>
 </html>
 <script>
+
+    // ABRIR EL MODAl
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.editar-estudiante').forEach(element=> {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var idEstudiante = this.getAttribute('data-id');
+                console.log(idEstudiante)
+                var agregarEstudianteModal = document.getElementById('agregarEstudianteModal');
+                var modalContent = agregarEstudianteModal.querySelector('.modal-body');
+                fetch(`/Estudiante/CargarEditarEstudiante?idEstudiante=${idEstudiante}`)
+                    .then(response => response.text())
+                    .then(html => {
+
+                        document.querySelector('#agregarEstudianteModal .modal-body').innerHTML = html;
+
+                        var modal = new bootstrap.Modal(agregarEstudianteModal);
+                        modal.show();
+
+                        var form = modalContent.querySelector('#editarEstudianteForm');
+                        if (form) {
+                            form.addEventListener('submit', async (e) => {
+                                e.preventDefault();
+                                const formData = new FormData(form);
+
+                                try {
+                                    const response = await fetch(`/Estudiante/EditarEstudiante/${idEstudiante}`, {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+
+                                    if (response.ok) {
+                                        window.location.href = '/Estudiante/ListarEstudiantes';
+                                    } else {
+                                        console.error('Error al editar el estudiante:', response.status);
+                                        alert('Error al editar el estudiante. Por favor, intente de nuevo.');
+                                    }
+                                } catch (error) {
+                                    console.error('Error inesperado:', error);
+                                    alert('Error inesperado al editar el estudiante. Por favor, intente de nuevo.');
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error al cargar el contenido del modal:', error));
+            });
+        });
+    });
     //selecciona al select de estados
     var estados = document.getElementById('estados');
     //Selecciona los span donde se contiene el estado
@@ -182,9 +245,9 @@
             }
         }
     )
-    document.getElementById('export-excel-button').addEventListener('click', function () {
-        window.location.href = '/Estudiante/PasarTablaExcel';
-    });
+    // document.getElementById('export-excel-button').addEventListener('click', function () {
+    //     window.location.href = '/Estudiante/PasarTablaExcel';
+    // });
     
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -209,59 +272,6 @@
         formEstudiantes.submit();
     });
     
-
-
-    // ABRIR EL MODAl
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.activar-estudiante').forEach(function (element) {
-            element.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                var idEstudiante = this.getAttribute('data-id');
-                var agregarEstudianteModal = document.getElementById('agregarEstudianteModal');
-                var modalContent = agregarEstudianteModal.querySelector('.modal-body');
-
-                fetch(`/Estudiante/CargarEditarEstudiante?idEstudiante=${idEstudiante}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        modalContent.innerHTML = data;
-
-                        var modal = new bootstrap.Modal(agregarEstudianteModal);
-                        modal.show();
-
-                        // Añadir el evento submit al formulario dentro del modal
-                        var form = modalContent.querySelector('#editarEstudianteForm');
-                        if (form) {
-                            form.addEventListener('submit', async (e) => {
-                                e.preventDefault();
-                                const formData = new FormData(form);
-
-                                try {
-                                    const response = await fetch(`/Estudiante/EditarEstudiante/${idEstudiante}`, {
-                                        method: 'POST',
-                                        body: formData
-                                    });
-
-                                    if (response.ok) {
-                                        alert('Estudiante editado correctamente');
-                                        window.location.href = '/Estudiante/ListarEstudiantes';
-                                    } else {
-                                        console.error('Error al editar el estudiante:', response.status);
-                                        alert('Error al editar el estudiante. Por favor, intente de nuevo.');
-                                    }
-                                } catch (error) {
-                                    console.error('Error inesperado:', error);
-                                    alert('Error inesperado al editar el estudiante. Por favor, intente de nuevo.');
-                                }
-                            });
-                        }
-                    })
-                    .catch(error => console.error('Error al cargar el contenido del modal:', error));
-            });
-        });
-    });
-
-
 
     document.getElementById('estados').addEventListener('window')
 </script>

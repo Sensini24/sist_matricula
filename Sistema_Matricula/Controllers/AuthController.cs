@@ -51,6 +51,8 @@ namespace Sistema_Matricula.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+
+            TempData["ErrorAutenticacion"] = "Usuario o contraseña incorrecta";
             return View(usuarioviewmodel);
         }
 

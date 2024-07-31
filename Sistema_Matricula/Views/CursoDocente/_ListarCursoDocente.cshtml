@@ -11,65 +11,15 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 </head>
 
-@if (TempData["Error"] != null)
-{
-    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-        Observación
-    </div>
-    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-        @TempData["Error"]
-    </div>
-}
-@if (TempData["Success"] != null)
-{
-    <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
-        Curso asignado
-    </div>
-    <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
-        @TempData["Success"]
-    </div>
-}
-@* <div id="alertas"></div>
 
-
-<script>
-    function mostraralertas() {
-        setTimeout(() => {
-            datos();
-        }, 5000);
-    }
-
-    function datos() {
-        const alertas = document.getElementById('alertas');
-        alertas.innerHTML = ''; // Limpiar alertas anteriores
-
-        @if (TempData["Error"] != null)
-        {
-
-            <text>
-                        const alertHTML = `
-                            <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                                Curso ya asignado
-                            </div>
-                            <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                    @TempData["Error"]
-                            </div>`;
-                alertas.innerHTML = alertHTML;
-            </text>
-        }
-    }
-
-    // Inicializar la función para mostrar alertas
-    mostraralertas();
-</script> *@
 
         
 <div class="layout-content-container flex flex-col w-full flex-1">
-    <div class="px-4 py-3 container">
-        <div class="flex overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
-            <table class="flex-1">
+    <div class="px-4 py-3 container w-full">
+        <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+            <table class="min-w-full">
                 <thead>
-                    <tr class="bg-[#212141]">
+                    <tr class="bg-[#FCA311]">
                         <th class="table-b4f66b0a-a212-4a0f-8191-89da80493d17-column-56 px-4 py-3 text-left text-[#FFFFFF] w-14 text-sm font-medium leading-normal">
                             Id
                         </th>

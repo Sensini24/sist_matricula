@@ -124,16 +124,9 @@ namespace Sistema_Matricula.Controllers
 
 
         [HttpGet]
-        public ActionResult EditarDocente(int id)
+        public ActionResult EditarDocente(int iddocente)
         {
-            List<SelectListItem> estados = new List<SelectListItem>
-            {
-                new SelectListItem {Value = "Activo", Text= "Activo"},
-                new SelectListItem {Value = "Inactivo", Text= "Inactivo"}
-            };
-            ViewBag.Estados = estados;
-            var docente = db.Docentes.Find(id);
-            return View(docente);
+            return ViewComponent("EditarDocenteVC", new { iddocente });
         }
 
         [HttpPost]
@@ -143,12 +136,22 @@ namespace Sistema_Matricula.Controllers
             {
                 return View(docente);
             }
+            var sexos = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Masculino", Text = "Masculino" },
+                new SelectListItem { Value = "Femenino", Text = "Femenino" }
+            };
+            
             List<SelectListItem> estados = new List<SelectListItem>
             {
                 new SelectListItem {Value = "Activo", Text= "Activo"},
                 new SelectListItem {Value = "Inactivo", Text= "Inactivo"}
             };
+            ViewBag.Especialidades = new SelectList(db.Especialidads, "IdEspecialidad", "Especialidad1").ToList();
+            ViewBag.Sexos = sexos;
             ViewBag.Estados = estados;
+
+            TempData["DocenteEditado"] = $"Docente {docente.Nombre} - {docente.Apellido} editado correctamente";
             db.Docentes.Update(docente);
             db.SaveChanges();
             return RedirectToAction("ListarDocente");

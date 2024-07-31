@@ -99,8 +99,8 @@ namespace Sistema_Matricula.Controllers
         {
             List<SelectListItem> estados = new List<SelectListItem>
             {
-                new SelectListItem { Value = "activo", Text = "Activo" },
-                new SelectListItem { Value = "inactivo", Text = "Inactivo" }
+                new SelectListItem { Value = "Activo", Text = "Activo" },
+                new SelectListItem { Value = "Inactivo", Text = "Inactivo" }
             };
             ViewBag.Estados = estados;
             return View();
@@ -129,8 +129,8 @@ namespace Sistema_Matricula.Controllers
              */
             List<SelectListItem> estados = new List<SelectListItem>
             {
-                new SelectListItem { Value = "activo", Text = "Activo" },
-                new SelectListItem { Value = "inactivo", Text = "Inactivo" }
+                new SelectListItem { Value = "Activo", Text = "Activo" },
+                new SelectListItem { Value = "Inactivo", Text = "Inactivo" }
             };
             ViewBag.Estados = estados;
 
@@ -174,21 +174,25 @@ namespace Sistema_Matricula.Controllers
                 {
                     estudiActual.Nombre = estudiante.Nombre;
                     estudiActual.Apellido = estudiante.Apellido;
+                    estudiActual.Sexo = estudiante.Sexo;
                     estudiActual.FechNacimiento = estudiante.FechNacimiento;
                     estudiActual.Direccion = estudiante.Direccion;
                     estudiActual.Estado = estudiante.Estado;
                     estudiActual.Dni = estudiante.Dni;
                     estudiActual.FechNacimiento = estudiante.FechNacimiento;
 
+                    TempData["EditarEstudianteSuccess"] = $"Estudiante {estudiante.Nombre} - {estudiante.Apellido} editado correctamente";
                     db.SaveChanges();
-
-                    return RedirectToAction("ListarEstudiantes", "Estudiante");
-                }else {
+                    return RedirectToAction("ListarEstudiantes");
+                }
+                else
+                {
                     return View(estudiante);
                 }
             }
             return View(estudiante);
         }
+
 
         public async Task<IActionResult> EliminarEstudiante(int id)
         {

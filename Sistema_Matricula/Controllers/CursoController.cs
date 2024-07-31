@@ -240,9 +240,16 @@ namespace Sistema_Matricula.Controllers
         {
             if (ModelState.IsValid)
             {
+                var cursoRepetido = await db.Cursos.FirstOrDefaultAsync(e => e.Nombre.ToLower() == curso.Nombre.ToLower());
+                if(cursoRepetido != null)
+                {
+                    TempData["CursoRepetido"] = "El curso ya existe";
+                    return RedirectToAction("ListarCursos", "Curso");
+                }
+
                 await db.Cursos.AddAsync(curso);
                 await db.SaveChangesAsync();
-                TempData["CursoPartial"] = "Curso agregado correctamente";
+                TempData["CursoAgregado"] = "Curso agregado correctamente";
 
                 return RedirectToAction("ListarCursos", "Curso");
             }
@@ -315,16 +322,10 @@ namespace Sistema_Matricula.Controllers
 
 
         [HttpGet]
-        public ActionResult EditarCurso(int id)
+        public ActionResult EditarCurso(int idcurso)
         {
-            if (ModelState.IsValid)
-            {
-                Curso curso = db.Cursos.Where(e => e.IdCurso == id).FirstOrDefault();
 
-                return View(curso);
-            }
-
-            return RedirectToAction("ListarCurso", "Curso");
+            return ViewComponent("EditarCursitoVC", new { idcurso });
 
         }
 
@@ -335,7 +336,8 @@ namespace Sistema_Matricula.Controllers
             {
                 db.Cursos.Update(curso);
                 db.SaveChanges();
-                return RedirectToAction("ListarCurso", "Curso");
+                TempData["CursoEditado"] = $"Curso {curso.Nombre} editado exitosamente.";
+                return RedirectToAction("ListarCursos", "Curso");
             }
             return View(curso);
         }
@@ -348,20 +350,24 @@ namespace Sistema_Matricula.Controllers
                 var curso = db.Cursos.FirstOrDefault(e => e.IdCurso == idCurso);
                 if (curso == null)
                 {
-                    return RedirectToAction("AgregarCursoNoModal"); // Devuelve un error 404 si no se encuentra el curso
+                    TempData["CursoInvalidoPartial"] = "Curso no encontrado.";
+                    return RedirectToAction("AgregarCursoNoModal");
                 }
 
                 db.Cursos.Remove(curso);
                 db.SaveChanges();
-                return RedirectToAction("AgregarCursoNoModal"); // Devuelve un estado 200 si la eliminación es exitosa
+                TempData["CursoPartial"] = "Curso eliminado exitosamente.";
+                return RedirectToAction("AgregarCursoNoModal");
             }
             catch (Exception ex)
             {
                 // Registrar el error para diagnóstico
                 Console.WriteLine(ex.Message);
-                return StatusCode(500, "Error interno del servidor"); // Devuelve un estado 500 en caso de error
+                TempData["CursoInvalidoPartial"] = "Error al eliminar el curso.";
+                return RedirectToAction("AgregarCursoNoModal");
             }
         }
+
 
 
 

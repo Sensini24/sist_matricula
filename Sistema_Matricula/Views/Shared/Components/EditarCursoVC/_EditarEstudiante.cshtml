@@ -7,47 +7,55 @@
 
 <h4>Estudiante</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-12" style="background: #FCA311">
         <form asp-action="EditarEstudiante" id="editarEstudianteForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdEstudiante" id="estudiante" class="control-label"></label>
-                <input asp-for="IdEstudiante" class="form-control" readonly />
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="IdEstudiante" id="estudiante" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="IdEstudiante" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" readonly />
                 <span asp-validation-for="IdEstudiante" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="Nombre" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="Nombre" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="Apellido" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="Apellido" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FechNacimiento" class="control-label"></label>
-                <input asp-for="FechNacimiento" class="form-control" />
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="Sexo" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <select asp-for="Sexo" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Sexos">
+                    <option value="">--Seleccione aquí--</option>
+                </select>
+                <span asp-validation-for="Sexo" class="text-danger"></span>
+            </div>
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="FechNacimiento" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="FechNacimiento" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
                 <span asp-validation-for="FechNacimiento" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="Direccion" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="Direccion" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" readonly/>
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="Estado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="Estado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" readonly />
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Dni" class="control-label"></label>
-                <input asp-for="Dni" class="form-control" />
+            <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                <label asp-for="Dni" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                <input asp-for="Dni" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
                 <span asp-validation-for="Dni" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group mt-4 mr-2">
+                <input type="submit" value="Editar" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-5  " />
             </div>
         </form>
     </div>

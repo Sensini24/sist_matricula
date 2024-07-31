@@ -8,6 +8,30 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 </head>
 
+<div id="cursoyaAsignado">
+    @if (TempData["Error"] != null)
+    {
+        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+            Observación
+        </div>
+        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+            @TempData["Error"]
+        </div>
+    }
+</div>
+
+<div id="exitoAsignacion">
+    @if (TempData["Success"] != null)
+    {
+        <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+            Curso asignado
+        </div>
+        <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+            @TempData["Success"]
+        </div>
+    }
+</div>
+
 <div class="layout-content-container flex flex-col w-full flex-1">
     <div class="px-4 py-3 container">
         <div class="flex flex-wrap -mx-2 items-center w-full overflow-hidden rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
@@ -22,7 +46,7 @@
                             <p class="mb-4 text-base">
                                 @item.NombreCurso
                             </p>
-                            <a class="eliminar-curso-asignado flex items-center justify-center w-auto text-[#212141] bg-red-400 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300 no-underline">
+                            <a data-id="@item.IdCursoDocente" class="eliminar-curso-asignado flex items-center justify-center w-auto text-[#212141] bg-red-400 px-2 py-2 rounded hover:bg-red-500 transition-colors duration-300 no-underline">
                                 <span class="material-symbols-outlined text-white text-xxl pt-0">
                                     delete_forever
                                 </span>

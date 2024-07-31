@@ -166,7 +166,7 @@ namespace Sistema_Matricula.Controllers
                         TempData["Success"] = $"El curso {cursoDocenteViewModels.Where(d => d.IdDocente == viewModel.IdDocente).Select(d => d.NombreCurso).LastOrDefault()}" +
                             $" ha sido asignado al docente {cursoDocenteViewModels.Where(d => d.IdDocente == viewModel.IdDocente).Select(d => d.NombreDocente).FirstOrDefault()}.";
                         // Se devueleve el partial y con este le model para que se actualice la tabla
-                        return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
+                        return RedirectToAction("ListarCursosPorDocente", new { id = cursoDocente.IdDocente });
                     }
                     else
                     {
@@ -185,10 +185,10 @@ namespace Sistema_Matricula.Controllers
 
                             TempData["Error"] = $"EL curso {cursoDocenteViewModels.Where(d => d.IdCurso == viewModel.IdCurso).Select(d => d.NombreCurso).LastOrDefault()}" +
                                 $" ya fue asignado al docente {cursoDocenteViewModels.Where(d => d.IdDocente == viewModel.IdDocente).Select(d => d.NombreDocente).FirstOrDefault()}.";
-                        
-                        
-                            
-                        return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
+
+
+
+                        return RedirectToAction("ListarCursosPorDocente", new { id = viewModel.IdDocente });
                     }
                 }
             }
@@ -281,7 +281,8 @@ namespace Sistema_Matricula.Controllers
             db.CursoDocentes.Remove(cursoDocente);
             await db.SaveChangesAsync();
 
-            return Ok("Curso asignado eliminado exitosamente.");
+            //se redirige a la vista de cursos por docente, pero se debe ingresar el id del docente
+            return RedirectToAction("ListarCursosPorDocente", new { id = cursoDocente.IdDocente});
         }
 
     }
