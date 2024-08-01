@@ -328,52 +328,110 @@
         
         var calendarEl = document.getElementById('calendar');
         var seccionSelect = document.getElementById('seccionSelect');
-        var diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'es',
             height: '500px',
-            widht: '500px',
+            width: '100%',
             initialView: 'timeGridWeek',
             slotMinTime: '08:00:00',
-            slotMaxTime: '14:00:00',
+            slotMaxTime: '15:00:00',
             headerToolbar: {
-                locale: 'es',
                 left: 'prev,next today',
                 center: 'title',
                 right: 'timeGridWeek,timeGridDay,dayGridMonth'
             },
-            events: `/HorarioCurso/ObtenerHorario?idSeccion=${seccionSelect.value}`,
+            events: function (fetchInfo, successCallback, failureCallback) {
+                fetch(`/HorarioCurso/ObtenerHorario?idSeccion=${seccionSelect.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        successCallback(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching events:', error);
+                        failureCallback(error);
+                    });
+            },
             eventContent: function (arg) {
                 return {
                     html: `
                     <div>
-                        <strong>${arg.event.extendedProps.curso}</strong><br>
-                        ${arg.event.extendedProps.docente}
+                        <strong>${arg.event.title}</strong><br>
                     </div>
                 `
                 };
             },
-            eventClick: function (info) {
-                var cursoId = info.event.extendedProps.idcurso;
-                var docenteId = info.event.extendedProps.iddocente;
-                var horariocursoseccion = info.event.extendedProps.idhorariocursoseccion;
-                // Aquí puedes manejar el clic, por ejemplo, mostrar un modal con la información
-                alert(`Curso ID: ${cursoId}\nDocente ID: ${docenteId}\nHorarioCursoSeccion ID: ${horariocursoseccion}`);
-                // O mostrar la información en un div específico
-                // document.getElementById('infoDiv').innerHTML = `Curso ID: ${cursoId}, Docente ID: ${docenteId}`;
+            // eventClick: function (info) {
+            //     var cursoId = info.event.extendedProps.idcurso;
+            //     var docenteId = info.event.extendedProps.iddocente;
+            //     var horariocursoseccion = info.event.extendedProps.idhorariocursoseccion;
+            //     var horarioId = info.event.extendedProps.idhorario;
+            //     alert(`Curso ID: ${cursoId}\nDocente ID: ${docenteId}\nHorarioCursoSeccion ID: ${horariocursoseccion}\nHorarioID: ${horarioId}`);
+            // },
+            eventMouseEnter: function(mouseEnterInfo){
+                console.log(mouseEnterInfo.event.extendedProps.docente);
+
+                let crearMensaje = document.createElement('div');
+                let docente = mouseEnterInfo.event.extendedProps.docente;
+                let curso = mouseEnterInfo.event.title;
+                
+                crearMensaje.innerHTML = `
+                                <div class="mensaje"
+                                    style="position:absolute;top:100%;z-index:1000; left:0; width:200px; height:auto; background-color:white; border:1px solid #ccc;
+                                                padding:0.75rem; opacity:1; 
+                                        ">
+                                <strong>${curso}</strong><br />
+                                <strong>${mouseEnterInfo.event.extendedProps.horainicio} - ${mouseEnterInfo.event.extendedProps.horafin}</strong>
+                                <br />
+                                <button class="eliminar btn btn-secondary" style="width:70px;background:#ec9bae; border:none; height:35px"><span class="material-symbols-outlined text-white text-xxl pt-0">
+                                       delete_forever</span>
+                                 </button>
+                                 <button class="editar btn btn-secondary" style="width:85px; background:#fde047; border:none; height:35px; margin-left:10px">Editar</button>
+                            </div>
+                                `;
+                // el es el elemento html donde esta el mensaje y es un elemento de mouseLeaveinfo
+                mouseEnterInfo.el.appendChild(crearMensaje);
+
+                let eliminar = crearMensaje.querySelector('.eliminar');
+                var horarioId = mouseEnterInfo.event.extendedProps.idhorario;
+                var horariocursoseccion = mouseEnterInfo.event.extendedProps.idhorariocursoseccion;
+
+                eliminar.addEventListener('click', function () {
+                    console.log('eliminado');
+                    // Usa & para separar los parámetros en la URL
+                    fetch(`@Url.Action("EliminarHorarioCursoSeccion", "HorarioCurso")?idhcs=${horariocursoseccion}&idhorario=${horarioId}`, {
+                        method: 'DELETE' // Asegúrate de especificar el método DELETE
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            successCallback(data);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+
+
+                // let editar = crearMensaje.querySelector('.editar');
+                // editar.addEventListener('click', function () {
+                //     console.log('editado')
+                // })
+
+                
+            },
+            eventMouseLeave: function(mouseLeaveInfo){
+                var mensaje = document.querySelector('.mensaje');
+                mouseLeaveInfo.el.querySelector('.mensaje').remove();
             }
+
         });
 
         calendar.render();
 
-
         // Actualizar el calendario cuando cambie la sección
         seccionSelect.addEventListener('change', function () {
             calendar.removeAllEvents();
-            calendar.innerHTML = ''
-            calendar.addEventSource(`/HorarioCurso/ObtenerHorario?idSeccion=${this.value}`);
         });
-
+        
 
     });
     </script>
