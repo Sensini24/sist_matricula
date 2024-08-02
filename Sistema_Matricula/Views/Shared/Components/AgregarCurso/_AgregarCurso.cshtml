@@ -5,18 +5,17 @@
 }
 
 
-<hr />
 <div class="row">
     <div class="col-md-12">
         <form id="agregarCursoForm" asp-action="AgregarCurso" asp-controller="Curso">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <label asp-for="Nombre" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Curso</label>
+                <input asp-for="Nombre" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Nuevo" class="btn btn-primary" />
+            <div class="form-group mt-3">
+                <input type="submit" value="Nuevo" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded no-underline" />
             </div>
         </form>
     </div>

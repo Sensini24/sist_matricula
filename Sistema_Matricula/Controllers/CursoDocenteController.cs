@@ -278,12 +278,49 @@ namespace Sistema_Matricula.Controllers
                 return NotFound("El curso asignado no existe.");
             }
 
-            db.CursoDocentes.Remove(cursoDocente);
-            await db.SaveChangesAsync();
+            using (var transaction = await db.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var horariosCursoSeccionAEliminar = from hcs in db.HorarioCursoSeccions
+                                                        join cs in db.CursoSeccions on hcs.IdCursoSeccion equals cs.IdCursoSeccion
+                                                        join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
+                                                        where cd.IdCursoDocente == cursoDocente.IdCursoDocente
+                                                        select hcs;
 
-            //se redirige a la vista de cursos por docente, pero se debe ingresar el id del docente
-            return RedirectToAction("ListarCursosPorDocente", new { id = cursoDocente.IdDocente});
+                    db.HorarioCursoSeccions.RemoveRange(horariosCursoSeccionAEliminar);
+
+                    var horariosAEliminar = from h in db.Horarios
+                                            join hcs in db.HorarioCursoSeccions on h.IdHorario equals hcs.IdHorario
+                                            join cs in db.CursoSeccions on hcs.IdCursoSeccion equals cs.IdCursoSeccion
+                                            join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
+                                            where cd.IdCursoDocente == cursoDocente.IdCursoDocente
+                                            select h;
+
+                    db.Horarios.RemoveRange(horariosAEliminar);
+
+                    var cursoSeccionesAEliminar = from cs in db.CursoSeccions
+                                                  join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
+                                                  where cd.IdCursoDocente == cursoDocente.IdCursoDocente
+                                                  select cs;
+
+                    db.CursoSeccions.RemoveRange(cursoSeccionesAEliminar);
+
+                    db.CursoDocentes.Remove(cursoDocente);
+
+                    await db.SaveChangesAsync();
+                    await transaction.CommitAsync(); 
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return BadRequest(ex.Message);
+                }
+            }
+
+            return RedirectToAction("ListarCursosPorDocente", new { id = cursoDocente.IdDocente });
         }
+
 
     }
 }

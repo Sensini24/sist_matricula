@@ -22,47 +22,49 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public IActionResult ObtenerHorario(int idSeccion)
         {
-            var resultado = db.Horarios
-                .Join(db.HorarioCursoSeccions, h => h.IdHorario, hcs => hcs.IdHorario, (h, hcs) => new { h, hcs })
-                .Join(db.CursoSeccions, hhcs => hhcs.hcs.IdCursoSeccion, cs => cs.IdCursoSeccion, (hhcs, cs) => new { hhcs.h, hhcs.hcs, cs })
-                .Join(db.Cursos, hhcs_cs => hhcs_cs.cs.IdCurso, c => c.IdCurso, (hhcs_cs, c) => new { hhcs_cs.h, hhcs_cs.hcs, hhcs_cs.cs, c })
-                .Join(db.Docentes, hhcs_cs_c => hhcs_cs_c.cs.IdDocente, d => d.IdDocente, (hhcs_cs_c, d) => new
-                {
-                    hhcs_cs_c.h,
-                    hhcs_cs_c.hcs,
-                    hhcs_cs_c.cs,
-                    hhcs_cs_c.c,
-                    d
-                })
-                .Where(x => x.cs.IdSeccion == idSeccion)
-                .AsEnumerable() // Convertir a enumerable para aplicar métodos locales
-                .Select(x => new
-                {
-                    id = x.h.IdHorario,
-                    title = x.c.Nombre + " - " + x.d.Nombre,
-                    horainicio= x.h.HoraInicio,
-                    horafin = x.h.HoraFin,
-                    start = ConvertirAFechaHora(x.h.DiaSemana, x.h.HoraInicio.ToString()),
-                    end = ConvertirAFechaHora(x.h.DiaSemana, x.h.HoraFin.ToString()),
-                    curso = x.c.Nombre,
-                    docente = x.d.Nombre,
-                    idcurso = x.c.IdCurso,
-                    iddocente = x.d.IdDocente,
-                    idhorario = x.h.IdHorario,
-                    idhorariocursoseccion = x.hcs.IdHorarioCursoSeccion,
-                    rrule = new
-                    {
-                        freq = "weekly",
-                        interval = 5,
-                        byweekday = GetWeekdayAbbreviation(x.h.DiaSemana),
-                        dtstart = ConvertirAFechaHora(x.h.DiaSemana, x.h.HoraInicio.ToString()), // Fechas de inicio para la recurrencia
-                        until = DateTime.Now.AddMonths(12).ToString("2024-12-25") // Ajusta la fecha de finalización según sea necesario
-                    }
-                })
-                .ToList();
+            var resultado = (from h in db.Horarios
+                             join hcs in db.HorarioCursoSeccions on h.IdHorario equals hcs.IdHorario
+                             join cs in db.CursoSeccions on hcs.IdCursoSeccion equals cs.IdCursoSeccion
+                             join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                             join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                             where cs.IdSeccion == idSeccion
+                             select new
+                             {
+                                 h,
+                                 hcs,
+                                 cs,
+                                 c,
+                                 d
+                             })
+                             .AsEnumerable() // Convertir a enumerable para aplicar métodos locales
+                             .Select(x => new
+                             {
+                                 id = x.h.IdHorario,
+                                 title = x.c.Nombre + " - " + x.d.Nombre,
+                                 horainicio = x.h.HoraInicio,
+                                 horafin = x.h.HoraFin,
+                                 start = ConvertirAFechaHora(x.h.DiaSemana, x.h.HoraInicio.ToString()),
+                                 end = ConvertirAFechaHora(x.h.DiaSemana, x.h.HoraFin.ToString()),
+                                 curso = x.c.Nombre,
+                                 docente = x.d.Nombre,
+                                 idcurso = x.c.IdCurso,
+                                 iddocente = x.d.IdDocente,
+                                 idhorario = x.h.IdHorario,
+                                 idhorariocursoseccion = x.hcs.IdHorarioCursoSeccion,
+                                 rrule = new
+                                 {
+                                     freq = "weekly",
+                                     interval = 5,
+                                     byweekday = GetWeekdayAbbreviation(x.h.DiaSemana),
+                                     dtstart = ConvertirAFechaHora(x.h.DiaSemana, x.h.HoraInicio.ToString()), // Fechas de inicio para la recurrencia
+                                     until = DateTime.Now.AddMonths(12).ToString("2024-12-30") // Ajusta la fecha de finalización según sea necesario
+                                 }
+                             })
+                             .ToList();
 
             return Json(resultado);
         }
+
 
 
         private static string GetWeekdayAbbreviation(string dayOfWeek)
@@ -337,44 +339,37 @@ namespace Sistema_Matricula.Controllers
         [HttpDelete]
         public IActionResult EliminarHorarioCursoSeccion(int idhcs, int idhorario)
         {
-            var horario = db.Horarios.Where(e => e.IdHorario == idhorario).FirstOrDefault();
-            var horarioCursoSeccion = db.HorarioCursoSeccions.Where(e => e.IdHorarioCursoSeccion == idhcs).FirstOrDefault();
-            var curso = from cs in db.CursoSeccions
-                        join c in db.Cursos on cs.IdCurso equals c.IdCurso
-                        where cs.IdCursoSeccion == horarioCursoSeccion.IdCursoSeccion
-                        select c.Nombre;
+            var horario = db.Horarios.FirstOrDefault(e => e.IdHorario == idhorario);
+            var horarioCursoSeccion = db.HorarioCursoSeccions.FirstOrDefault(e => e.IdHorarioCursoSeccion == idhcs);
+            var curso = (from cs in db.CursoSeccions
+                         join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                         where cs.IdCursoSeccion == horarioCursoSeccion.IdCursoSeccion
+                         select c.Nombre).FirstOrDefault();
 
-            if(horario != null && horarioCursoSeccion != null)
+            if (horario == null || horarioCursoSeccion == null)
             {
-                using(var transaction = db.Database.BeginTransaction())
+                return Json(new { success = false, message = "Horario o relación no encontrada." });
+            }
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
                 {
-                    try
-                    {
-                        db.HorarioCursoSeccions.Remove(horarioCursoSeccion);
-                        db.Horarios.Remove(horario);
-                        db.SaveChanges();
-                        TempData["ExitoEliminacionHorario"] = $"Se Elimino el horario asignado al curso " +
-                            $"{curso}";
-                        transaction.Commit();
-                        return RedirectToAction("Asignar");
-                    }
-                    catch(Exception ex)
-                    {
-                        transaction.Rollback();
-                        TempData["ErrorEliminacionHorario"] = "No se pudo eliminar el horario del curso";
-                        return RedirectToAction("Asignar");
-                    }
+                    db.HorarioCursoSeccions.Remove(horarioCursoSeccion);
+                    db.Horarios.Remove(horario);
+                    db.SaveChanges();
+
+                    transaction.Commit();
+                    return Json(new { success = true, message = "Se eliminó el horario asignado al curso " + curso });
                 }
-
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "No se pudo eliminar el horario del curso. Error: " + ex.Message });
+                }
             }
-            else
-            {
-                return RedirectToAction("Asignar");
-            }
-
-            
-
         }
+
 
     }
 }

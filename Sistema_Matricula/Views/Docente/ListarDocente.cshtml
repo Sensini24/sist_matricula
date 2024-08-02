@@ -15,9 +15,15 @@
     </head>
 <body style="align-content:start; margin-left:280px; margin-top:20px; background:#E5E5E5">
 
-    <p>
-        <a asp-action="AgregarDocenteVM" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 no-underline">Nuevo Docente</a>
-    </p>
+    <div class="flex">
+        <p>
+            <a asp-action="AgregarDocenteVM" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 no-underline">Nuevo Docente</a>
+        </p>
+
+        <p>
+            <a id="nueva_especialidad" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded ml-5 no-underline">Nueva Especialidad</a>
+        </p>
+    </div>
 
     <div id="docente-registrado">
         @if (TempData["RegistroDocenteSuccess"] != null)
@@ -143,6 +149,20 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="agregarEspecialidadModal" tabindex="-1" aria-labelledby="agregarEstudianteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarEstudianteModalLabel">Nueva Especialidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se cargará el contenido del formulario -->
+                </div>
+            </div>
+        </div>
+    </div>
     </body>
 </html>
 <style>
@@ -169,6 +189,38 @@
             });
         });
 
+        var nueva_especialidad = document.getElementById('nueva_especialidad');
+        nueva_especialidad.addEventListener('click', function () {
+            console.log('click');
+            fetch(`@Url.Action("CrearEspecialidadVC", "Especialidad")`)
+                .then(response => response.text())
+                .then(html => {
+                    document.querySelector('#agregarEspecialidadModal .modal-body').innerHTML = html;
+                    const modal = new bootstrap.Modal(document.getElementById('agregarEspecialidadModal'));
+                    modal.show();
+
+                    document.getElementById('form-especialidad').addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        var form = new FormData(this);
+                        fetch('Especialidad/CrearEspecialidadVC', {
+                            method: 'POST',
+                            body: form
+                        }).then(response => {
+                            if (response.ok) {
+                                
+                                return response.text()
+                            }
+                            throw new Error('Error al crear la especialidad');;
+                        })
+                            .then(data => {
+                                alert("Especialidad Guardada")
+                                console.log(data);
+                                modal.hide();
+                            })
+                    });
+
+                }).catch(error => console.error('Error al cargar contenido del modal:', error));
+        })
 
         var docenteEditado= document.getElementById('docente-editado');
         setTimeout(() => {

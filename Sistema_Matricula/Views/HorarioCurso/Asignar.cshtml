@@ -138,11 +138,25 @@
 </body>
 </html> 
 <script>
-        
+    function loadPage2(nivel, grado, seccion, pageNumber) {
+        fetch(`@Url.Action("ListarSeccionesyCursosConParametros", "Curso")?idgrado=${grado}&idnivel=${nivel}&idseccion=${seccion}&pageNumber=${pageNumber}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('lista-cursoseccion').innerHTML = html;
+            })
+            .catch(error => console.error('Error al cargar la página:', error));
+    }
+
+    function loadPage(pageNumber, nombre) {
+        fetch(`@Url.Action("ListarSeccionesyCursos", "Curso")?pageNumber=${pageNumber}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('lista-cursoseccion').innerHTML = html;
+            })
+            .catch(error => console.error('Error al cargar la página:', error));
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
-
-        
         //OBTENER GRADOS POR NIVELES
         document.getElementById('nivel').addEventListener('change', function () {
             var nivelId = this.value;
@@ -231,59 +245,25 @@
                     })
                 })
         })
-
-        // Cargar la lista inicial de secciones y cursos
-        // fetch('@Url.Action("ListarSeccionesyCursos", "Curso")')
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok ' + response.statusText);
-        //         }
-        //         return response.text();
-        //     })
-        //     .then(data => {
-        //         document.getElementById('lista-cursoseccion').innerHTML = data;
-        //     })
-        //     .catch(error => {
-        //         console.error('There was a problem with the fetch operation:', error);
-        //     });
-
-        // Agregar evento al botón de búsqueda
+        loadPage(1)
         document.getElementById('buscarBtn').addEventListener('click', function () {
             var nivelId = document.getElementById('nivel').value;
             var gradoId = document.getElementById('grado').value;
             var seccionId = document.getElementById('seccionSelect').value;
+            loadPage2(nivelId, gradoId, seccionId, 1);
 
-            fetch(`@Url.Action("ListarSeccionesyCursosConParametros", "Curso")?idgrado=${gradoId}&idnivel=${nivelId}&idseccion=${seccionId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('No hubo respuesta positvia ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    if(data.length <0){
-                        document.getElementById('lista-cursoseccion').innerHTML = "No hay registros"
-                    }
-                    document.getElementById('lista-cursoseccion').innerHTML = data;
-                    
-                })
-                .catch(error => {
-                    console.error('Hubo un problema con fetch', error);
-                });
         });
-
 
         var seccionSelect = document.getElementById('seccionSelect');
 
         seccionSelect.addEventListener('change', function () {
-            var seccionId = seccionSelect.value; // Asegúrate de que `seccionId` tenga el valor correcto
+            var seccionId = seccionSelect.value;
 
             fetch(`@Url.Action("ListarCursoSeccion", "HorarioCurso")?idseccion=${seccionId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok ' + response.statusText);
                     }
-                    // Usa `response.json()` para manejar la respuesta JSON
                     return response.json();
                 })
                 .then(data => {
@@ -314,6 +294,7 @@
             if (response.ok) {
                 const result = await response.text();
                 document.getElementById('lista-cursoseccion').innerHTML = result;
+                calendar.refetchEvents();
             } else {
                 const error = await response.text();
                 alert("Error: " + error);
@@ -345,17 +326,18 @@
                     .then(response => response.json())
                     .then(data => {
                         successCallback(data);
+                        console.log(data);
                     })
                     .catch(error => {
                         console.error('Error fetching events:', error);
                         failureCallback(error);
                     });
             },
-            eventContent: function (arg) {
+            eventContent: function (eventContentInfo) {
                 return {
                     html: `
                     <div>
-                        <strong>${arg.event.title}</strong><br>
+                            <strong>${eventContentInfo.event.title}</strong><br>
                     </div>
                 `
                 };
@@ -397,13 +379,17 @@
 
                 eliminar.addEventListener('click', function () {
                     console.log('eliminado');
-                    // Usa & para separar los parámetros en la URL
                     fetch(`@Url.Action("EliminarHorarioCursoSeccion", "HorarioCurso")?idhcs=${horariocursoseccion}&idhorario=${horarioId}`, {
-                        method: 'DELETE' // Asegúrate de especificar el método DELETE
+                        method: 'DELETE'
                     })
                         .then(response => response.json())
                         .then(data => {
-                            successCallback(data);
+                            if (data.success) {
+                                alert(data.message);
+                                calendar.refetchEvents();  // Recarga los eventos del calendario
+                            } else {
+                                alert('Error al eliminar: ' + data.message);
+                            }
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -411,10 +397,10 @@
                 });
 
 
-                // let editar = crearMensaje.querySelector('.editar');
-                // editar.addEventListener('click', function () {
-                //     console.log('editado')
-                // })
+                let editar = crearMensaje.querySelector('.editar');
+                editar.addEventListener('click', function () {
+                    console.log('editado')
+                })
 
                 
             },
@@ -430,6 +416,7 @@
         // Actualizar el calendario cuando cambie la sección
         seccionSelect.addEventListener('change', function () {
             calendar.removeAllEvents();
+            calendar.refetchEvents();
         });
         
 

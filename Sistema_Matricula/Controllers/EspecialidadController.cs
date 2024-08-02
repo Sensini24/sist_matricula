@@ -41,6 +41,25 @@ namespace Sistema_Matricula.Controllers
         }
 
         [HttpGet]
+        public IActionResult CrearEspecialidadVC()
+        {
+
+            return ViewComponent("CrearEspecialidadVC");
+        }
+
+        [HttpPost]
+        public ActionResult CrearEspecialidadVC(Especialidad especialidad)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(especialidad);
+            }
+            db.Especialidads.Add(especialidad);
+            db.SaveChanges();
+            return RedirectToAction("ListarDocente", "Docente");
+        }
+
+        [HttpGet]
         public ActionResult EditarEspecialidad(int id)
         { 
 
