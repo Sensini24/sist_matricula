@@ -282,29 +282,31 @@ namespace Sistema_Matricula.Controllers
             {
                 try
                 {
-                    var horariosCursoSeccionAEliminar = from hcs in db.HorarioCursoSeccions
-                                                        join cs in db.CursoSeccions on hcs.IdCursoSeccion equals cs.IdCursoSeccion
-                                                        join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
-                                                        where cd.IdCursoDocente == cursoDocente.IdCursoDocente
-                                                        select hcs;
+                    var horariosCursoSeccionAEliminar = await (from hcs in db.HorarioCursoSeccions.AsNoTracking()
+                                                               join cs in db.CursoSeccions.AsNoTracking() on hcs.IdCursoSeccion equals cs.IdCursoSeccion
+                                                               join cd in db.CursoDocentes.AsNoTracking() on cs.IdCurso equals cd.IdCurso
+                                                               where cd.IdCursoDocente == cursoDocente.IdCursoDocente
+                                                               select hcs).ToListAsync();
 
                     db.HorarioCursoSeccions.RemoveRange(horariosCursoSeccionAEliminar);
 
-                    var horariosAEliminar = from h in db.Horarios
-                                            join hcs in db.HorarioCursoSeccions on h.IdHorario equals hcs.IdHorario
-                                            join cs in db.CursoSeccions on hcs.IdCursoSeccion equals cs.IdCursoSeccion
-                                            join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
-                                            where cd.IdCursoDocente == cursoDocente.IdCursoDocente
-                                            select h;
+
+                    var horariosAEliminar = await (from h in db.Horarios
+                                                   join hcs in db.HorarioCursoSeccions on h.IdHorario equals hcs.IdHorario
+                                                   join cs in db.CursoSeccions on hcs.IdCursoSeccion equals cs.IdCursoSeccion
+                                                   join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
+                                                   where cd.IdCursoDocente == cursoDocente.IdCursoDocente
+                                                   select h).ToListAsync();
 
                     db.Horarios.RemoveRange(horariosAEliminar);
 
-                    var cursoSeccionesAEliminar = from cs in db.CursoSeccions
-                                                  join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
-                                                  where cd.IdCursoDocente == cursoDocente.IdCursoDocente
-                                                  select cs;
+                    var cursoSeccionesAEliminar = await (from cs in db.CursoSeccions
+                                                         join cd in db.CursoDocentes on cs.IdCurso equals cd.IdCurso
+                                                         where cd.IdCursoDocente == cursoDocente.IdCursoDocente
+                                                         select cs).ToListAsync();
 
                     db.CursoSeccions.RemoveRange(cursoSeccionesAEliminar);
+
 
                     db.CursoDocentes.Remove(cursoDocente);
 
