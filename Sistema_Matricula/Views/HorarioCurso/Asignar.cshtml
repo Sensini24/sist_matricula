@@ -157,6 +157,14 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        //Obtener datos de usuario
+        fetch(`@Url.Action("ObtenerDatosCompletos", "Auth")`)
+        .then(response => response.json())
+        .then(data=>{
+                console.log(data.nombreUsuario);
+        })
+
+
         //OBTENER GRADOS POR NIVELES
         document.getElementById('nivel').addEventListener('change', function () {
             var nivelId = this.value;

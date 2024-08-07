@@ -1,0 +1,300 @@
+﻿@model IEnumerable<Sistema_Matricula.ViewsModels.HorarioDocenteViewModel>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+    
+     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
+
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+</head>
+<body style="align-content:start; margin-left:280px; margin-top:20px; background:#f4f6fa">
+    <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Horario de @User.Identity.Name</h1>
+    <div class="flex justify-content-xxl-between lg:flex-row lg:space-x-4 ">
+        <div class="container  space-y-4 lg:w-1/3 p-4">
+            <div class="filter-container p-4  w-full bg-white rounded-4 p-4 shadow-md">
+                <div class="filters flex flex-col md:flex-row md:justify-between">
+                    <select id="cursoSelect" class="filter-select mb-2 md:mb-0" id="filter-course">
+                        <option value="">Seleccionar Curso</option>
+                    </select>
+                    <select id="nivelSelect" class="filter-select mb-2 md:mb-0" id="filter-level">
+                        <option value="">Seleccionar Nivel</option>
+                    </select>
+                    <select id="gradoSelect" class="filter-select mb-2 md:mb-0" id="filter-grade">
+                        <option value="">Seleccionar Grado</option>
+                    </select>
+                    <select id="seccionSelect" class="filter-select mb-2" id="filter-section">
+                        <option value="">Seleccionar Sección</option>
+                    </select>
+                    <button id="btn-filtrado" class="bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 rounded-3">Buscar</button>
+
+                </div>
+            </div>
+            <div id="horario-docente" class="w-full bg-white rounded-4 p-4 shadow-md">
+            </div>
+
+            @* <div id="cursos-docente" class="w-full bg-white rounded-4 p-4 shadow-md">
+            </div> *@
+        </div>
+    </div>
+    <div class="flex flex-col lg:flex-row lg:space-x-4 ">
+        <div class="container bg-[#f9fafa] rounded-4 flex-grow lg:w-2/3 p-4 shadow-md">
+            <div id="calendarioDocente" class="w-full h-96 lg:h-full ">
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        // var cursosDocente = document.getElementById('cursos-docente');
+        // fetch('/DatosDocente/ObtenerHorariosDocenteCursos')
+        //     .then(response => response.text())
+        //     .then(html => {
+        //         console.log(cursosDocente);
+        //         cursosDocente.innerHTML = html;
+        //     });
+        
+        
+
+        //hORARIO EN LISTA CUANDO CARGA EL DOM
+        var horarioDocente = document.getElementById('horario-docente');
+        fetch(`/DatosDocente/ObtenerHorariosDocente`)
+            .then(response => response.text())
+            .then(html => {
+                horarioDocente.innerHTML = html;
+            });
+
+        //hORARIO EN LISTA CUANDO SE FILTRA
+        var btnFiltrado = document.getElementById('btn-filtrado');
+        btnFiltrado.addEventListener('click', function () {
+            var idCurso = document.getElementById('cursoSelect').value;
+            var idNivel = document.getElementById('nivelSelect').value;
+            var idGrado = document.getElementById('gradoSelect').value;
+            var idSeccion = document.getElementById('seccionSelect').value;
+
+            console.log('ID del select curso:', idCurso);
+            console.log('ID del select nivel:', idNivel);
+            console.log('ID del select grado:', idGrado);
+            console.log('ID del select seccion:', idSeccion);
+
+            // Construcción correcta de la URL
+            fetch(`/DatosDocente/ObtenerHorariosDocente?idCurso=${idCurso}&idNivel=${idNivel}&idGrado=${idGrado}&idSeccion=${idSeccion}`)
+                .then(response => response.text())
+                .then(html => {
+                    var horarioDocente = document.getElementById('horario-docente');
+                    horarioDocente.innerHTML = html;
+                });
+        });
+
+        
+
+        //AGREGAR VALORES A LOS SELECTS 
+            // Cursos Lista en Select
+            fetch('/DatosDocente/ObtenerCursosHorarioDocente')
+                .then(response => response.json())
+                .then(data => {
+                    var cursoSelect = document.getElementById('cursoSelect');
+                    cursoSelect.innerHTML = '<option value="">Seleccione un curso</option>';
+                    data.forEach(curso => {
+                        var option = document.createElement('option');
+                        option.value = curso.idCurso;
+                        option.text = curso.nombre;
+                        cursoSelect.appendChild(option);
+                        console.log(curso);
+                    });
+                });
+
+        // Niveles Lista en Select
+        var cursoSelect = document.getElementById('cursoSelect');
+
+        cursoSelect.addEventListener('change', function () {
+            var idCurso = this.value;
+            if (idCurso) {
+                fetch(`/DatosDocente/ObtenerNivelesHorarioDocente?idCurso=${idCurso}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(idCurso);
+                        var nivelSelect = document.getElementById('nivelSelect');
+                        nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                        data.forEach(curso => {
+                                    var option = document.createElement('option');
+                                    option.value = curso.idNivel;
+                                    option.text = curso.nombre;
+                                    nivelSelect.appendChild(option);
+                            
+                        });
+                    })
+                    .catch(error => console.error('Error fetching niveles:', error));
+            } else {
+                nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';   
+                console.log('No hay cursos seleccionados');
+            }
+        });
+
+        // Grados Lista en Select
+        var nivelSelect = document.getElementById('nivelSelect');
+        nivelSelect.addEventListener('change', function () {
+            var idNivel = this.value;
+            if (idNivel) {
+                fetch(`/DatosDocente/ObtenerGradosHorarioDocente?idNivel=${idNivel}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var gradoSelect = document.getElementById('gradoSelect');
+                        gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                        data.forEach(curso => {
+                            var option = document.createElement('option');
+                            option.value = curso.idGrado;
+                            option.text = curso.nombre;
+                            gradoSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching grados:', error));
+            } else {
+                gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
+                console.log('No hay grados seleccionados');
+            }
+        });
+            
+
+        // Secciones Lista en Select
+        var gradoSelect = document.getElementById('gradoSelect');
+        gradoSelect.addEventListener('change', function () {
+            var idGrado = this.value;
+            console.log(idGrado);
+            if (idGrado) {
+                fetch(`/DatosDocente/ObtenerSeccionesHorarioDocente?idGrado=${idGrado}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var seccionSelect = document.getElementById('seccionSelect');
+                        seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+                        data.forEach(seccion => {
+                            var option = document.createElement('option');
+                            option.value = seccion.idSeccion;
+                            option.text = seccion.nombre;
+                            seccionSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching grados:', error));
+            } else {
+                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
+                console.log('No hay grados seleccionados');
+            }
+        });
+
+        var calendarEl = document.getElementById('calendarioDocente');
+        var seccionSelect = document.getElementById('seccionSelect');
+        var calendarEl = document.getElementById('calendarioDocente');
+        var seccionSelect = document.getElementById('seccionSelect');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'es',
+            height: '500px',
+            width: '100%',
+            initialView: 'timeGridWeek',
+            slotMinTime: '08:00:00',
+            slotMaxTime: '15:00:00',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridWeek,timeGridDay,dayGridMonth'
+            },
+            events: function (fetchInfo, successCallback, failureCallback) {
+                fetch(`/DatosDocente/ObtenerHorarioDocente`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const events = data.map(event => ({
+                            ...event,
+                            rrule: event.rrule // This should now be a string
+                        }));
+                        successCallback(events);
+                        console.log(events);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching events:', error);
+                        failureCallback(error);
+                    });
+            },
+            eventContent: function (eventContentInfo) {
+                console.log(eventContentInfo.event);
+                const curso = eventContentInfo.event.extendedProps.curso;
+                return {
+
+                    html: `
+                                <div>
+                                    <strong>${eventContentInfo.event.extendedProps.curso}</strong><br>
+                                    <strong>${eventContentInfo.event.extendedProps.seccion}</strong><br>
+                                        <strong>${eventContentInfo.event.extendedProps.horainicio} - ${eventContentInfo.event.extendedProps.horafin}</strong>
+
+                                </div>
+                            `
+                };
+            },
+            eventDidMount: function (info) {
+                // Cambia el color del fondo y del borde
+                info.el.style.backgroundColor = '#d25959';
+                info.el.style.borderColor = info.event.borderColor;
+                info.el.style.color = info.event.textColor;
+            },
+            // eventClick: function (info) {
+            //     var cursoId = info.event.extendedProps.idcurso;
+            //     var docenteId = info.event.extendedProps.iddocente;
+            //     var horariocursoseccion = info.event.extendedProps.idhorariocursoseccion;
+            //     var horarioId = info.event.extendedProps.idhorario;
+            //     alert(`Curso ID: ${cursoId}\nDocente ID: ${docenteId}\nHorarioCursoSeccion ID: ${horariocursoseccion}\nHorarioID: ${horarioId}`);
+            // },
+            // eventMouseEnter: function (mouseEnterInfo) {
+            //     console.log(mouseEnterInfo.event.extendedProps.docente);
+
+            //     let crearMensaje = document.createElement('div');
+            //     let docente = mouseEnterInfo.event.extendedProps.docente;
+            //     let curso = mouseEnterInfo.event.title;
+
+            //     crearMensaje.innerHTML = `
+            //                                 <div class="mensaje"
+            //                                     style="position:absolute;top:100%;z-index:1000; left:0; width:200px; height:auto; background-color:white; border:1px solid #ccc;
+            //                                                 padding:0.75rem; opacity:1;
+            //                                         ">
+            //                                 <strong>${curso}</strong><br />
+            //                                 <strong>${mouseEnterInfo.event.extendedProps.horainicio} - ${mouseEnterInfo.event.extendedProps.horafin}</strong>
+            //                                 <br />
+            //                                 <button class="eliminar btn btn-secondary" style="width:70px;background:#ec9bae; border:none; height:35px"><span class="material-symbols-outlined text-white text-xxl pt-0">
+            //                                        delete_forever</span>
+            //                                  </button>
+            //                                  <button class="editar btn btn-secondary" style="width:85px; background:#fde047; border:none; height:35px; margin-left:10px">Editar</button>
+            //                             </div>
+            //                                 `;
+            //     // el es el elemento html donde esta el mensaje y es un elemento de mouseLeaveinfo
+            //     mouseEnterInfo.el.appendChild(crearMensaje);
+
+            // },
+            // eventMouseLeave: function (mouseLeaveInfo) {
+            //     var mensaje = document.querySelector('.mensaje');
+            //     mouseLeaveInfo.el.querySelector('.mensaje').remove();
+            // }
+
+        });
+
+        calendar.render();
+
+        // // Actualizar el calendario cuando cambie la sección
+        // seccionSelect.addEventListener('change', function () {
+        //     calendar.removeAllEvents();
+        //     calendar.refetchEvents();
+        // });
+
+
+    });
+</script>

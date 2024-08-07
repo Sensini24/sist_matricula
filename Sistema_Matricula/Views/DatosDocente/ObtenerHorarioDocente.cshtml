@@ -1,0 +1,436 @@
+﻿@using Sistema_Matricula.ViewsModels
+@model HorarioCursoSeccionViewModel
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar un Horario a un Curso</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb5gLl1PLTT3r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
+    <style>
+        .form-container,
+        .container {
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            flex: 1;
+            justify-content: space-around;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+        }
+
+        }
+
+        .fc-event {
+            border-radius: 4px;
+            font-size: 12px;
+            padding: 2px 4px;
+        }
+
+        .fc-event-main {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .fc-event-main strong {
+                font-size: 14px;
+                margin-bottom: 2px;
+            }
+    </style>
+</head>
+<body class="bg-light" style="margin-left: 280px;">
+    <div class="container-fluid">
+        <h1 class="text-center mb-4">Asignar un Horario a un Curso</h1>
+
+        <div class="form-container">
+            <div class="container mb-12 flex" style="background:#FCA311">
+                <div class="w-1/2 pr-4 mb-6">
+                    <label for="nivel">Nivel</label>
+                    <select id="nivel" class="form-control w-full block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline rubik-font" asp-items="ViewBag.Niveles">
+                        <option value="">Seleccione un Nivel</option>
+                    </select>
+
+                    <label for="grado">Grado</label>
+                    <select id="grado" class="form-control w-full block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline rubik-font">
+                        <option value="">Seleccione un Grado</option>
+                    </select>
+
+                    <label for="seccion">Sección</label>
+                    <select class="form-control w-full " id="seccionSelect">
+                        <option value="">Seleccione una seccion</option>
+                    </select>
+
+                    <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded mt-4">
+                        Buscar
+                    </button>
+                </div>
+
+                <div class="w-1/2 pl-4 mb-6">
+                    <div id="lista-cursoseccion"></div>
+                </div>
+            </div>
+
+            <div class="container mb-12 flex" style="background:#f9fafa">
+                <form id="cursoseccionForm" class="d-flex flex-wrap justify-content-between form-group w-1/2 pr-4 mb-6">
+
+                    <label asp-for="IdCursoSeccion">Curso Y Seccion</label>
+                    <select asp-for="IdCursoSeccion" id="cursoSeccion" class="form-control w-full">
+                        <option value="">Seleccione el curso</option>
+                    </select>
+                    <label asp-for="HoraInicio">Hora de Inicio</label>
+                    <input asp-for="HoraInicio" class="form-control" type="time" />
+                    <label asp-for="HoraFin">Hora de Fin</label>
+                    <input asp-for="HoraFin" class="form-control" type="time" />
+                    <label asp-for="DiaSemana">Día de la Semana</label>
+                    <select asp-for="DiaSemana" class="form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline rubik-font" asp-items="ViewBag.dias">
+                        <option value="">Seleccione un día</option>
+                    </select>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mt-4">Guardar</button>
+
+                </form>
+                <div class="w-1/2 pr-4 mb-6">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>
+<script>
+    // function loadPage2(nivel, grado, seccion, pageNumber) {
+    //     fetch(`@Url.Action("ListarSeccionesyCursosConParametros", "Curso")?idgrado=${grado}&idnivel=${nivel}&idseccion=${seccion}&pageNumber=${pageNumber}`)
+    //         .then(response => response.text())
+    //         .then(html => {
+    //             document.getElementById('lista-cursoseccion').innerHTML = html;
+    //         })
+    //         .catch(error => console.error('Error al cargar la página:', error));
+    // }
+
+    // function loadPage(pageNumber, nombre) {
+    //     fetch(`@Url.Action("ListarSeccionesyCursos", "Curso")?pageNumber=${pageNumber}`)
+    //         .then(response => response.text())
+    //         .then(html => {
+    //             document.getElementById('lista-cursoseccion').innerHTML = html;
+    //         })
+    //         .catch(error => console.error('Error al cargar la página:', error));
+    // }
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+
+
+        // //OBTENER GRADOS POR NIVELES
+        // document.getElementById('nivel').addEventListener('change', function () {
+        //     var nivelId = this.value;
+        //     if (nivelId) {
+        //         fetch(`/Curso/BuscarGradoPorNivel?idNivel=${nivelId}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 var gradoSelect = document.getElementById('grado');
+        //                 gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+        //                 data.forEach(grado => {
+        //                     var option = document.createElement('option');
+        //                     option.value = grado.idGrado;
+        //                     option.text = grado.descripcion;
+        //                     gradoSelect.appendChild(option);
+        //                 });
+        //             });
+        //     } else {
+        //         document.getElementById('grado').innerHTML = '<option value="">Seleccione un grado</option>';
+        //         document.getElementById('seccion').innerHTML = '<option value="">Seleccione una sección</option>';
+        //     }
+        // });
+
+        // //OBTENER SECCIONES POR GRADO
+
+        // document.getElementById('grado').addEventListener('change', function () {
+        //     var gradoId = this.value;
+        //     if (gradoId) {
+        //         fetch(`/Curso/BuscarSeccionPorGrado?idGrado=${gradoId}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 var seccionSelect = document.getElementById('seccionSelect');
+        //                 seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+        //                 data.forEach(seccion => {
+        //                     console.log(seccion);
+        //                     var option = document.createElement('option');
+        //                     option.value = seccion.idSeccion;
+        //                     option.text = seccion.nombre;
+        //                     seccionSelect.appendChild(option);
+        //                 });
+        //             });
+        //     } else {
+        //         document.getElementById('seccionSelect').innerHTML = '<option value="">Seleccione una sección</option>';
+        //     }
+        // });
+
+        // //OBTENER AULAS POR SECCION
+        // var seccionSelect = document.getElementById('seccionSelect')
+        // seccionSelect.addEventListener('change', function () {
+        //     var seccionId = this.value;
+        //     if (seccionId) {
+        //         fetch(`@Url.Action("AulasPorSeccion", "Aula")/${seccionId}`).
+        //             then(response => response.json()).
+        //             then(data => {
+        //                 var aulaSelect = document.getElementById('aulaSelect');
+        //                 aulaSelect.innerHTML = '<option value="">Seleccione un aula</option>';
+        //                 data.forEach(aula => {
+        //                     var option = document.createElement('option');
+        //                     option.value = aula.idAula;
+        //                     option.text = aula.idAula;
+        //                     aulaSelect.appendChild(option);
+        //                 })
+        //             })
+        //     } else {
+        //         document.getElementById('aulaSelect').innerHTML = '<option value="">Seleccione un aula</option>';
+        //     }
+
+        // })
+
+        // //OBTENER CURSOS POR SECCION
+        // var seccionSelect = document.getElementById('seccionSelect')
+        // seccionSelect.addEventListener('change', function () {
+        //     var idSelect = this.value;
+        //     console.log(idSelect)
+        //     fetch(`@Url.Action("ListarCursoPorSeccion", "Curso")/${idSelect}`).
+        //         then(response =>
+        //             response.json()
+        //         ).
+        //         then(data => {
+        //             var curso = document.getElementById('curso');
+        //             curso.innerHTML = '<option value="">Seleccione un curso</option>';
+        //             data.forEach(cursoItems => {
+        //                 var option = document.createElement('option');
+        //                 option.value = cursoItems.idCurso;
+        //                 option.text = cursoItems.nombre;
+        //                 curso.appendChild(option);
+        //             })
+        //         })
+        // })
+        // loadPage(1)
+        // document.getElementById('buscarBtn').addEventListener('click', function () {
+        //     var nivelId = document.getElementById('nivel').value;
+        //     var gradoId = document.getElementById('grado').value;
+        //     var seccionId = document.getElementById('seccionSelect').value;
+        //     loadPage2(nivelId, gradoId, seccionId, 1);
+
+        // });
+
+        // var seccionSelect = document.getElementById('seccionSelect');
+
+        // seccionSelect.addEventListener('change', function () {
+        //     var seccionId = seccionSelect.value;
+
+        //     fetch(`@Url.Action("ListarCursoSeccion", "HorarioCurso")?idseccion=${seccionId}`)
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error('Network response was not ok ' + response.statusText);
+        //             }
+        //             return response.json();
+        //         })
+        //         .then(data => {
+        //             var cursoSeccion = document.getElementById('cursoSeccion');
+        //             cursoSeccion.innerHTML = '<option value="">Seleccione un curso y sección</option>';
+        //             // Iterar sobre el array de objetos JSON
+        //             data.forEach(cursoSeccionItems => {
+        //                 var option = document.createElement('option');
+        //                 console.log(cursoSeccionItems)
+        //                 option.value = cursoSeccionItems.idCursoSeccion;
+        //                 option.text = `${cursoSeccionItems.nombreCurso} - ${cursoSeccionItems.nombreSeccion}`;
+        //                 cursoSeccion.appendChild(option);
+        //             });
+        //         })
+        //         .catch(error => {
+        //             console.error('There was a problem with the fetch operation:', error);
+        //         });
+        // });
+
+        // const form = document.getElementById('cursoseccionForm');
+        // form.addEventListener('submit', async function (e) {
+        //     e.preventDefault();
+        //     const formData = new FormData(form);
+        //     const response = await fetch('@Url.Action("Asignar", "HorarioCurso")', {
+        //         method: 'POST',
+        //         body: formData
+        //     });
+        //     if (response.ok) {
+        //         const result = await response.text();
+        //         document.getElementById('lista-cursoseccion').innerHTML = result;
+        //         calendar.refetchEvents();
+        //     } else {
+        //         const error = await response.text();
+        //         alert("Error: " + error);
+        //     }
+        // });
+
+
+        // var cursoseccion = document.getElementById('cursoSeccion');
+        // cursoseccion.addEventListener('change', function () {
+        //     console.log(cursoseccion.value);
+        // })
+
+        //Obtener datos de usuario
+        fetch(`@Url.Action("ObtenerDatosCompletos", "Auth")`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.nombreUsuario);
+                const idUsuario = data.userId;
+            })
+
+        var calendarEl = document.getElementById('calendar');
+        var seccionSelect = document.getElementById('seccionSelect');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'es',
+            height: '500px',
+            width: '100%',
+            initialView: 'timeGridWeek',
+            slotMinTime: '08:00:00',
+            slotMaxTime: '15:00:00',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridWeek,timeGridDay,dayGridMonth'
+            },
+            events: function (fetchInfo, successCallback, failureCallback) {
+                fetch(`/DatosDocente/ObtenerHorarioDocente?idDocente=${idUsuario}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        successCallback(data);
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching events:', error);
+                        failureCallback(error);
+                    });
+            },
+            eventContent: function (eventContentInfo) {
+                return {
+                    html: `
+                            <div>
+                                    <strong>${eventContentInfo.event.title}</strong><br>
+                            </div>
+                        `
+                };
+            },
+            // eventClick: function (info) {
+            //     var cursoId = info.event.extendedProps.idcurso;
+            //     var docenteId = info.event.extendedProps.iddocente;
+            //     var horariocursoseccion = info.event.extendedProps.idhorariocursoseccion;
+            //     var horarioId = info.event.extendedProps.idhorario;
+            //     alert(`Curso ID: ${cursoId}\nDocente ID: ${docenteId}\nHorarioCursoSeccion ID: ${horariocursoseccion}\nHorarioID: ${horarioId}`);
+            // },
+            eventMouseEnter: function (mouseEnterInfo) {
+                console.log(mouseEnterInfo.event.extendedProps.docente);
+
+                let crearMensaje = document.createElement('div');
+                let docente = mouseEnterInfo.event.extendedProps.docente;
+                let curso = mouseEnterInfo.event.title;
+
+                crearMensaje.innerHTML = `
+                                        <div class="mensaje"
+                                            style="position:absolute;top:100%;z-index:1000; left:0; width:200px; height:auto; background-color:white; border:1px solid #ccc;
+                                                        padding:0.75rem; opacity:1;
+                                                ">
+                                        <strong>${curso}</strong><br />
+                                        <strong>${mouseEnterInfo.event.extendedProps.horainicio} - ${mouseEnterInfo.event.extendedProps.horafin}</strong>
+                                        <br />
+                                        <button class="eliminar btn btn-secondary" style="width:70px;background:#ec9bae; border:none; height:35px"><span class="material-symbols-outlined text-white text-xxl pt-0">
+                                               delete_forever</span>
+                                         </button>
+                                         <button class="editar btn btn-secondary" style="width:85px; background:#fde047; border:none; height:35px; margin-left:10px">Editar</button>
+                                    </div>
+                                        `;
+                // el es el elemento html donde esta el mensaje y es un elemento de mouseLeaveinfo
+                mouseEnterInfo.el.appendChild(crearMensaje);
+
+                // let eliminar = crearMensaje.querySelector('.eliminar');
+                // var horarioId = mouseEnterInfo.event.extendedProps.idhorario;
+                // var horariocursoseccion = mouseEnterInfo.event.extendedProps.idhorariocursoseccion;
+
+                // eliminar.addEventListener('click', function () {
+                //     console.log('eliminado');
+                //     fetch(`@Url.Action("EliminarHorarioCursoSeccion", "HorarioCurso")?idhcs=${horariocursoseccion}&idhorario=${horarioId}`, {
+                //         method: 'DELETE'
+                //     })
+                //         .then(response => response.json())
+                //         .then(data => {
+                //             if (data.success) {
+                //                 alert(data.message);
+                //                 calendar.refetchEvents();  // Recarga los eventos del calendario
+                //             } else {
+                //                 alert('Error al eliminar: ' + data.message);
+                //             }
+                //         })
+                //         .catch(error => {
+                //             console.error('Error:', error);
+                //         });
+                // });
+
+
+                // let editar = crearMensaje.querySelector('.editar');
+                // editar.addEventListener('click', function () {
+                //     console.log('editado')
+                // })
+
+
+            },
+            eventMouseLeave: function (mouseLeaveInfo) {
+                var mensaje = document.querySelector('.mensaje');
+                mouseLeaveInfo.el.querySelector('.mensaje').remove();
+            }
+
+        });
+
+        calendar.render();
+
+        // Actualizar el calendario cuando cambie la sección
+        seccionSelect.addEventListener('change', function () {
+            calendar.removeAllEvents();
+            calendar.refetchEvents();
+        });
+
+
+    });
+</script>

@@ -114,6 +114,9 @@
             </div>
         </div>
 
+        <!-- Modal Confirmación de eliminacion -->
+        <div id="modal-container"></div>
+
         <div class="flex justify-between mt-4">
             <!--No le pasaba los datos de nombre-->
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage(@(Model.PageNumber - 1), document.getElementById('nombre').value)" @(Model.PageNumber == 1 ? "disabled" : "")>Anterior</button>

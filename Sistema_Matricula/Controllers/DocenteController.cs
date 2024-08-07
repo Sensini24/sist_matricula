@@ -151,8 +151,10 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Sexos = sexos;
             ViewBag.Estados = estados;
 
-            TempData["DocenteEditado"] = $"Docente {docente.Nombre} - {docente.Apellido} editado correctamente";
+            TempData["DocenteEditado"] = $"Docente {docente.Nombre} {docente.Apellido} editado correctamente";
             db.Docentes.Update(docente);
+
+
             db.SaveChanges();
             return RedirectToAction("ListarDocente");
         }

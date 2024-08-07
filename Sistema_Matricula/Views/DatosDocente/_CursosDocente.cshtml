@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Sistema_Matricula.ViewsModels.HorarioDocenteViewModel>
+
+<div class="bg-[#14213d] rounded-lg ">
+    <div>
+        <h3>Filtrar Horarios Por Curso</h3>
+    </div>
+    <div class="px-4 py-3 container w-full">
+        <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-[#FCA311]">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Curso</th>
+                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Filtrar</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                                @Html.DisplayFor(modelItem => item.Curso)
+                            </td>
+                            <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                                <input type="checkbox" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

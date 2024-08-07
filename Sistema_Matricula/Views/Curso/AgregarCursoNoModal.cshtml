@@ -72,31 +72,42 @@
             .then(html => {
                 document.getElementById('lista-cursos').innerHTML = html;
                 
-                // borrar 
-                document.querySelectorAll('.delete-btn').forEach(button => {
-                    button.addEventListener('click', async function () {
-                        const idCurso = this.getAttribute('data-id');
-                        const confirmar = confirm('¿Estás seguro de que deseas eliminar este curso?');
+                var deleteboton = document.querySelectorAll('.delete-btn');
+                deleteboton.forEach(boton=>{
+                    boton.addEventListener('click', function(){
+                       console.log("eliminar")
+                        fetch("/Curso/ModalEliminarCurso")
+                            .then(response => response.text())
+                            .then(html => {
+                                var modalContainer = document.getElementById('modal-container');
+                                modalContainer.innerHTML = html;
 
-                        if (confirmar) {
-                            try {
-                                const response = await fetch(`/Curso/EliminarCurso?idCurso=${idCurso}`, {
-                                    method: 'DELETE'
-                                });
-                                if(response.ok){
-                                    loadPage(1, "");
-                                }else{
-                                    loadPage(1, "");
-                                }
-                            } catch (error) {
-                                console.error('Error al eliminar curso:', error);
-                            }
-                        }
+                                var modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                                modal.show();
 
-                        
-                    });
-                    
-                });
+                                var confirmar = document.getElementById('confirm-delete-button');
+                                
+                                
+                                confirmar.addEventListener('click', () => {
+                                    const idCurso = this.getAttribute('data-id');
+                                    console.log(idCurso)
+                                    fetch(`EliminarCurso?idCurso=${idCurso}`, {
+                                        method: 'DELETE'
+                                    })
+                                        .then(response => response.text())
+                                        .then(html => {
+                                            modal.hide();
+                                            window.location.reload();
+                                        })
+                                })
+
+                                var cancelar = document.getElementById('cancel-button');
+                                cancelar.addEventListener('click', () => {
+                                    modal.hide();
+                                })
+                            })
+                    })
+                })
 
 
                 

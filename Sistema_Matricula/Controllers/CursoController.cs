@@ -351,20 +351,20 @@ namespace Sistema_Matricula.Controllers
                 if (curso == null)
                 {
                     TempData["CursoInvalidoPartial"] = "Curso no encontrado.";
-                    return RedirectToAction("AgregarCursoNoModal");
+                    return NotFound("Curso no encontrado.");
                 }
 
                 db.Cursos.Remove(curso);
                 db.SaveChanges();
                 TempData["CursoPartial"] = "Curso eliminado exitosamente.";
-                return RedirectToAction("AgregarCursoNoModal");
+                return Ok("Curso eliminado exitosamente.");
             }
             catch (Exception ex)
             {
                 // Registrar el error para diagnóstico
                 Console.WriteLine(ex.Message);
                 TempData["CursoInvalidoPartial"] = "Error al eliminar el curso.";
-                return RedirectToAction("AgregarCursoNoModal");
+                return StatusCode(500, "Error al eliminar el curso.");
             }
         }
 
@@ -409,6 +409,11 @@ namespace Sistema_Matricula.Controllers
                         .ToList();
 
             return Json(docentes);
+        }
+
+        public IActionResult ModalEliminarCurso()
+        {
+            return PartialView("_Confirm_EliminarCurso");
         }
 
     }

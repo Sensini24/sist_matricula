@@ -116,5 +116,21 @@ namespace Sistema_Matricula.Controllers
             }
             return RedirectToAction("Login");
         }
+
+        public IActionResult ObtenerDatosCompletos()
+        {
+            var userId = ObtenerClaimsInfo.GetUserId(User);
+            var nombreUsuario = ObtenerClaimsInfo.GetUserName(User);
+            var rolUsuario = ObtenerClaimsInfo.GetUserRole(User);
+            var allClaims = ObtenerClaimsInfo.GetAllClaims(User);
+
+            return Ok(new
+            {
+                userId,
+                nombreUsuario,
+                rolUsuario,
+                Claims = allClaims.Select(c => new { c.Type, c.Value })
+            });
+        }
     }
 }

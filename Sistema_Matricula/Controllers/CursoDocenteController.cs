@@ -135,7 +135,7 @@ namespace Sistema_Matricula.Controllers
                         NombreCurso = db.Cursos.Where(c => c.IdCurso == cd.IdCurso).Select(c => c.Nombre).FirstOrDefault()
                     }).ToList();
 
-                    return PartialView("_ListarCursoDocente", cursoDocenteViewModels);
+                    return RedirectToAction("ListarCursosPorDocente", new { id = viewModel.IdDocente });
                 }
                 if (viewModel != null)
                 {
@@ -323,6 +323,11 @@ namespace Sistema_Matricula.Controllers
             return RedirectToAction("ListarCursosPorDocente", new { id = cursoDocente.IdDocente });
         }
 
+        [HttpGet]
+        public IActionResult ModalBorradoCursoDocente()
+        {
+            return PartialView("_Confirm_EliminarCursoDocente");
+        }
 
     }
 }

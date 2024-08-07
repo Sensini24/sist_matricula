@@ -21,6 +21,9 @@
             align-items: center;
             z-index: 50;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body style="background:#BE8C29">
@@ -97,9 +100,11 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div
 
+        
+    </div>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -122,23 +127,56 @@
                 fetch('@Url.Action("ListarCursosPorDocente", "CursoDocente")/' + docenteId)
                     .then(response => response.text())
                     .then(html => {
+                        
                         document.getElementById('cantidad-cursos').innerHTML = html;
                         
-
+                        //Seleccionar a todos los botones que se cargan para eliminar
                         var elimcursodocente = document.querySelectorAll('.eliminar-curso-asignado');
                         elimcursodocente.forEach(elemento => {
                             elemento.addEventListener('click', function () {
-                                var id = elemento.getAttribute('data-id');
-                                console.log(id);
-                                fetch('@Url.Action("EliminarCursoDocente", "CursoDocente")/' + id)
+                                
+
+                                //Se carga el metodo que llama al Partial donde esta el anuncio de confirmacion
+                                fetch('/CursoDocente/ModalBorradoCursoDocente')
                                     .then(response => response.text())
                                     .then(html => {
-                                        document.getElementById('cantidad-cursos').innerHTML = html;
-                                    });
+                                        document.getElementById('modal-container').innerHTML = html;
+                                        //jqery lo usamos xq es mas facil para modal de bootstrap
+                                        $('#confirmModal').modal('show');
+
+                                        document.getElementById('confirm-delete-button').addEventListener('click', () => {
+                                            //Id util para eliminar cursoDocente por Id
+                                            var id = elemento.getAttribute('data-id');
+                                            fetch('@Url.Action("EliminarCursoDocente", "CursoDocente")/' + id)
+                                            .then(response => response.text())
+                                            .then(html => {
+                                                document.getElementById('cantidad-cursos').innerHTML = html;
+                                            });
+                                            $('#confirmModal').modal('hide');
+                                        });
+
+                                        document.getElementById('cancel-button').addEventListener('click', () => {
+                                            $('#confirmModal').modal('hide');
+                                        });
+                                    })
+                                    .catch(error => console.error('Error al cargar el modal:', error));
+                            });
+                        });
+
+                        // var elimcursodocente = document.querySelectorAll('.eliminar-curso-asignado');
+                        // elimcursodocente.forEach(elemento => {
+                        //     elemento.addEventListener('click', function () {
+                        //         var id = elemento.getAttribute('data-id');
+                        //         console.log(id);
+                        //         fetch('@Url.Action("EliminarCursoDocente", "CursoDocente")/' + id)
+                        //             .then(response => response.text())
+                        //             .then(html => {
+                        //                 document.getElementById('cantidad-cursos').innerHTML = html;
+                        //             });
 
 
-                            })
-                        })
+                        //     })
+                        // })
 
 
                     });
