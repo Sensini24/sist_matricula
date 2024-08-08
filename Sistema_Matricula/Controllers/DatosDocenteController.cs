@@ -97,9 +97,20 @@ namespace Sistema_Matricula.Controllers
             {
                 viewModelHorario = viewModelHorario.Where(x=>x.IdCurso == idCurso && x.IdSeccion == idSeccion && x.IdNivel == idNivel && x.IdGrado == idGrado).ToList();
             }
+
             else if (idCurso == 0 && idSeccion == 0 && idNivel == 0 && idGrado == 0)
             {
                 viewModelHorario = viewModelHorario;
+            }
+            else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0 && idGrado != null && idGrado != 0)
+            {
+                viewModelHorario = viewModelHorario.Where(x => x.IdCurso == idCurso && x.IdNivel == idNivel).ToList();
+
+            }
+            else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0)
+            {
+                viewModelHorario = viewModelHorario.Where(x => x.IdCurso == idCurso && x.IdNivel == idNivel).ToList();
+
             }
             else if (idSeccion != null && idSeccion != 0)
             {
@@ -117,6 +128,7 @@ namespace Sistema_Matricula.Controllers
             {
                 viewModelHorario = viewModelHorario.Where(x => x.IdCurso == idCurso).ToList();
             }
+            
 
             return PartialView("_ObtenerHorariosDocente", viewModelHorario);
         }
@@ -158,7 +170,7 @@ namespace Sistema_Matricula.Controllers
             return Ok(niveles);
         }
 
-        public IActionResult ObtenerGradosHorarioDocente(int idNivel)
+        public IActionResult ObtenerGradosHorarioDocente(int idCurso, int idNivel)
         {
             var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
 
@@ -170,13 +182,14 @@ namespace Sistema_Matricula.Controllers
             {
                 idGrado = x.IdGrado,
                 nombre = x.Grado,
-                idNivel = x.IdNivel
-            }).Where(x => x.idNivel == idNivel).Distinct().ToList();
+                idNivel = x.IdNivel,
+                idCurso = x.IdCurso,
+            }).Where(x=>x.idCurso == idCurso && x.idNivel == idNivel).Distinct().ToList();
 
             return Ok(grados);
         }
 
-        public IActionResult ObtenerSeccionesHorarioDocente(int idGrado)
+        public IActionResult ObtenerSeccionesHorarioDocente(int idCurso, int idNivel, int idGrado)
         {
             var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
 
@@ -188,8 +201,10 @@ namespace Sistema_Matricula.Controllers
             {
                 idSeccion = x.IdSeccion,
                 nombre = x.Seccion,
+                idNivel = x.IdNivel,
+                idCurso = x.IdCurso,
                 idGrado = x.IdGrado
-            }).Where(x => x.idGrado == idGrado).Distinct().ToList();
+            }).Where(x=>x.idNivel == idNivel && x.idCurso == idCurso && x.idGrado == idGrado).Distinct().ToList();
 
             return Ok(secciones);
         }
@@ -220,7 +235,7 @@ namespace Sistema_Matricula.Controllers
 
 
         [HttpGet]
-        public IActionResult ObtenerHorarioDocente()
+        public IActionResult ObtenerHorarioDocente(int idCurso, int idNivel, int idGrado, int idSeccion)
         {
             var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
 
@@ -260,11 +275,48 @@ namespace Sistema_Matricula.Controllers
                                 idcurso = x.c.IdCurso,
                                 iddocente = x.d.IdDocente,
                                 idhorario = x.h.IdHorario,
+                                idseccion = x.s.IdSeccion,
+                                idnivel = x.n.IdNivel,
+                                idgrado = x.g.IdGrado,
                                 idhorariocursoseccion = x.hcs.IdHorarioCursoSeccion,
                                 rrule = $"RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY={GetWeekdayAbbreviation(x.h.DiaSemana)};DTSTART={DateTime.Now:yyyyMMddTHHmmss};UNTIL={DateTime.Now.AddMonths(12):yyyyMMddTHHmmss}"
-                            })
-                            .ToList();
+                            });
 
+            if (idCurso != 0 && idSeccion != 0 && idNivel != 0 && idGrado != 0)
+            {
+                resultado = resultado.Where(x => x.idcurso == idCurso && x.idseccion == idSeccion && x.idnivel == idNivel && x.idgrado == idGrado);
+            }
+
+            else if (idCurso == 0 && idSeccion == 0 && idNivel == 0 && idGrado == 0)
+            {
+                resultado = resultado;
+            }
+            else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0 && idGrado != null && idGrado != 0)
+            {
+                resultado = resultado.Where(x => x.idcurso == idCurso && x.idnivel == idNivel);
+
+            }
+            else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0)
+            {
+                resultado = resultado.Where(x => x.idcurso == idCurso && x.idnivel == idNivel);
+
+            }
+            else if (idSeccion != null && idSeccion != 0)
+            {
+                resultado = resultado.Where(x => x.idseccion == idSeccion);
+            }
+            else if (idNivel != null && idNivel != 0)
+            {
+                resultado = resultado.Where(x => x.idnivel == idNivel);
+            }
+            else if (idGrado != null && idGrado != 0)
+            {
+                resultado = resultado.Where(x => x.idgrado == idGrado);
+            }
+            else if (idCurso != null && idCurso != 0)
+            {
+                resultado = resultado.Where(x => x.idcurso == idCurso);
+            }
             return Json(resultado);
         }
 

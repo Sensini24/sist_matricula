@@ -37,166 +37,58 @@
 
                 </div>
             </div>
+
+            <!--PARTE DE EL TIPO DE VISTA DE HORARIO-->
+            <div class="flex justify-center my-4">
+                <div id="cambiar-vista" class=" w-25 text-center bg-white rounded-4 p-4 shadow-md">
+                    <span id="estiloTabla" class="icons-style material-symbols-outlined text-4xl">
+                        table_rows
+                    </span>
+                    <span >
+                        |
+                    </span>
+                    <span id="estiloCalendario" class="icons-style material-symbols-outlined text-4xl">
+                        calendar_month
+                    </span>
+                </div>
+            </div>
+
+            <!--VISTA DE TABLA DE HORARIO-->
             <div id="horario-docente" class="w-full bg-white rounded-4 p-4 shadow-md">
             </div>
 
             @* <div id="cursos-docente" class="w-full bg-white rounded-4 p-4 shadow-md">
             </div> *@
-        </div>
-    </div>
-    <div class="flex flex-col lg:flex-row lg:space-x-4 ">
-        <div class="container bg-[#f9fafa] rounded-4 flex-grow lg:w-2/3 p-4 shadow-md">
-            <div id="calendarioDocente" class="w-full h-96 lg:h-full ">
+
+            <!--VISTA DE CALENDARIO DE HORARIO-->
+            <div class="contenedor-calendario flex flex-col lg:flex-row lg:space-x-4 ">
+                <div class="container bg-[#f9fafa] rounded-4 flex-grow lg:w-2/3 p-4 shadow-md">
+                    <div id="calendarioDocente" class="w-full h-96 lg:h-full ">
+                    </div>
+                </div>
             </div>
         </div>
-        
     </div>
+    
 </body>
+    <style>
+    .icons-style {
+        background: #f8f8f8;
+        border-radius: 25%;
+        padding: 5px;
+        display: inline-block;
+    }
+
+        .icons-style:hover {
+            background: #fca311;
+            cursor: pointer;
+        }
+
+    </style>
 </html>
 
 <script>
-    
-    document.addEventListener("DOMContentLoaded", function () {
-        // var cursosDocente = document.getElementById('cursos-docente');
-        // fetch('/DatosDocente/ObtenerHorariosDocenteCursos')
-        //     .then(response => response.text())
-        //     .then(html => {
-        //         console.log(cursosDocente);
-        //         cursosDocente.innerHTML = html;
-        //     });
-        
-        
-
-        //hORARIO EN LISTA CUANDO CARGA EL DOM
-        var horarioDocente = document.getElementById('horario-docente');
-        fetch(`/DatosDocente/ObtenerHorariosDocente`)
-            .then(response => response.text())
-            .then(html => {
-                horarioDocente.innerHTML = html;
-            });
-
-        //hORARIO EN LISTA CUANDO SE FILTRA
-        var btnFiltrado = document.getElementById('btn-filtrado');
-        btnFiltrado.addEventListener('click', function () {
-            var idCurso = document.getElementById('cursoSelect').value;
-            var idNivel = document.getElementById('nivelSelect').value;
-            var idGrado = document.getElementById('gradoSelect').value;
-            var idSeccion = document.getElementById('seccionSelect').value;
-
-            console.log('ID del select curso:', idCurso);
-            console.log('ID del select nivel:', idNivel);
-            console.log('ID del select grado:', idGrado);
-            console.log('ID del select seccion:', idSeccion);
-
-            // Construcción correcta de la URL
-            fetch(`/DatosDocente/ObtenerHorariosDocente?idCurso=${idCurso}&idNivel=${idNivel}&idGrado=${idGrado}&idSeccion=${idSeccion}`)
-                .then(response => response.text())
-                .then(html => {
-                    var horarioDocente = document.getElementById('horario-docente');
-                    horarioDocente.innerHTML = html;
-                });
-        });
-
-        
-
-        //AGREGAR VALORES A LOS SELECTS 
-            // Cursos Lista en Select
-            fetch('/DatosDocente/ObtenerCursosHorarioDocente')
-                .then(response => response.json())
-                .then(data => {
-                    var cursoSelect = document.getElementById('cursoSelect');
-                    cursoSelect.innerHTML = '<option value="">Seleccione un curso</option>';
-                    data.forEach(curso => {
-                        var option = document.createElement('option');
-                        option.value = curso.idCurso;
-                        option.text = curso.nombre;
-                        cursoSelect.appendChild(option);
-                        console.log(curso);
-                    });
-                });
-
-        // Niveles Lista en Select
-        var cursoSelect = document.getElementById('cursoSelect');
-
-        cursoSelect.addEventListener('change', function () {
-            var idCurso = this.value;
-            if (idCurso) {
-                fetch(`/DatosDocente/ObtenerNivelesHorarioDocente?idCurso=${idCurso}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(idCurso);
-                        var nivelSelect = document.getElementById('nivelSelect');
-                        nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
-                        data.forEach(curso => {
-                                    var option = document.createElement('option');
-                                    option.value = curso.idNivel;
-                                    option.text = curso.nombre;
-                                    nivelSelect.appendChild(option);
-                            
-                        });
-                    })
-                    .catch(error => console.error('Error fetching niveles:', error));
-            } else {
-                nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
-                gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
-                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';   
-                console.log('No hay cursos seleccionados');
-            }
-        });
-
-        // Grados Lista en Select
-        var nivelSelect = document.getElementById('nivelSelect');
-        nivelSelect.addEventListener('change', function () {
-            var idNivel = this.value;
-            if (idNivel) {
-                fetch(`/DatosDocente/ObtenerGradosHorarioDocente?idNivel=${idNivel}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        var gradoSelect = document.getElementById('gradoSelect');
-                        gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
-                        data.forEach(curso => {
-                            var option = document.createElement('option');
-                            option.value = curso.idGrado;
-                            option.text = curso.nombre;
-                            gradoSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching grados:', error));
-            } else {
-                gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
-                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
-                console.log('No hay grados seleccionados');
-            }
-        });
-            
-
-        // Secciones Lista en Select
-        var gradoSelect = document.getElementById('gradoSelect');
-        gradoSelect.addEventListener('change', function () {
-            var idGrado = this.value;
-            console.log(idGrado);
-            if (idGrado) {
-                fetch(`/DatosDocente/ObtenerSeccionesHorarioDocente?idGrado=${idGrado}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        var seccionSelect = document.getElementById('seccionSelect');
-                        seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
-                        data.forEach(seccion => {
-                            var option = document.createElement('option');
-                            option.value = seccion.idSeccion;
-                            option.text = seccion.nombre;
-                            seccionSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching grados:', error));
-            } else {
-                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
-                console.log('No hay grados seleccionados');
-            }
-        });
-
-        var calendarEl = document.getElementById('calendarioDocente');
-        var seccionSelect = document.getElementById('seccionSelect');
+    function renderizarCalendario(idCurso, idNivel, idGrado, idSeccion) {
         var calendarEl = document.getElementById('calendarioDocente');
         var seccionSelect = document.getElementById('seccionSelect');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -212,15 +104,26 @@
                 right: 'timeGridWeek,timeGridDay,dayGridMonth'
             },
             events: function (fetchInfo, successCallback, failureCallback) {
-                fetch(`/DatosDocente/ObtenerHorarioDocente`)
+                var idCurso = document.getElementById('cursoSelect').value;
+                var idNivel = document.getElementById('nivelSelect').value;
+                var idGrado = document.getElementById('gradoSelect').value;
+                var idSeccion = document.getElementById('seccionSelect').value;
+
+                console.log('ID del select curso:', idCurso);
+                console.log('ID del select nivel:', idNivel);
+                console.log('ID del select grado:', idGrado);
+                console.log('ID del select seccion:', idSeccion);
+                fetch(`/DatosDocente/ObtenerHorarioDocente?idCurso=${idCurso}&idNivel=${idNivel}&idGrado=${idGrado}&idSeccion=${idSeccion}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         const events = data.map(event => ({
                             ...event,
-                            rrule: event.rrule // This should now be a string
+                            rrule: event.rrule
                         }));
                         successCallback(events);
                         console.log(events);
+                        console.log("Data : ", data)
                     })
                     .catch(error => {
                         console.error('Error fetching events:', error);
@@ -228,18 +131,19 @@
                     });
             },
             eventContent: function (eventContentInfo) {
-                console.log(eventContentInfo.event);
+                console.log("eventos " , eventContentInfo.event);
                 const curso = eventContentInfo.event.extendedProps.curso;
+                console.log("Curso: " , curso);
                 return {
 
                     html: `
-                                <div>
-                                    <strong>${eventContentInfo.event.extendedProps.curso}</strong><br>
-                                    <strong>${eventContentInfo.event.extendedProps.seccion}</strong><br>
-                                        <strong>${eventContentInfo.event.extendedProps.horainicio} - ${eventContentInfo.event.extendedProps.horafin}</strong>
+                                        <div>
+                                            <strong>${eventContentInfo.event.extendedProps.curso}</strong><br>
+                                            <strong>${eventContentInfo.event.extendedProps.seccion}</strong><br>
+                                                <strong>${eventContentInfo.event.extendedProps.horainicio} - ${eventContentInfo.event.extendedProps.horafin}</strong>
 
-                                </div>
-                            `
+                                        </div>
+                                    `
                 };
             },
             eventDidMount: function (info) {
@@ -294,6 +198,200 @@
         //     calendar.removeAllEvents();
         //     calendar.refetchEvents();
         // });
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        // var cursosDocente = document.getElementById('cursos-docente');
+        // fetch('/DatosDocente/ObtenerHorariosDocenteCursos')
+        //     .then(response => response.text())
+        //     .then(html => {
+        //         console.log(cursosDocente);
+        //         cursosDocente.innerHTML = html;
+        //     });
+        
+        
+
+        //hORARIO EN LISTA CUANDO CARGA EL DOM
+        // var estiloTabla = document.getElementById('estiloTabla');
+        // var estiloCalendario = document.getElementById('estiloCalendario');
+
+        // var horarioDocente = document.getElementById('horario-docente');
+        // fetch(`/DatosDocente/ObtenerHorariosDocente`)
+        //         .then(response => response.text())
+        //         .then(html => {
+        //             horarioDocente.innerHTML = html;
+        //         });
+
+
+
+        //ESTILO TABLA
+        var estiloTabla = document.getElementById('estiloTabla');
+        var estiloCalendario = document.getElementById('estiloCalendario');
+
+        var horarioDocente = document.getElementById('horario-docente');
+        var contenedorCalendario = document.querySelector('.contenedor-calendario');
+        var calendarioDocente = document.getElementById('calendarioDocente');
+
+        // Mostrar vista de tabla por defecto al cargar la página
+        fetch(`/DatosDocente/ObtenerHorariosDocente`)
+            .then(response => response.text())
+            .then(html => {
+                horarioDocente.innerHTML = html;
+                contenedorCalendario.classList.add('hidden');
+            });
+
+        estiloTabla.addEventListener('click', function () {
+            fetch(`/DatosDocente/ObtenerHorariosDocente`)
+                .then(response => response.text())
+                .then(html => {
+                    horarioDocente.innerHTML = html;
+                    horarioDocente.classList.remove('hidden');
+                    contenedorCalendario.classList.add('hidden');
+                    estiloTabla.style.backgroundColor = '#fca311';
+                    estiloCalendario.style.backgroundColor = '#f8f8f8';
+                });
+        });
+
+        estiloCalendario.addEventListener('click', function () {
+            var idCurso = document.getElementById('cursoSelect').value;
+            var idNivel = document.getElementById('nivelSelect').value;
+            var idGrado = document.getElementById('gradoSelect').value;
+            var idSeccion = document.getElementById('seccionSelect').value;
+            horarioDocente.classList.add('hidden');
+            contenedorCalendario.classList.remove('hidden');
+            estiloTabla.style.backgroundColor = '#f8f8f8';
+            estiloCalendario.style.backgroundColor = '#fca311';
+            renderizarCalendario(idCurso, idNivel, idGrado, idSeccion); // Render the calendar
+        });
+
+
+        //hORARIO EN LISTA CUANDO SE FILTRA
+        var btnFiltrado = document.getElementById('btn-filtrado');
+        btnFiltrado.addEventListener('click', function () {
+            var idCurso = document.getElementById('cursoSelect').value;
+            var idNivel = document.getElementById('nivelSelect').value;
+            var idGrado = document.getElementById('gradoSelect').value;
+            var idSeccion = document.getElementById('seccionSelect').value;
+
+            
+
+            // Construcción correcta de la URL
+            fetch(`/DatosDocente/ObtenerHorariosDocente?idCurso=${idCurso}&idNivel=${idNivel}&idGrado=${idGrado}&idSeccion=${idSeccion}`)
+                .then(response => response.text())
+                .then(html => {
+                    var horarioDocente = document.getElementById('horario-docente');
+                    horarioDocente.innerHTML = html;
+                });
+
+            renderizarCalendario(idCurso, idNivel, idGrado, idSeccion);
+        });
+
+        
+
+        //AGREGAR VALORES A LOS SELECTS 
+            // Cursos Lista en Select
+            fetch('/DatosDocente/ObtenerCursosHorarioDocente')
+                .then(response => response.json())
+                .then(data => {
+                    var cursoSelect = document.getElementById('cursoSelect');
+                    cursoSelect.innerHTML = '<option value="">Seleccione un curso</option>';
+                    data.forEach(curso => {
+                        var option = document.createElement('option');
+                        option.value = curso.idCurso;
+                        option.text = curso.nombre;
+                        cursoSelect.appendChild(option);
+                        console.log(curso);
+                    });
+                });
+
+        // Niveles Lista en Select
+        var cursoSelect = document.getElementById('cursoSelect');
+
+        cursoSelect.addEventListener('change', function () {
+            var idCurso = this.value;
+            if (idCurso) {
+                fetch(`/DatosDocente/ObtenerNivelesHorarioDocente?idCurso=${idCurso}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(idCurso);
+                        var nivelSelect = document.getElementById('nivelSelect');
+                        nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                        gradoSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                        seccionSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                        data.forEach(curso => {
+                                    var option = document.createElement('option');
+                                    option.value = curso.idNivel;
+                                    option.text = curso.nombre;
+                                    nivelSelect.appendChild(option);
+                            
+                        });
+                    })
+                    .catch(error => console.error('Error fetching niveles:', error));
+            } else {
+                nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';   
+                console.log('No hay cursos seleccionados');
+            }
+        });
+
+        // Grados Lista en Select
+        var nivelSelect = document.getElementById('nivelSelect');
+        nivelSelect.addEventListener('change', function () {
+            var idNivel = this.value;
+            var idCurso = document.getElementById('cursoSelect').value;
+            console.log("Curso ID : " , idCurso);
+            if (idNivel) {
+                fetch(`/DatosDocente/ObtenerGradosHorarioDocente?idCurso=${idCurso}&idNivel=${idNivel}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var gradoSelect = document.getElementById('gradoSelect');
+                        gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                        seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
+                        data.forEach(curso => {
+                            var option = document.createElement('option');
+                            option.value = curso.idGrado;
+                            option.text = curso.nombre;
+                            gradoSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching grados:', error));
+            } else {
+                gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
+                console.log('No hay grados seleccionados');
+            }
+        });
+            
+
+        // Secciones Lista en Select
+        var gradoSelect = document.getElementById('gradoSelect');
+        gradoSelect.addEventListener('change', function () {
+            var idGrado = this.value;
+            var idCurso = document.getElementById('cursoSelect').value;
+            var idNivel = document.getElementById('nivelSelect').value;
+            console.log(idCurso);
+            console.log(idNivel);
+            if (idGrado) {
+                fetch(`/DatosDocente/ObtenerSeccionesHorarioDocente?idCurso=${idCurso}&idNivel=${idNivel}&idGrado=${idGrado}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var seccionSelect = document.getElementById('seccionSelect');
+                        seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+                        data.forEach(seccion => {
+                            var option = document.createElement('option');
+                            option.value = seccion.idSeccion;
+                            option.text = seccion.nombre;
+                            seccionSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching grados:', error));
+            } else {
+                seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
+                console.log('No hay grados seleccionados');
+            }
+        });
+
+        
 
 
     });

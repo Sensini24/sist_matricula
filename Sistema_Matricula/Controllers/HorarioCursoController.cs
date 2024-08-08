@@ -231,6 +231,25 @@ namespace Sistema_Matricula.Controllers
         [HttpPost]
         public IActionResult Asignar(HorarioCursoSeccionViewModel model)
         {
+            if(model.IdCursoSeccion == 0 || model.IdCursoSeccion == null)
+            {
+                TempData["Error"] = "Debe seleccionar un curso y una sección";
+                return RedirectToAction("ListarSeccionesyCursos", "Curso");
+            }
+
+            if(model.HoraFin <= model.HoraInicio)
+            {
+                TempData["Error"] = "La hora de inicio debe ser menor a la hora de fin";
+                return RedirectToAction("ListarSeccionesyCursos", "Curso");
+            }
+
+
+            if(model.DiaSemana == null)
+            {
+                TempData["Error"] = "Debe seleccionar un día de la semana";
+                return RedirectToAction("ListarSeccionesyCursos", "Curso");
+            }
+
             var horarioCursoSeccion = new HorarioCursoSeccion
             {
                 IdCursoSeccion = model.IdCursoSeccion, //este sera un campo donde se elige una previa asociacion de curso a una seccion

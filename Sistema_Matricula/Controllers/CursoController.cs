@@ -28,7 +28,30 @@ namespace Sistema_Matricula.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListarCursos(int pageNumber = 1, int pageSize = 6, string nombre = "")
+        public IActionResult ListarCursos(int pageNumber = 1, int pageSize = 6)
+        {
+            IQueryable<Curso> query = db.Cursos.OrderBy(c => c.IdCurso);
+
+            var totalCursos = query.Count();
+
+            var cursos = query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var model = new PagedResult<Curso>
+            {
+                Items = cursos,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCursos
+            };
+
+            return PartialView("_ListarCurso", model);
+        }
+
+        [HttpGet]
+        public IActionResult BuscarCursosPorNombre(string nombre, int pageNumber = 1, int pageSize = 6)
         {
             IQueryable<Curso> query = db.Cursos.OrderBy(c => c.IdCurso);
 
@@ -337,7 +360,7 @@ namespace Sistema_Matricula.Controllers
                 db.Cursos.Update(curso);
                 db.SaveChanges();
                 TempData["CursoEditado"] = $"Curso {curso.Nombre} editado exitosamente.";
-                return RedirectToAction("ListarCursos", "Curso");
+                return RedirectToAction("ListarCursos", new { pageNumber = 1,  pageSize = 6,  nombre = "" });
             }
             return View(curso);
         }

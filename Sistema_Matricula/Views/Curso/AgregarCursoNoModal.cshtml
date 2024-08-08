@@ -66,8 +66,8 @@
 <script>
 
     
-    function loadPage(pageNumber, nombre) {
-        fetch(`ListarCursos?pageNumber=${pageNumber}&nombre=${encodeURIComponent(nombre)}`)
+    function loadPage(pageNumber) {
+        fetch(`/Curso/ListarCursos?pageNumber=${pageNumber}`)
             .then(response => response.text())
             .then(html => {
                 document.getElementById('lista-cursos').innerHTML = html;
@@ -111,61 +111,114 @@
 
 
                 
-                //editar modal
-                document.querySelectorAll('.activar-estudiante').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const idCurso = this.getAttribute('data-id');
-                        fetch(`/Curso/EditarCurso?idCurso=${idCurso}`)
+                editar()
+            })
+            .catch(error => console.error('Error al cargar la página:', error));
+    }
+    function loadPageBuscar(nombre, pageNumber) {
+        fetch(`/Curso/BuscarCursosPorNombre?nombre=${nombre}&pageNumber=${pageNumber}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('lista-cursos').innerHTML = html;
+
+                var deleteboton = document.querySelectorAll('.delete-btn');
+                deleteboton.forEach(boton => {
+                    boton.addEventListener('click', function () {
+                        console.log("eliminar")
+                        fetch("/Curso/ModalEliminarCurso")
                             .then(response => response.text())
                             .then(html => {
-                                document.querySelector('#agregarEstudianteModal .modal-body').innerHTML = html;
-                                const modal = new bootstrap.Modal(document.getElementById('agregarEstudianteModal'));
+                                var modalContainer = document.getElementById('modal-container');
+                                modalContainer.innerHTML = html;
+
+                                var modal = new bootstrap.Modal(document.getElementById('confirmModal'));
                                 modal.show();
 
-                                var formdata = document.getElementById('editarEstudianteForm');
-                                formdata.addEventListener('submit', async(e)=>{
-                                    e.preventDefault();
-                                    const nuevoForm = new FormData(formdata);
-                                    try {
-                                        let response = await fetch(`EditarCurso/`, {
-                                            method: 'POST',
-                                            body: nuevoForm
-                                        });
+                                var confirmar = document.getElementById('confirm-delete-button');
 
-                                        if (!response.ok) {
-                                            throw new Error(`Error ${response.status}: ${response.statusText}`);
-                                        }
 
-                                        let html = await response.text();
-                                        let listaCursos = document.getElementById('lista-cursos');
-                                        listaCursos.innerHTML = html;
+                                confirmar.addEventListener('click', () => {
+                                    const idCurso = this.getAttribute('data-id');
+                                    console.log(idCurso)
+                                    fetch(`EliminarCurso?idCurso=${idCurso}`, {
+                                        method: 'DELETE'
+                                    })
+                                        .then(response => response.text())
+                                        .then(html => {
+                                            modal.hide();
+                                            window.location.reload();
+                                        })
+                                })
 
-                                        //editado de cursos
-                                        setTimeout(() => {
-                                            cursoEditado.innerHTML = ''
-                                        }, 3000)
-
-                                        // Limpiar el formulario después de agregar un nuevo curso
-                                        modal.hide();
-                                        formadata.reset();
-                                    } catch (error) {
-                                        console.error('Error al agregar curso:', error);
-                                    }
+                                var cancelar = document.getElementById('cancel-button');
+                                cancelar.addEventListener('click', () => {
+                                    modal.hide();
                                 })
                             })
+                    })
+                })
 
-                            .catch(error => console.error('Error al cargar contenido del modal:', error));
-                    });
-                });
+
+                editar()
+                
             })
             .catch(error => console.error('Error al cargar la página:', error));
     }
 
+    function editar(){
+        //editar modal
+        document.querySelectorAll('.activar-estudiante').forEach(button => {
+            button.addEventListener('click', function () {
+                const idCurso = this.getAttribute('data-id');
+                fetch(`/Curso/EditarCurso?idCurso=${idCurso}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('#agregarEstudianteModal .modal-body').innerHTML = html;
+                        const modal = new bootstrap.Modal(document.getElementById('agregarEstudianteModal'));
+                        modal.show();
+
+                        var formdata = document.getElementById('editarEstudianteForm');
+                        formdata.addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            const nuevoForm = new FormData(formdata);
+                            try {
+                                let response = await fetch(`EditarCurso/`, {
+                                    method: 'POST',
+                                    body: nuevoForm
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                                }
+
+                                let html = await response.text();
+                                console.log(html)
+                                let listaCursos = document.getElementById('lista-cursos');
+                                listaCursos.innerHTML = html;
+
+                                //editado de cursos
+                                setTimeout(() => {
+                                    cursoEditado.innerHTML = ''
+                                }, 3000)
+
+                                // Limpiar el formulario después de agregar un nuevo curso
+                                modal.hide();
+                                formdata.reset();
+                            } catch (error) {
+                                console.error('Error al agregar curso:', error);
+                            }
+                        })
+                    })
+
+                    .catch(error => console.error('Error al cargar contenido del modal:', error));
+            });
+        });
+    }
     document.addEventListener('DOMContentLoaded', function () {
 
         
         // Carga cursos
-        loadPage(1, "");
+        loadPage(1);
 
         var formadata = document.getElementById('formdata');
         var nombre = document.getElementById('nombre').value;
@@ -210,7 +263,7 @@
 
         document.getElementById('cargar').addEventListener('click', function () {
             var nombre = document.getElementById('nombre').value;
-            loadPage(1, nombre);
+            loadPageBuscar(nombre, 1);
         });
 
         
