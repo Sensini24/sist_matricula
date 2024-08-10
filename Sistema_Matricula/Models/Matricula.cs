@@ -7,7 +7,7 @@ public partial class Matricula
 {
     public int IdMatricula { get; set; }
 
-    public DateOnly FechMatricula { get; set; }
+    public DateTime FechMatricula { get; set; }
 
     public int? IdNivel { get; set; }
 

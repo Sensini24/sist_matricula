@@ -391,11 +391,6 @@ namespace Sistema_Matricula.Controllers
             }
         }
 
-
-
-
-
-
         [HttpGet]
         public ActionResult BuscarGradoPorNivel(int idNivel)
         {

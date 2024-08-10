@@ -41,7 +41,7 @@
                         </div>
                         <div class="form-group w-full  px-3 mb-6 md:mb-0">
                             <label asp-for="Sexo" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Sexo</label>
-                            <select asp-for="Sexo" class="form-control" asp-items="ViewBag.Sexo">
+                            <select asp-for="Sexo" class="form-control  appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Sexo">
                                 <option value="">-- Seleccione --</option>
                             </select>
                             <span asp-validation-for="Sexo" class="text-danger"></span>
@@ -56,9 +56,9 @@
                             <input asp-for="FechNacimiento" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="date" />
                             <span asp-validation-for="FechNacimiento" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="IdEspecialidad" class="control-label"></label>
-                            <select asp-for="IdEspecialidad" class="form-control" asp-items="ViewBag.Especialidad">
+                        <div class="form-group w-full  px-3 mb-6 md:mb-0">
+                            <label asp-for="IdEspecialidad" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                            <select asp-for="IdEspecialidad" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Especialidad">
                                 <option value="">-- Seleccione --</option>
                             </select>
                             <span asp-validation-for="IdEspecialidad" class="text-danger"></span>

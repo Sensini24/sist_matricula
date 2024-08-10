@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sistema_Matricula.Models.Matricula>
+﻿@model IEnumerable<Sistema_Matricula.ViewsModels.MatriculaViewModel>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -12,9 +12,6 @@
 
     </head>
 <body style="align-content:start; margin-left:280px; margin-top:20px; background:#E5E5E5">
-    <p>
-        <a asp-action="AgregarMatricula">Nuevo</a>
-    </p>
 
     <div class="layout-content-container flex flex-col w-full flex-1">
         <div class="px-4 py-3 container w-full">
@@ -26,22 +23,22 @@
                                 @Html.DisplayNameFor(model => model.IdMatricula)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.IdNivel)
+                                @Html.DisplayNameFor(model => model.DescripcionNivel)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.IdGrado)
+                                @Html.DisplayNameFor(model => model.DescripcionGrado)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.IdSeccion)
+                                @Html.DisplayNameFor(model => model.NombreSeccion)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.IdPeriodEscolar)
+                                @Html.DisplayNameFor(model => model.NombrePeriodo)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.IdEstudiante)
+                                @Html.DisplayNameFor(model => model.NombreEstudiante) - @Html.DisplayNameFor(model=>model.ApellidoEstudiante)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.IdMonto)
+                                @Html.DisplayNameFor(model => model.DescripcionMonto) - @Html.DisplayNameFor(model => model.Monto)
                             </th>
                             <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
                                 @Html.DisplayNameFor(model => model.Estado)
@@ -57,30 +54,27 @@
                                     @Html.DisplayFor(modelItem => item.IdMatricula)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.IdNivel)
+                                    @Html.DisplayFor(modelItem => item.DescripcionNivel)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.IdGrado)
+                                    @Html.DisplayFor(modelItem => item.DescripcionGrado)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.IdSeccion)
+                                    @Html.DisplayFor(modelItem => item.NombreSeccion)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.IdPeriodEscolar)
+                                    @Html.DisplayFor(modelItem => item.NombrePeriodo)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.IdEstudiante)
+                                    @Html.DisplayFor(modelItem => item.NombreEstudiante) - @Html.DisplayFor(modelItem => item.ApellidoEstudiante)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.IdMonto)
+                                    @Html.DisplayFor(modelItem => item.DescripcionMonto) - @Html.DisplayFor(modelItem => item.Monto)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
                                     @Html.DisplayFor(modelItem => item.Estado)
                                 </td>
                                 <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.ActionLink("Editar", "EditarMatricula", new { id = item.IdMatricula })|
-                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                                 </td>
                             </tr>
                         }

@@ -21,16 +21,16 @@
         <div class="container  space-y-4 lg:w-1/3 p-4">
             <div class="filter-container p-4  w-full bg-white rounded-4 p-4 shadow-md">
                 <div class="filters flex flex-col md:flex-row md:justify-between">
-                    <select id="cursoSelect" class="filter-select mb-2 md:mb-0" id="filter-course">
+                    <select id="cursoSelect" class="filter-select mb-2 md:mb-0 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-course">
                         <option value="">Seleccionar Curso</option>
                     </select>
-                    <select id="nivelSelect" class="filter-select mb-2 md:mb-0" id="filter-level">
+                    <select id="nivelSelect" class="filter-select mb-2 md:mb-0 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-level">
                         <option value="">Seleccionar Nivel</option>
                     </select>
-                    <select id="gradoSelect" class="filter-select mb-2 md:mb-0" id="filter-grade">
+                    <select id="gradoSelect" class="filter-select mb-2 md:mb-0 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-grade">
                         <option value="">Seleccionar Grado</option>
                     </select>
-                    <select id="seccionSelect" class="filter-select mb-2" id="filter-section">
+                    <select id="seccionSelect" class="filter-select mb-2 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-section">
                         <option value="">Seleccionar Sección</option>
                     </select>
                     <button id="btn-filtrado" class="bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 rounded-3">Buscar</button>
@@ -88,11 +88,14 @@
 </html>
 
 <script>
+    
+
     function renderizarCalendario(idCurso, idNivel, idGrado, idSeccion) {
         var calendarEl = document.getElementById('calendarioDocente');
         var seccionSelect = document.getElementById('seccionSelect');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'es',
+            allDaySlot: false,
             height: '500px',
             width: '100%',
             initialView: 'timeGridWeek',
@@ -147,10 +150,21 @@
                 };
             },
             eventDidMount: function (info) {
+                function getRandomInt(max) {
+                    return Math.floor(Math.random() * max);
+                }
+
+
+
                 // Cambia el color del fondo y del borde
-                info.el.style.backgroundColor = '#d25959';
-                info.el.style.borderColor = info.event.borderColor;
-                info.el.style.color = info.event.textColor;
+                console.log("Curso para pintar: ", info.event.extendedProps.curso, info.event.extendedProps.idcurso);
+                let miLista = ["#ebe6ea", "#c8ad8d", "#9dc09d", "#0c3c68"];
+
+                    info.el.style.backgroundColor = '#d25959';
+                    info.el.style.borderColor = info.event.borderColor;
+                    info.el.style.color = info.event.textColor;
+                    console.log(miLista)
+                
             },
             // eventClick: function (info) {
             //     var cursoId = info.event.extendedProps.idcurso;

@@ -1,0 +1,75 @@
+﻿@model PagedResult<Aula>
+
+@{
+    ViewData["Title"] = "ListarAula";
+}
+
+
+<div id="exitoGuardado">
+    @if (TempData["ExitosGuardadoAula"] != null)
+    {
+        <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+            Éxito
+        </div>
+        <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+            @TempData["ExitosGuardadoAula"]
+        </div>
+    }
+</div>
+
+
+<div class="layout-content-container flex flex-col w-full flex-1">
+    <div class="px-4 py-3 container w-full">
+        <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
+            <table class="min-w-full">
+                <thead>
+                    <tr class="bg-[#FCA311]">
+                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            Id Aula
+                        </th>
+                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            Capacidad
+                        </th>
+                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            Vacantes Libres
+                        </th>
+                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            Id Sección
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr class="border-t border-t-[#D5D6DD]">
+                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                @Html.DisplayFor(modelItem => item.IdAula)
+                            </td>
+                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                @Html.DisplayFor(modelItem => item.Capacidad)
+                            </td>
+                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                @Html.DisplayFor(modelItem => item.VacantLibres)
+                            </td>
+                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                @Html.DisplayFor(modelItem => item.IdSeccion)
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex justify-between mt-4">
+        <!--No le pasaba los datos de nombre-->
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage(@(Model.PageNumber - 1))" @(Model.PageNumber == 1 ? "disabled" : "")>Anterior</button>
+        <span>Página @(Model.PageNumber) de @(Model.TotalPages)</span>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage(@(Model.PageNumber + 1))" @(Model.PageNumber == Model.TotalPages ? "disabled" : "")>Siguiente</button>
+    </div>
+</div>
+<style>
+    body{
+        margin-left: 120px;
+    }
+</style>

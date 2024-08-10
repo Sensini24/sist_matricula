@@ -1,0 +1,65 @@
+﻿@model Sistema_Matricula.Models.Matricula
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title></title>
+</head>
+    <body>
+    <h4>Matricula</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="AgregarMatricula" id="form-matricula" class="col-md-12 flex">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-4 ml-2 mr-2">
+                    <label asp-for="IdEstudiante" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Estudiante</label>
+                    <select asp-for="IdEstudiante" id="estudianteId" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.EstudiantesSinMatricula">
+                        <option value="">--Seleccione Estudiante--</option>
+                    </select>
+                    <span asp-validation-for="IdEstudiante" class="text-danger"></span>
+                    </div>
+                <div class="form-group col-md-4 ml-2 mr-2 w-25">
+                    <label asp-for="IdNivel" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nivel</label>
+                    <select asp-for="IdNivel" id="selectNivel"  class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Niveles">
+                        <option value="">--Seleccione aquí--</option>
+                    </select>
+                    <span asp-validation-for="IdNivel" class="text-danger"></span>
+
+                    <label asp-for="IdGrado" id="gradoSelect"  class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Grado</label>
+                    <select asp-for="IdGrado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Grados">
+                        <option value="">--Seleccione aquí--</option>
+                    </select>
+                    <span asp-validation-for="IdGrado" class="text-danger"></span>
+
+                    <label asp-for="IdSeccion" id="seccionSelect"  class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Sección</label>
+                    <select asp-for="IdSeccion" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Secciones">
+                        <option value="">--Seleccione aquí--</option>
+                    </select>
+                    <span asp-validation-for="IdSeccion" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4 ml-2 mr-2">
+                    <label asp-for="IdPeriodEscolar" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Periodo Escolar</label>
+                    <select asp-for="IdPeriodEscolar" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Periodos">
+                        <option value="">--Seleccione aquí--</option>
+                    </select>
+                    <span asp-validation-for="IdPeriodEscolar" class="text-danger"></span>
+
+                    <label asp-for="IdMonto" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Monto</label>
+                    <select asp-for="IdMonto" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.Montos">
+                        <option value="">--Seleccione aquí--</option>
+                    </select>
+                    <span asp-validation-for="IdMonto" class="text-danger"></span>
+                    <label asp-for="Estado" class="control-label block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Estado</label>
+                    <select asp-for="Estado" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" asp-items="ViewBag.estados">
+                        <option value="">--Seleccione aquí--</option>
+                    </select>
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+
+                    <input type="submit" value="Matricular" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-5" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </body>
+</html>
+

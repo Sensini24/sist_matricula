@@ -104,13 +104,11 @@ namespace Sistema_Matricula.Controllers
             }
             else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0 && idGrado != null && idGrado != 0)
             {
-                viewModelHorario = viewModelHorario.Where(x => x.IdCurso == idCurso && x.IdNivel == idNivel).ToList();
-
+                viewModelHorario = viewModelHorario.Where(x => x.IdCurso == idCurso && x.IdNivel == idNivel && x.IdGrado == idGrado).ToList();
             }
-            else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0)
+            else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0 )
             {
                 viewModelHorario = viewModelHorario.Where(x => x.IdCurso == idCurso && x.IdNivel == idNivel).ToList();
-
             }
             else if (idSeccion != null && idSeccion != 0)
             {
@@ -293,8 +291,7 @@ namespace Sistema_Matricula.Controllers
             }
             else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0 && idGrado != null && idGrado != 0)
             {
-                resultado = resultado.Where(x => x.idcurso == idCurso && x.idnivel == idNivel);
-
+                resultado = resultado.Where(x => x.idcurso == idCurso && x.idnivel == idNivel && x.idgrado == idGrado);
             }
             else if (idCurso != null && idCurso != 0 && idNivel != null && idNivel != 0)
             {
