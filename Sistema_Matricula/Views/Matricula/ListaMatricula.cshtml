@@ -18,7 +18,7 @@
             </div>
 
             <div class="filter-container p-4  w-full bg-white rounded-2 p-4 shadow-lg flex">
-                <div class="col-6">
+                <div class="col-12">
                     <select id="filtrar_matricula" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
                         <option>Filtrado</option>
                         <option value="Todos">Todos</option>
@@ -29,10 +29,10 @@
                     <div id="lista-matricula"></div>
                 </div>
 
-            <div class="col-6">
+            @* <div class="col-6">
                     <div id="lista-sinMatricular"></div>
                 </div>
-            </div>
+            </div> *@
             
         </div>
     </body>
@@ -61,40 +61,180 @@
             .then(response => response.text())
             .then(html => {
                 agregarMatricula.innerHTML = html
+                FuncionAgregarMatricula();
 
-                // var estudianteId = document.getElementById('estudianteId');
-
-                // estudianteId.addEventListener('change', () => {
-                //     console.log(estudianteId.value)
-                // })
-
-                var selectNivel = document.getElementById('selectNivel');
-                selectNivel.addEventListener('change', ()=>{
-                    var idNivel = document.getElementById('selectNivel').value;
-                    console.log(idNivel)
-                    fetch(`/Aula/ObtenerGradosPorNivel?idNivel=${idNivel}`)
-                        .then(response => response.json())
+                var recargar = document.getElementById('recargar');
+                recargar.addEventListener('click', () => {
+                    fetch(`AgregarMatricula`)
+                        .then(response => response.text())
                         .then(html => {
+                            agregarMatricula.innerHTML = html
 
-                            gradoSelect.innerHTML = '<option value="">Seleccionar Grado</option>';
-                            seccionSelect.innerHTML = '<option value="">Seleccionar Seccion</option>';
-                            html.forEach(element => {
-                                var option = `<option value="">--Seleccione un grado--</option>`
-                                gradoSelect.text = element.descripcion
-                                gradoSelect.value = element.idGrado
-                            });
+                            FuncionAgregarMatricula();
                         })
+
                 })
+
 
                 
             })
 
-        var sinMatricular = document.getElementById('lista-sinMatricular');
-        fetch(`EstudiantesSinMatricular`)
-            .then(response => response.text())
-            .then(html => {
-                sinMatricular.innerHTML = html
+        function FuncionAgregarMatricula(){
+            
+            // var estudianteId = document.getElementById('estudianteId');
+
+            // estudianteId.addEventListener('change', () => {
+            //     console.log(estudianteId.value)
+            // })
+            var gradoSelect = document.getElementById('gradoSelect');
+            var seccionSelect = document.getElementById('seccionSelect');
+            var selectNivel = document.getElementById('selectNivel');
+
+            selectNivel.addEventListener('change', () => {
+                var idNivel = selectNivel.value;
+
+                fetch(`/Curso/BuscarGradoPorNivel?idNivel=${idNivel}`)
+                    .then(response => response.json())
+                    .then(html => {
+                        gradoSelect.innerHTML = '<option value="">Seleccionar Grado</option>';
+                        seccionSelect.innerHTML = '<option value="">Seleccionar Seccion</option>';
+                        html.forEach(element => {
+                            var option = document.createElement('option');
+                            option.value = element.idGrado;
+                            option.text = element.descripcion;
+                            gradoSelect.appendChild(option);
+                        });
+                    })
             })
+
+            gradoSelect.addEventListener('change', () => {
+                var idGrado = gradoSelect.value;
+                console.log(idGrado)
+                fetch(`/Curso/BuscarSeccionPorGrado?idGrado=${idGrado}`)
+                    .then(response => response.json())
+                    .then(html => {
+                        seccionSelect.innerHTML = '<option value="">Seleccionar Seccion</option>';
+                        html.forEach(element => {
+                            var option = document.createElement('option');
+                            option.value = element.idSeccion;
+                            option.text = element.nombre;
+                            seccionSelect.appendChild(option);
+                        });
+                    })
+            })
+
+
+            var buscar = document.getElementById('buscar');
+            var buscaDni = document.getElementById('busca-dni');
+            var mensajeerror = document.getElementById('mensajeerror');
+            buscar.addEventListener('click', () => {
+                var dni = buscaDni.value;
+                fetch(`ObtenerEstudianteDNI?dni=${dni}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var estudianteId = document.getElementById('estudianteId');
+                        var periodo = document.getElementById('periodo');
+                        var monto = document.getElementById('monto');
+                        var estado = document.getElementById('estado');
+                        var errorMessage = document.getElementById('errorMessage');
+                        var estado = document.getElementById('estado');
+
+                        if (errorMessage) {
+                            errorMessage.textContent = '';
+                        }
+
+                        if (data.error) {
+                            mensajeerror.innerHTML = `
+                                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                                            Atención!!!
+                                        </div>
+                                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                                            ${data.error}
+                                        </div>
+                                    `;
+
+                            setTimeout(() => {
+                                mensajeerror.innerHTML = '';
+                            }, 4000);
+
+                            if (errorMessage) {
+                                errorMessage.textContent = data.error;
+
+                            }
+                        } else {
+
+                            mensajeerror.innerHTML = "";
+                            estudianteId.innerHTML = '';
+                            periodo.innerHTML = '';
+                            monto.innerHTML = '';
+                            estado.innerHTML = '';
+                            var optionestudianteId = document.createElement('option');
+                            optionestudianteId.value = data.estudiante.idEstudiante;
+                            optionestudianteId.textContent = data.estudiante.nombreCompleto;
+                            estudianteId.appendChild(optionestudianteId);
+
+                            var optionperiodo = document.createElement('option');
+                            optionperiodo.value = data.periodoEscolar.idPeriodEscolar;
+                            optionperiodo.textContent = data.periodoEscolar.nombre;
+                            periodo.appendChild(optionperiodo);
+
+                            var optionmonto = document.createElement('option');
+                            optionmonto.value = data.monto.idMonto;
+                            optionmonto.textContent = data.monto.nomCompleto;
+                            monto.appendChild(optionmonto);
+
+                            var optionestado = document.createElement('option');
+                            optionestado.value = data.estado
+                            optionestado.textContent = data.estado
+                            estado.appendChild(optionestado);
+
+
+                            estudianteId.value = data.estudiante.idEstudiante;
+                        }
+
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        var errorMessage = document.getElementById('errorMessage');
+                        if (errorMessage) {
+                            errorMessage.textContent = 'Error al obtener los datos. Inténtelo de nuevo más tarde.';
+                        }
+                    });
+            });
+
+            var formMatricula = document.getElementById('form-matricula');
+            formMatricula.addEventListener('submit', (e) => {
+                e.preventDefault();
+                var dataForm = new FormData(formMatricula);
+                fetch(`AgregarMatricula`, {
+                    method: 'POST',
+                    body: dataForm
+                }).then(response=>response.text())
+                .then(html=>{
+                        listaMatricula.innerHTML = html
+
+                        var exitoMatricula = document.getElementById('exitoMatricula');
+                        var errorMatricula = document.getElementById('errorMatricula');
+                        setTimeout(() => {
+                            exitoMatricula.innerHTML = '';
+                            errorMatricula.innerHTML = '';
+                        }, 5000);
+                })
+            })
+
+            buscaDni.addEventListener('input', (e) => {
+                console.log(e.target.value);
+            });
+        }
+        // var sinMatricular = document.getElementById('lista-sinMatricular');
+        // fetch(`EstudiantesSinMatricular`)
+        //     .then(response => response.text())
+        //     .then(html => {
+        //         sinMatricular.innerHTML = html
+                
+        //     })
+
 
 
 

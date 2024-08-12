@@ -9,9 +9,9 @@ public partial class PeriodoEscolar
 
     public string Nombre { get; set; } = null!;
 
-    public DateOnly FechInicio { get; set; }
+    public DateTime FechInicio { get; set; }
 
-    public DateOnly FechFinal { get; set; }
+    public DateTime FechFinal { get; set; } 
 
     public string Estado { get; set; } = null!;
 

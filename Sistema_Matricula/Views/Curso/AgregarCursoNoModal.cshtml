@@ -16,49 +16,52 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
 
 </head>
-<body style="align-content:start; margin-left:280px; margin-top:20px; background:#E5E5E5">
-    <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Mantenimiento de Cursos</h1>
-    <hr />
+<body style="align-content:start; margin-left:280px;  margin-top:20px; background:#f4f6fa;">
+    <div class="filter-container p-4 bg-white w-full rounded-4 p-4 shadow-md" style="width: 110%">
+        <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Mantenimiento de Cursos</h1>
+        <hr />
 
-    <div class="ml-6">
-        <div class="bg-white p-4 rounded-xl shadow-md">
-            <form id="formdata" class="bg-white p-4 rounded-xl shadow-md">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
-                <div class="form-group mb-4">
-                    <label asp-for="Nombre" class="block text-gray-700 font-bold mb-2"></label>
-                    <input asp-for="Nombre" class="form-control bg-gray-100 border border-gray-300 rounded py-2 px-4" />
-                    <span asp-validation-for="Nombre" class="text-red-500 text-sm"></span>
-                </div>
+        <div class="ml-6">
+            <div class="bg-white p-4 rounded-xl shadow-md">
+                <form id="formdata" class="bg-white p-4 rounded-xl shadow-md">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                    <div class="form-group mb-4">
+                        <label asp-for="Nombre" class="block text-gray-700 font-bold mb-2"></label>
+                        <input asp-for="Nombre" class="form-control bg-gray-100 border border-gray-300 rounded py-2 px-4" />
+                        <span asp-validation-for="Nombre" class="text-red-500 text-sm"></span>
+                    </div>
 
-                <div class="form-group flex justify-end">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Nuevo Curso
-                    </button>
-                </div>
-            </form>
-            @* <select name="estado" id="estados" class="mr-4 bg-[#FFFFFF] text-[#14213D] mt-2 rounded-xl">
+                    <div class="form-group flex justify-end">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Nuevo Curso
+                        </button>
+                    </div>
+                </form>
+                @* <select name="estado" id="estados" class="mr-4 bg-[#FFFFFF] text-[#14213D] mt-2 rounded-xl">
                 <option value="">Filtrar por Estado</option>
                 <option value="Todos">Todos</option>
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
                 <option value="Pendiente">Pendiente</option>
-            </select> *@
-            <input type="text"  id="nombre" value="" placeholder="Buscar por nombre..." />
-            <button type="submit"  id="cargar" class="bg-[#FFFFFF] hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-2">
-                <span class="material-symbols-outlined">
-                    search
-                </span>
-            </button>
-        </div>
-        
+                </select> *@
+                <input type="text" id="nombre" value="" placeholder="Buscar por nombre..." />
+                <button type="submit" id="cargar" class="bg-[#FFFFFF] hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-2">
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+                </button>
+            </div>
 
-        
-    </div>
 
-    <div class="bg-white p-4 rounded-xl shadow-md mt-5 ">
-        <div id="lista-cursos">
+
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-md mt-5 ">
+            <div id="lista-cursos">
+            </div>
         </div>
     </div>
+    
         
     </body>
 </html>

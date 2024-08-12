@@ -59,6 +59,8 @@ namespace Sistema_Matricula.Controllers
             //    var matriculas = obtenerDatosMatriculas(idEstudiante);
             //    return PartialView("_ListarMatricula", matriculas);
             //}
+
+            
             var matriculasviewmodel = db.Matriculas
                 .Select(o => new MatriculaViewModel
                 {
@@ -97,14 +99,17 @@ namespace Sistema_Matricula.Controllers
         [HttpGet]
         public ActionResult EstudiantesSinMatricular()
         {
+            var currentYear = DateTime.Now.Year;
+
             var estudiantesSinMatricula = from e in db.Estudiantes
-                                          join m in db.Matriculas
-                                          on e.IdEstudiante equals m.IdEstudiante into emGroup
+                                          join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante into emGroup
                                           from m in emGroup.DefaultIfEmpty()
-                                          where m == null
+                                          join pe in db.PeriodoEscolars on m.IdPeriodEscolar equals pe.IdPeriodEscolar into dad
+                                          from pe in dad.DefaultIfEmpty()
+                                          where m == null || pe.FechInicio.Year < currentYear
                                           select e;
 
-           
+
 
             return PartialView("_EstudiantesSinMatricular", estudiantesSinMatricula);
         }
@@ -127,12 +132,14 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Montos = new SelectList(db.Montos, "IdMonto", "Monto1").ToList();
             ViewBag.Aulas = new SelectList(db.Aulas, "IdAula", "Capacidad").ToList();
 
+            var currentYear = DateTime.Now.Year;
             var estudiantesSinMatricula = from e in db.Estudiantes
-                                          join m in db.Matriculas
-                                          on e.IdEstudiante equals m.IdEstudiante into emGroup
+                                          join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante into emGroup
                                           from m in emGroup.DefaultIfEmpty()
-                                          where m == null
-                                          select new
+                                          join pe in db.PeriodoEscolars on m.IdPeriodEscolar equals pe.IdPeriodEscolar into dad
+                                          from pe in dad.DefaultIfEmpty()
+                                          where m == null || pe.FechInicio.Year < currentYear
+                                            select new
                                           {
                                               IdEstudiante = e.IdEstudiante,
                                               NombreCompleto = e.Apellido + " " + e.Nombre,
@@ -162,11 +169,13 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Montos = new SelectList(db.Montos, "IdMonto", "Monto1").ToList();
             ViewBag.Aulas = new SelectList(db.Aulas, "IdAula", "Capacidad").ToList();
 
+            var currentYear = DateTime.Now.Year;
             var estudiantesSinMatricula = from e in db.Estudiantes
-                                          join m in db.Matriculas
-                                          on e.IdEstudiante equals m.IdEstudiante into emGroup
+                                          join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante into emGroup
                                           from m in emGroup.DefaultIfEmpty()
-                                          where m == null
+                                          join pe in db.PeriodoEscolars on m.IdPeriodEscolar equals pe.IdPeriodEscolar into dad
+                                          from pe in dad.DefaultIfEmpty()
+                                          where m == null || pe.FechInicio.Year < currentYear
                                           select new
                                           {
                                               IdEstudiante = e.IdEstudiante,
@@ -179,14 +188,19 @@ namespace Sistema_Matricula.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(matricula);
+                TempData["ErrorMatricula"] = "La matricula se ha registrado correctamente";
+                return RedirectToAction("ListarMatriculaCompleta");
             }
+
+            var estudiante = db.Estudiantes.Find(matricula.IdEstudiante);
+            estudiante.Estado = "Pendiente";
+            db.Estudiantes.Update(estudiante);
 
             db.Matriculas.Add(matricula);
             TempData["ExitoMatricula"] = "La matricula se ha registrado correctamente";
             db.SaveChanges();
 
-            return RedirectToAction("_ListarMatricula");
+            return RedirectToAction("ListarMatriculaCompleta");
         }
 
         [HttpGet]
@@ -209,8 +223,74 @@ namespace Sistema_Matricula.Controllers
             return RedirectToAction("ListarMatricula");
         }
 
-        
-        
+        [HttpGet]
+        public IActionResult ObtenerEstudianteDNI(string dni)
+        {
+            // Obtener periodo escolar actual
+            var periodoActual = db.PeriodoEscolars
+                .FirstOrDefault(pe => DateTime.Now >= pe.FechInicio && DateTime.Now <= pe.FechFinal);
+
+            if (periodoActual == null)
+            {
+                return Json(new { error = "No hay un periodo escolar activo." });
+            }
+
+            var currentYear = DateTime.Now.Year;
+
+            // Buscar estudiante por DNI
+            var estudiante = db.Estudiantes.FirstOrDefault(e => e.Dni == dni);
+
+            if (estudiante == null)
+            {
+                TempData["ErrorEstudiante"] = "No se encontró un estudiante con el DNI ingresado.";
+                return Json(new { error = "No se encontró un estudiante con el DNI ingresado." });
+            }
+
+            // Verificar si el estudiante ya está matriculado en el periodo actual
+            var matriculaActual = db.Matriculas
+                .Any(m => m.IdEstudiante == estudiante.IdEstudiante && m.IdPeriodEscolar == periodoActual.IdPeriodEscolar);
+
+            if (matriculaActual)
+            {
+                TempData["ErrorEstudiante"] = "El estudiante ya está matriculado en el periodo escolar actual.";
+                return Json(new { error = "El estudiante ya está matriculado en el periodo escolar actual." });
+            }
+
+            // Determinar si es estudiante antiguo o nuevo
+            var ultimaMatricula = db.Matriculas
+                .Where(m => m.IdEstudiante == estudiante.IdEstudiante)
+                .OrderByDescending(m => m.FechMatricula)
+                .FirstOrDefault();
+
+            bool esNuevo = ultimaMatricula == null ||
+                           db.PeriodoEscolars.Any(pe => pe.IdPeriodEscolar == ultimaMatricula.IdPeriodEscolar && pe.FechInicio.Year < currentYear);
+
+            // Obtener el monto correspondiente
+            var monto = db.Montos.FirstOrDefault(x => x.IdMonto == (esNuevo ? 1 : 2));
+
+            var resultado = new
+            {
+                Estudiante = new
+                {
+                    estudiante.IdEstudiante,
+                    NombreCompleto = $"{estudiante.Apellido} {estudiante.Nombre}"
+                },
+                PeriodoEscolar = new
+                {
+                    periodoActual.IdPeriodEscolar,
+                    periodoActual.Nombre
+                },
+                Monto = new
+                {
+                    monto.IdMonto,
+                    nomCompleto = $"{monto.Descripcion} {monto.Monto1}"
+                },
+                EsNuevo = esNuevo,
+                estado = "Pendiente"
+            };
+
+            return Ok(resultado);
+        }
 
     }
 }

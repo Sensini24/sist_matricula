@@ -5,98 +5,82 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 </head>
-<h4>CursoSeccion</h4>
-<hr />
+<body style="align-content:start; margin-left:280px;  margin-top:20px; background:#f4f6fa;">
+    <div class="filter-container p-4 bg-white w-full rounded-4 p-4 shadow-md" style="width: 110%">
+        <h4>CursoSeccion</h4>
+        <hr />
 
-<div class="row">
-    <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-12">
-    <div class="col-md-12">
-        <form id="cursoseccionForm" class="row">
-            <div asp-validation-summary="ModelOnly" class="text-danger col-md-12"></div>
-                
-            <!-- Columna izquierda (primeros tres elementos) -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="nivel">Nivel</label>
-                    <select id="nivel" class="form-control" asp-items="ViewBag.Niveles">
-                        <option value="">Seleccione un nivel</option>
-                    </select>
-                </div>
+        <div class="row">
+            <div class="block rounded-lg bg-[#f1f4f9] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white col-md-12">
+                <div class="col-md-12">
+                    <form id="cursoseccionForm" class="row">
+                        <div asp-validation-summary="ModelOnly" class="text-danger col-md-12"></div>
 
-                <div class="form-group">
-                    <label for="grado">Grado</label>
-                    <select id="grado" class="form-control">
-                        <option value="">Seleccione un grado</option>
-                    </select>
-                </div>
+                        <!-- Columna izquierda (primeros tres elementos) -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nivel">Nivel</label>
+                                <select id="nivel" class="form-control" asp-items="ViewBag.Niveles">
+                                    <option value="">Seleccione un nivel</option>
+                                </select>
+                            </div>
 
-                <div class="form-group">
-                    <label for="seccion">Sección</label>
-                    <select id="seccion" class="form-control">
-                        <option value="">Seleccione una sección</option>
-                    </select>
+                            <div class="form-group">
+                                <label for="grado">Grado</label>
+                                <select id="grado" class="form-control">
+                                    <option value="">Seleccione un grado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="seccion">Sección</label>
+                                <select id="seccion" class="form-control">
+                                    <option value="">Seleccione una sección</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Columna derecha (últimos dos elementos) -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="IdCurso" class="control-label"></label>
+                                <select id="curso" asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
+                                    <option value="">Seleccione un curso</option>
+                                </select>
+                                <span asp-validation-for="IdCurso" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="IdDocente" class="control-label"></label>
+                                <select id="docente" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docente">
+                                    <option value="">Seleccione un docente</option>
+                                </select>
+                                <span asp-validation-for="IdDocente" class="text-danger"></span>
+                            </div>
+
+                            <input type="hidden" asp-for="IdSeccion" id="IdSeccion" />
+
+                            <div class="form-group">
+                                <input type="submit" value="Nuevo" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2 " />
+                                @* <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2">Agregar Docente</a> *@
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
+            <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">Buscar</button>
 
-            <!-- Columna derecha (últimos dos elementos) -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="IdCurso" class="control-label"></label>
-                    <select id="curso" asp-for="IdCurso" class="form-control" asp-items="ViewBag.Cursos">
-                        <option value="">Seleccione un curso</option>
-                    </select>
-                    <span asp-validation-for="IdCurso" class="text-danger"></span>
-                </div>
 
-                <div class="form-group">
-                    <label asp-for="IdDocente" class="control-label"></label>
-                    <select id="docente" asp-for="IdDocente" class="form-control" asp-items="ViewBag.Docente">
-                        <option value="">Seleccione un docente</option>
-                    </select>
-                    <span asp-validation-for="IdDocente" class="text-danger"></span>
-                </div>
-
-                <input type="hidden" asp-for="IdSeccion" id="IdSeccion" />
-
-                <div class="form-group" >
-                   <input type="submit" value="Nuevo" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-1 mt-2 " />
-                        @* <a id="boton_modal" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-1 mt-2">Agregar Docente</a> *@
-               </div>
-            </div>
-        </form>
-
-    </div>
-    </div>
-    <button id="buscarBtn" class="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-700 hover:border-yellow-500 rounded">Buscar</button>
-    
-        
-</div>
-
-<!-- Modal para Agregar Proveedor -->
-@* <div class="modal fade bg-green" id="agregarCursoModal" tabindex="-1" aria-labelledby="agregarProveedorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregarProveedorModalLabel">Agregar Curso</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    Nuevo Curso
-                </button>
-            </div>
-            <div class="modal-body">
-                @await Component.InvokeAsync("AgregarCurso")
-            </div>
         </div>
+
+        <div id="lista-cursoseccion">
+        </div>
+
     </div>
-</div> *@
 
 
-<div id="lista-cursoseccion">
-
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</body>
 
 @section Scripts {
     <script>
