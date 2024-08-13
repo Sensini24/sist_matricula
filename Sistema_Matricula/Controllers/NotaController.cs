@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -38,23 +39,184 @@ namespace Sistema_Matricula.Controllers
 
 
             return View(resultado);
+
+            //var secciones = (from e in db.Estudiantes
+            //                join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+            //                join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+            //                join g in db.Grados on s.IdGrado equals g.IdGrado
+            //                join n in db.Nivels on g.IdNivel equals n.IdNivel
+            //                join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+            //                join c in db.Cursos on cs.IdCurso equals c.IdCurso
+            //                join d in db.Docentes on cs.IdDocente equals d.IdDocente
+            //                where d.IdDocente == 1008
+            //                group new { s.IdGrado, s.Nombre, g.Descripcion, n.Descripcion } by new { s.IdGrado, s.Nombre, g.Descripcion, n.Descripcion } into g
+            //                select new
+            //                {
+            //                    Secciones = g.Key.IdGrado,
+            //                    NombreSeccion = g.Key.Nombre,
+            //                    DescripcionGrado = g.Key.Descripcion,
+            //                    DescripcionNivel = g.Key.Descripcion
+            //                }
+            //                ).Distinct().ToList();
+
         }
 
         public IActionResult CantidadAlumnosporCurso(int idCurso)
         {
             var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
             var docenteid = db.Docentes.Where(d => d.IdUsuario == userId).FirstOrDefault().IdDocente;
-            var cantidadEstudiantes = (from e in db.Estudiantes
-                                       join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
-                                       join s in db.Seccions on m.IdSeccion equals s.IdSeccion
-                                       join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
-                                       join c in db.Cursos on cs.IdCurso equals c.IdCurso
-                                       join d in db.Docentes on cs.IdDocente equals d.IdDocente
-                                       where d.IdDocente == docenteid && c.IdCurso == idCurso
-                                       select e.IdEstudiante).Count();
+            var cantidadEstudiantes = ObtenerEstudiantesPorCurso(idCurso).Count();
             
             return Ok(cantidadEstudiantes);
         }
+
+        public IActionResult CantidadSeccionesporCurso(int idCurso)
+        {
+            var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
+            var docenteid = db.Docentes.Where(d => d.IdUsuario == userId).FirstOrDefault().IdDocente;
+            var cantidadSecciones = ConsultaParaObtenerDatosEstudianteDocente().Where(x=>x.Curso.IdCurso == idCurso).Select(x=>x.Seccion.IdSeccion) .Distinct().Count();
+
+            return Ok(cantidadSecciones);
+        }
+
+        public IActionResult ListarEstudiantesPorCursoYSeccion(int idCurso, int idSeccion)
+        {
+            var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
+            var docenteid = db.Docentes.Where(d => d.IdUsuario == userId).FirstOrDefault().IdDocente;
+            var estudiantes = ObtenerEstudiantesPorCurso(idCurso, idSeccion).ToList();
+
+            return PartialView("_EstudiantesPorCurso", estudiantes);
+        }
+
+        public IActionResult ListarSeccionesPorCursoYDocente(int idCurso)
+        {
+            var secciones = ConsultaParaObtenerDatosEstudianteDocente()
+                            .Where(x => x.Curso.IdCurso == idCurso)
+                            .Select(x => new EstudianteCursoSeccionViewModel
+                            {
+                                Seccion = x.Seccion,
+                                Grado = x.Grado,
+                                Nivel = x.Nivel
+                            })
+                            .Distinct()
+                            .ToList();
+
+            return PartialView("_SeccionesPorCurso", secciones);
+        }
+
+
+
+
+        public IQueryable<Estudiante> ObtenerEstudiantesPorCurso(int idCurso, int? idSeccion = null)
+        {
+            var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
+            var docenteid = db.Docentes.Where(d => d.IdUsuario == userId).FirstOrDefault().IdDocente;
+
+            var estudiantesQuery = from e in db.Estudiantes
+                                   join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                                   join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                                   join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                                   join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                                   join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                                   where cs.IdCurso == idCurso && d.IdDocente == docenteid && m.FechMatricula.Year == DateTime.Now.Year
+                                   select new { Estudiante = e, CursoSeccion = cs };
+
+            if (idSeccion > 0)
+            {
+                estudiantesQuery = estudiantesQuery.Where(x => x.CursoSeccion.IdSeccion == idSeccion);
+            }
+
+            var estudiantes = estudiantesQuery.Select(x => x.Estudiante);
+
+            return estudiantes;
+        }
+
+
+        public IQueryable<EstudianteCursoSeccionViewModel> ConsultaParaObtenerDatosEstudianteDocente()
+        {
+            var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
+            var docenteid = db.Docentes.Where(d => d.IdUsuario == userId).FirstOrDefault().IdDocente;
+
+            var estudiantesQuery = from e in db.Estudiantes
+                                   join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                                   join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                                   join g in db.Grados on s.IdGrado equals g.IdGrado
+                                   join n in db.Nivels on g.IdNivel equals n.IdNivel
+                                   join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                                   join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                                   join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                                   where d.IdDocente == docenteid && m.FechMatricula.Year == DateTime.Now.Year
+                                   select new EstudianteCursoSeccionViewModel
+                                   { Estudiante = e, CursoSeccion = cs, Matricula = m, Seccion = s, Curso = c, Docente = d, Grado = g, Nivel = n };
+
+
+            return estudiantesQuery;
+        }
+
+        private int ObtenerIdDocenteActual()
+        {
+            var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
+            return db.Docentes.Where(d => d.IdUsuario == userId).Select(d => d.IdDocente).FirstOrDefault();
+        }
+
+        public IActionResult ObtenerEstudiantesPorCursoSeccion(int idCurso)
+        {
+            var estudiantesQuery = ConsultaParaObtenerDatosEstudianteDocente().Where(c=>c.Curso.IdCurso == idCurso).Select(n=>n.Nivel).Distinct().ToList();
+
+            return Ok(estudiantesQuery);
+        }
+
+        public IActionResult ObtenerGradosPorCursoDeDocente(int idCurso, int idNivel)
+        {
+            var estudiantesQuery = ConsultaParaObtenerDatosEstudianteDocente().Where(c => c.Curso.IdCurso == idCurso && c.Grado.IdNivel == idNivel)
+                .Select(n => n.Grado).Distinct().ToList();
+
+            return Ok(estudiantesQuery);
+        }
+
+        public IActionResult ObtenerSeccionesPorCursoDeDocente(int idCurso, int idNivel, int idGrado)
+        {
+            var estudiantesQuery = ConsultaParaObtenerDatosEstudianteDocente().Where(c => c.Curso.IdCurso == idCurso && c.Grado.IdNivel == idNivel && c.Grado.IdGrado == idGrado)
+                .Select(n => n.Seccion).Distinct().ToList();
+
+            return Ok(estudiantesQuery);
+        }
+
+        public IActionResult ObtenerEstudiantesPorCursoTodosParametro(int idCurso, int? idNivel = null, int? idGrado = null, int? idSeccion = null)
+        {
+            // Obtén el ID del docente actual
+            int docenteid = ObtenerIdDocenteActual();
+
+            // Obtén la consulta base de estudiantes por curso y docente
+            var estudiantesQuery = ConsultaParaObtenerDatosEstudianteDocente()
+                                   .Where(c => c.Curso.IdCurso == idCurso);
+
+            if (idSeccion.HasValue && idSeccion > 0 && idGrado.HasValue && idGrado > 0 && idNivel.HasValue && idNivel > 0)
+            {
+                estudiantesQuery = estudiantesQuery.Where(x => x.Seccion.IdSeccion == idSeccion && x.Grado.IdGrado == idGrado);
+            }else if (idGrado.HasValue && idGrado > 0 && idNivel.HasValue && idNivel > 0)
+            {
+                estudiantesQuery = estudiantesQuery.Where(x => x.Grado.IdGrado == idGrado && x.Nivel.IdNivel == idNivel);
+            }
+            else if (idNivel.HasValue && idNivel > 0)
+            {
+                estudiantesQuery = estudiantesQuery.Where(x => x.Nivel.IdNivel == idNivel);
+            }
+
+
+            // Aplica filtros opcionales si se han proporcionado
+
+
+
+
+
+            // Selecciona solo el modelo `Estudiante` antes de convertirlo a lista
+            var estudiantes = estudiantesQuery.Select(x => x.Estudiante).Distinct().ToList();
+
+            // Retorna la vista parcial con el modelo `Estudiante`
+            return PartialView("_EstudiantesPorCurso", estudiantes);
+        }
+
 
         public IActionResult ObtenerCursosAsignadosADocente()
         {

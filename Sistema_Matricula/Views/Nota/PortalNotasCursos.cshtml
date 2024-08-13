@@ -6,34 +6,85 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
     
     </head>
 <body style="align-content:start; margin-left:230px; margin-top:40px; background:#f4f6fa">
-    <div class="filter-container p-4 w-full bg-white rounded-4 p-4 shadow-md">
+    <div class="filter-container p-4 w-full bg-white rounded-4 p-4 shadow-md flex justify-content-around">
+
         @foreach (var item in Model)
         {
-            <div class="relative flex flex-col mt-6 text-gray-700 bg-[#f0cd00] shadow-md bg-clip-border rounded-xl w-96">
+            <div class="relative flex flex-col mt-6 text-gray-700 bg-[#fca311] shadow-lg bg-clip-border rounded-xl w-96">
                 <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 curso-id">
+                    <h2 id="idCurso" class="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 curso-id">
                         @Html.DisplayFor(modelItem => item.IdCurso)
-                    </h5>
-                    <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
+                    </h2>
+                    <p class="block font-sans  text-2xl antialiased font-light leading-relaxed text-inherit">
                         @Html.DisplayFor(modelItem => item.NombreCurso)
                     </p>
-                    <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit cantidad-alumnos">
-                        Cargando...
+                    <p class="block font-sans text-2xl antialiased font-light leading-relaxed text-inherit cantidad-alumnos">
+                        Cargando Cantidad de Alumnos...
+                    </p>
+                    <p class="block font-sans text-2xl antialiased font-light leading-relaxed text-inherit cantidad-secciones">
+                        Cargando Cantidad de Secciones...
                     </p>
                 </div>
                 <div class="p-6 pt-0">
-                    <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+                    <button data-id="@item.IdCurso" class="boton-estudiantes align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
                             type="button">
                         Ver Estudiantes
                     </button>
+
+                    <button data-id="@item.IdCurso" class="boton-secciones align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+                            type="button">
+                        Ver Secciones
+                    </button>
                 </div>
             </div>
+
+            
         }
     </div>
+
+    <div class="filter-container p-4 bg-white w-full rounded-4 p-4 shadow-md" style="width: 110%">
+        <div id="seccionesCurso"></div>
+    </div>
+    <div class="filter-container p-4 bg-white w-full rounded-4 p-4 shadow-md" style="width: 110%">
+        <div>
+            <div class="filter-container p-4  w-full bg-white rounded-4 p-4 shadow-md">
+                <div class="filters flex flex-col md:flex-row justify-content-md-around">
+                    <select id="nivelSelect" class="filter-select mb-2 md:mb-0 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-level">
+                        <option value="">Seleccionar Nivel</option>
+                    </select>
+                    <select id="gradoSelect" class="filter-select mb-2 md:mb-0 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-grade">
+                        <option value="">Seleccionar Grado</option>
+                    </select>
+                    <select id="seccionSelect" class="filter-select mb-2 appearance-none block w-15 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="filter-section">
+                        <option value="">Seleccionar Sección</option>
+                    </select>
+                    <button id="btn-filtrado" class="bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 rounded-3">Buscar</button>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="estudiantesPorCurso">
+            </div>
+        </div>
+        
+    </div>
+
+
+    <style>
+        p {
+            font-family: "Merriweather", serif;
+            font-weight: 900;
+            font-style: italic;
+        }
+    </style>
     </body>
 </html>
 <script>
@@ -42,12 +93,121 @@
         cursoIds.forEach(function (cursoIdElement) {
             var idCurso = cursoIdElement.textContent.trim();
             var cantidadAlumnosElement = cursoIdElement.nextElementSibling.nextElementSibling;
+            var cantidadSeccionesElement = cantidadAlumnosElement.nextElementSibling;
 
             fetch(`CantidadAlumnosporCurso?idCurso=${idCurso}`)
                 .then(response => response.json())
                 .then(data => {
                     cantidadAlumnosElement.textContent = `Cantidad de Alumnos: ${data}`;
                 });
+
+            fetch(`CantidadSeccionesporCurso?idCurso=${idCurso}`)
+                .then(response => response.json())
+                .then(data => {
+                    cantidadSeccionesElement.textContent = `Cantidad de Secciones: ${data}`;
+                });
+
+            var buttonEstudiante = document.querySelectorAll(".boton-estudiantes");
+            var buttonSeccion = document.querySelectorAll(".boton-secciones");
+
+            buttonEstudiante.forEach(element => {
+                var idcurso = element.getAttribute('data-id');
+
+                element.addEventListener('click', function () {
+                    console.log(idcurso);
+
+                    fetch(`ListarEstudiantesPorCursoYSeccion?idCurso=${idcurso}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            var estudiantesPorCurso = document.getElementById('estudiantesPorCurso');
+                            estudiantesPorCurso.innerHTML = data;
+
+                            var nivelSelect = document.getElementById('nivelSelect');
+                            var gradoSelect = document.getElementById('gradoSelect');
+                            var seccionSelect = document.getElementById('seccionSelect');
+
+                            // Fetch and populate Nivel dropdown
+                            fetch(`ObtenerEstudiantesPorCursoSeccion?idCurso=${idcurso}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    nivelSelect.innerHTML = '<option value="">Seleccione un nivel</option>';
+                                    data.forEach(nivel => {
+                                        var option = document.createElement('option');
+                                        option.value = nivel.idNivel;
+                                        option.text = nivel.descripcion;
+                                        nivelSelect.appendChild(option);
+                                    });
+                                });
+
+                            // Attach change event only once
+                            nivelSelect.onchange = () => {
+                                var idNivel = nivelSelect.value;
+                                fetch(`ObtenerGradosPorCursoDeDocente?idCurso=${idcurso}&idNivel=${idNivel}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log(data);
+                                        gradoSelect.innerHTML = '<option value="">Seleccione un grado</option>';
+                                        seccionSelect.innerHTML = '<option value="">Seleccione una seccion</option>';
+                                        data.forEach(grado => {
+                                            var option = document.createElement('option');
+                                            option.value = grado.idGrado;
+                                            option.text = grado.descripcion;
+                                            gradoSelect.appendChild(option);
+                                        });
+                                    });
+                            };
+
+                            // Attach change event only once
+                            gradoSelect.onchange = () => {
+                                var idNivel = nivelSelect.value;
+                                var idGrado = gradoSelect.value;
+                                fetch(`ObtenerSeccionesPorCursoDeDocente?idCurso=${idcurso}&idNivel=${idNivel}&idGrado=${idGrado}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log(data);
+                                        seccionSelect.innerHTML = '<option value="">Seleccione una Seccion</option>';
+                                        data.forEach(seccion => {
+                                            var option = document.createElement('option');
+                                            option.value = seccion.idSeccion;
+                                            option.text = seccion.nombre;
+                                            seccionSelect.appendChild(option);
+                                        });
+                                    });
+                            };
+
+                            // Attach click event only once
+                            document.getElementById('btn-filtrado').onclick = () => {
+                                var idSeccion = seccionSelect.value;
+                                var idGrado = gradoSelect.value;
+                                var idNivel = nivelSelect.value;
+
+                                fetch(`ObtenerEstudiantesPorCursoTodosParametro?idCurso=${idcurso}&idNivel=${idNivel}&idGrado=${idGrado}&idSeccion=${idSeccion}`)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        estudiantesPorCurso.innerHTML = html;
+                                    });
+                            };
+                        });
+                });
+            });
+
+            buttonSeccion.forEach(element=>{
+                var idCurso = element.getAttribute('data-id');
+                console.log(idCurso);
+                element.addEventListener('click', function(){
+                    fetch(`ListarSeccionesPorCursoYDocente?idCurso=${idCurso}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            var seccionesCurso = document.getElementById('seccionesCurso');
+                            seccionesCurso.innerHTML = data;
+                        });
+                });
+            })
+            
+
+
         });
     });
+    
 </script>

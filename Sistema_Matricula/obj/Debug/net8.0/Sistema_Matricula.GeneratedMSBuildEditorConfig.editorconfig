@@ -306,6 +306,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YVxBZ3JlZ2FyTm90YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nota/DWQDWQ.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YVxEV1FEV1EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nota/EditarNota.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YVxFZGl0YXJOb3RhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -316,6 +320,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nota/PortalNotasCursos.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YVxQb3J0YWxOb3Rhc0N1cnNvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nota/_EstudiantesPorCurso.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YVxfRXN0dWRpYW50ZXNQb3JDdXJzby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Nota/_SeccionesPorCurso.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YVxfU2VjY2lvbmVzUG9yQ3Vyc28uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Pago/AgregarPago.cshtml]
