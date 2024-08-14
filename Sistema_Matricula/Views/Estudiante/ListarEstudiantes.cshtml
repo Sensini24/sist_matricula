@@ -90,72 +90,71 @@
         <div class="layout-content-container flex flex-col w-full flex-1">
             <div class="px-4 py-3 container w-full">
                 <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
-                    <table class="min-w-full">
-                        <thead>
-                            <tr class="bg-[#FCA311]">
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Codigo Estudiante</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Nombres</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Apellidos</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Sexo</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Fech. Nacimiento</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Direccion</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Estado</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">DNI</th>
-                                <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">Mantenimiento</th>
+                    <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
+                        <thead class="bg-gradient-to-r from-[#fca311] to-[#f77f00] text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Codigo Estudiante</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombres</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Apellidos</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Sexo</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Fech. Nacimiento</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Direccion</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Estado</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">DNI</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Mantenimiento</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white divide-y divide-gray-200">
                             @foreach (var item in Model)
                             {
-                                <tr class="border-t border-t-[#D5D6DD]">
-                                    <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal" id="idestudiante">
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 text-sm text-gray-800" id="idestudiante">
                                         @Html.DisplayFor(modelItem => item.IdEstudiante)
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         @Html.DisplayFor(modelItem => item.Nombre)
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         @Html.DisplayFor(modelItem => item.Apellido)
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         @Html.DisplayFor(modelItem => item.Sexo)
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         @Html.DisplayFor(modelItem => item.FechNacimiento)
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         @Html.DisplayFor(modelItem => item.Direccion)
                                     </td>
-                                    <td id="datoEstado" class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800" id="datoEstado">
                                         <span id="span-pintado" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#EEEFF2] text-[#1C1D22] text-sm font-medium leading-normal w-full">
                                             @Html.DisplayFor(modelItem => item.Estado)
                                         </span>
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         @Html.DisplayFor(modelItem => item.Dni)
                                     </td>
-                                    <td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+                                    <td class="px-6 py-4 text-sm text-gray-800">
                                         <div class="flex justify-center space-x-2">
-                                            <a id="activarEstudiante" href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-green-500 px-2 py-2 rounded hover:bg-green-700 transition-colors duration-300 no-underline">
-                                                <span class="material-symbols-outlined text-white text-lg">check</span>
+                                            <a id="activarEstudiante" href="@Url.Action("ActivarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-white bg-green-500 px-2 py-2 rounded hover:bg-green-700 transition-colors duration-300 no-underline">
+                                                <span class="material-symbols-outlined text-lg">check</span>
                                             </a>
-                                            <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-[#212141] bg-red-500 px-2 py-2 rounded hover:bg-red-700 transition-colors duration-300 no-underline">
-                                                <span class="material-symbols-outlined text-white text-lg">delete_forever</span>
+                                            <a id="eliminarEstudiante" href="@Url.Action("EliminarEstudiante", "Estudiante", new { id = item.IdEstudiante })" class="flex justify-center items-center w-8 text-white bg-red-500 px-2 py-2 rounded hover:bg-red-700 transition-colors duration-300 no-underline">
+                                                <span class="material-symbols-outlined text-lg">delete_forever</span>
                                             </a>
-                                            <a class="editar-estudiante flex justify-center items-center w-8 text-[#212141] bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante">
-                                                <span class="material-symbols-outlined text-white text-lg">edit</span>
+                                            <a class="editar-estudiante flex justify-center items-center w-8 text-white bg-yellow-500 px-2 py-2 rounded hover:bg-yellow-700 transition-colors duration-300 no-underline" data-id="@item.IdEstudiante">
+                                                <span class="material-symbols-outlined text-lg">edit</span>
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
                             }
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
+
         <!-- Modal -->
         <div class="modal fade" id="agregarEstudianteModal" tabindex="-1" aria-labelledby="agregarEstudianteModalLabel" aria-hidden="true">
             <div class="modal-dialog">

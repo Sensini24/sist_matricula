@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Internal;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.Utils;
 using Sistema_Matricula.ViewsModels;
@@ -90,13 +91,13 @@ namespace Sistema_Matricula.Controllers
 
         public IActionResult ListarSeccionesPorCursoYDocente(int idCurso)
         {
-            var secciones = ConsultaParaObtenerDatosEstudianteDocente()
-                            .Where(x => x.Curso.IdCurso == idCurso)
+            var secciones = ConsultaParaObtenerDatosEstudianteDocente().Where(x => x.Curso.IdCurso == idCurso)
                             .Select(x => new EstudianteCursoSeccionViewModel
                             {
                                 Seccion = x.Seccion,
                                 Grado = x.Grado,
-                                Nivel = x.Nivel
+                                Nivel = x.Nivel,
+                                Curso = x.Curso
                             })
                             .Distinct()
                             .ToList();
@@ -202,18 +203,9 @@ namespace Sistema_Matricula.Controllers
             {
                 estudiantesQuery = estudiantesQuery.Where(x => x.Nivel.IdNivel == idNivel);
             }
-
-
-            // Aplica filtros opcionales si se han proporcionado
-
-
-
-
-
-            // Selecciona solo el modelo `Estudiante` antes de convertirlo a lista
             var estudiantes = estudiantesQuery.Select(x => x.Estudiante).Distinct().ToList();
 
-            // Retorna la vista parcial con el modelo `Estudiante`
+            // Retorna la vista parcial con el modelo "Estudinte"
             return PartialView("_EstudiantesPorCurso", estudiantes);
         }
 
@@ -232,6 +224,126 @@ namespace Sistema_Matricula.Controllers
             var notas = db.Nota.ToList();
             return View(notas);
         }
+
+        public IActionResult ListarNotas(int idCurso, int idDocente, int idSeccion, int? idEstudiante = null)
+        {
+            var notas = from e in db.Estudiantes
+                        join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
+                        join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                        join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                        join g in db.Grados on s.IdGrado equals g.IdGrado
+                        join n in db.Nivels on g.IdNivel equals n.IdNivel
+                        join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                        join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                        join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                        where d.IdDocente == idDocente && c.IdCurso == idCurso && s.IdSeccion == idSeccion
+                        select new EstudianteCursoSeccionViewModel
+                        {
+                            Estudiante = e,
+                            CursoSeccion = cs,
+                            Matricula = m,
+                            Seccion = s,
+                            Curso = c,
+                            Docente = d,
+                            Grado = g,
+                            Nivel = n,
+                            Nota = nt
+                        };
+
+            if (idEstudiante.HasValue)
+            {
+                notas = notas.Where(x => x.Estudiante.IdEstudiante == idEstudiante);
+            }
+
+            var notasLista = notas.Select(e => new ListaNotaViewModel
+            {
+                IdEstudiante = e.Estudiante.IdEstudiante,
+                NombreCompleto = $"{e.Estudiante.Apellido}, {e.Estudiante.Nombre}",
+                Nota = e.Nota.Nota, // Aquí asumimos que siempre hay una nota
+                Descripcion = e.Nota.Descripcion,
+                Bimestre = e.Nota.IdBimestreNavigation.Descripcion
+            }).ToList();
+
+            return PartialView("_NotasEstudiantes", notasLista);
+        }
+
+
+        [HttpGet]
+        public ActionResult AgregarNotaBulk(int idCurso, int idSeccion)
+        {
+            var estudiantes = ConsultaParaObtenerDatosEstudianteDocente()
+                            .Where(x => x.Curso.IdCurso == idCurso && x.Seccion.IdSeccion == idSeccion)
+                            .ToList();
+            if (!estudiantes.Any())
+            {
+                TempData["ErrorNotas"] = "No hay estudiantes matriculados en el curso y sección seleccionados";
+                return RedirectToAction("PortalNotasCursos");
+            }
+            var viewModel = new AsignacionNotasViewModel
+            {
+                IdCurso = idCurso,
+                NombreCurso = estudiantes.First().Curso.Nombre,
+                IdDocente = estudiantes.First().Docente.IdDocente,
+                NombreDocente = estudiantes.First().Docente.Nombre,
+                IdSeccion = idSeccion,
+                Descripcion = string.Empty,
+                EstudiantesNotas = estudiantes.Select(e => new NotaEstudianteViewModel
+                {
+                    IdEstudiante = e.Estudiante.IdEstudiante,
+                    NombreCompleto = $"{e.Estudiante.Apellido}, {e.Estudiante.Nombre}",
+                    Nota = 0,
+                }).ToList()
+            };
+
+            ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult AgregarNotaBulk(AsignacionNotasViewModel viewModelAsignacion)
+        {
+            foreach(var estudianteNota in viewModelAsignacion.EstudiantesNotas)
+            {
+                if(estudianteNota.Nota < 0 || estudianteNota.Nota > 20)
+                {
+                    TempData["ErrorNota"] = "La nota debe estar entre 0 y 20";
+                    ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
+                    return RedirectToAction("AgregarNotaBulk", new { idCurso = viewModelAsignacion.IdCurso, idSeccion = viewModelAsignacion.IdSeccion });
+                }
+                if (viewModelAsignacion?.Descripcion == null || viewModelAsignacion.Descripcion.Equals(""))
+                {
+                    TempData["ErrorNota"] = "La descripción es requerida";
+                    ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
+                    return RedirectToAction("AgregarNotaBulk", new { idCurso = viewModelAsignacion.IdCurso,  idSeccion = viewModelAsignacion.IdSeccion });
+                }
+
+                if (viewModelAsignacion.IdBimestre == 0 || viewModelAsignacion.IdBimestre == null)
+                {
+                    TempData["ErrorNota"] = "Seleccione un bimestre";
+                    ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
+                    return RedirectToAction("AgregarNotaBulk", new { idCurso = viewModelAsignacion.IdCurso, idSeccion = viewModelAsignacion.IdSeccion });
+                }
+
+                var nota = new Notum
+                {
+                    Nota = estudianteNota.Nota,
+                    Descripcion = viewModelAsignacion.Descripcion,
+                    IdCurso = viewModelAsignacion.IdCurso,
+                    IdEstudiante = estudianteNota.IdEstudiante,
+                    IdBimestre = viewModelAsignacion.IdBimestre,
+                    IdDocente = viewModelAsignacion.IdDocente
+                };
+
+                TempData["SuccessNota"] = "Las notas se han guardado correctamente";
+                db.Nota.Add(nota);
+            }
+
+            ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
+            db.SaveChanges();
+
+            return RedirectToAction("PortalNotasCursos");
+        }
+
 
         [HttpGet]
         public ActionResult AgregarNota()

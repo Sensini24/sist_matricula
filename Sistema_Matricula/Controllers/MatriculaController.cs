@@ -188,9 +188,52 @@ namespace Sistema_Matricula.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMatricula"] = "La matricula se ha registrado correctamente";
+                if (matricula.IdEstudiante == 0 || matricula.IdEstudiante == null)
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar un estudiante";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+
+                if (matricula.IdNivel == 0 || matricula.IdNivel == null)
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar un nivel";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+
+                if (matricula.IdGrado == 0 || matricula.IdGrado == null)
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar un grado";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+
+                if (matricula.IdSeccion == 0 || matricula.IdSeccion == null )
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar una sección";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+
+                if (matricula.IdPeriodEscolar == 0 || matricula.IdPeriodEscolar == null )
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar un periodo escolar";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+
+                if (matricula.IdMonto == 0 || matricula.IdMonto == null )
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar un monto";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+
+                if (matricula.Estado == null || matricula.Estado == null )
+                {
+                    TempData["ErrorMatricula"] = "Debe seleccionar un estado";
+                    return RedirectToAction("ListarMatriculaCompleta");
+                }
+                TempData["ErrorMatricula"] = "La matricula no se ha registrado correctamente";
                 return RedirectToAction("ListarMatriculaCompleta");
             }
+
+            
 
             var estudiante = db.Estudiantes.Find(matricula.IdEstudiante);
             estudiante.Estado = "Pendiente";

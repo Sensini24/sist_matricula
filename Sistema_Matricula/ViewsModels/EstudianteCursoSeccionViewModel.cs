@@ -12,5 +12,6 @@ namespace Sistema_Matricula.ViewsModels
         public Docente Docente { get; set; }
         public Estudiante Estudiante { get; set; }
         public Curso Curso { get; set; }
+        public Notum Nota { get; set; }
     }
 }

@@ -36,81 +36,83 @@
         }
     </div>
 
-    <div class="layout-content-container flex flex-col w-full flex-1">
+    <div class="bg-white rounded-lg shadow-lg p-4">
+
         <div class="px-4 py-3 container w-full">
             <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
-                <table class="min-w-full">
-                    <thead>
-                        <tr class="bg-[#FCA311]">
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gradient-to-r from-[#fca311] to-[#f77f00] text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.IdMatricula)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.DescripcionNivel)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.DescripcionGrado)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.NombreSeccion)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.NombrePeriodo)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.NombreEstudiante) - @Html.DisplayNameFor(model=>model.ApellidoEstudiante)
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                                @Html.DisplayNameFor(model => model.NombreEstudiante) - @Html.DisplayNameFor(model => model.ApellidoEstudiante)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                                @Html.DisplayNameFor(model => model.DescripcionMonto) - @Html.DisplayNameFor(model => model.Monto)
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                                @Html.DisplayNameFor(model => model.DescripcionMonto) --  @Html.DisplayNameFor(model => model.Monto)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.FechMatricula)
                             </th>
-                            <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                                 @Html.DisplayNameFor(model => model.Estado)
                             </th>
-                            <th></th>
+                            <th class="px-6 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @foreach (var item in Model)
                         {
-                            <tr class="border-t border-t-[#D5D6DD]">
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.IdMatricula)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.DescripcionNivel)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.DescripcionGrado)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.NombreSeccion)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.NombrePeriodo)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.NombreEstudiante) - @Html.DisplayFor(modelItem => item.ApellidoEstudiante)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                    @Html.DisplayFor(modelItem => item.DescripcionMonto) - @Html.DisplayFor(modelItem => item.Monto)
+                                <td class="px-6 py-4 text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.DescripcionMonto) @Html.DisplayFor(modelItem => item.Monto)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.FechMatricula)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                                <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.Estado)
                                 </td>
-                                <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
-                                </td>
+                                <td class="px-6 py-4"></td>
                             </tr>
                         }
                     </tbody>
                 </table>
-             </div>
+            </div>
         </div>
+
     </div>
+
     </body>
 </html>

@@ -4,42 +4,50 @@
 <div class="layout-content-container flex flex-col w-full flex-1">
     <div class="px-4 py-3 container w-full">
         <div class="overflow-x-auto rounded-xl border border-[#D5D6DD] bg-[#F9FAFA]">
-            <table class="min-w-full">
-                <thead>
-                    <tr class="bg-[#FCA311]">
-                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
+            <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
+                <thead class="bg-gradient-to-r from-[#fca311] to-[#f77f00] text-white">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                             @Html.DisplayNameFor(model => model.Seccion.IdSeccion)
                         </th>
-                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                            @Html.DisplayNameFor(model => model.Seccion.Nombre)
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                            Sección
                         </th>
-                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                            @Html.DisplayNameFor(model => model.Nivel.Descripcion)
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                            Nivel
                         </th>
-                        <th class="px-4 py-3 text-left text-[#FFFFFF] text-sm font-medium leading-normal">
-                            @Html.DisplayNameFor(model => model.Grado.Descripcion)
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                            Grado
                         </th>
-
-                        <th></th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                            Curso
+                        </th>
+                        <th class="px-6 py-3"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     @foreach (var item in Model)
                     {
-                        <tr class="border-t border-t-[#D5D6DD]">
-                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-sm text-gray-800 id-seccion">
                                 @Html.DisplayFor(modelItem => item.Seccion.IdSeccion)
                             </td>
-                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                            <td class="px-6 py-4 text-sm text-gray-800">
                                 @Html.DisplayFor(modelItem => item.Seccion.Nombre)
                             </td>
-                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                            <td class="px-6 py-4 text-sm text-gray-800">
                                 @Html.DisplayFor(modelItem => item.Nivel.Descripcion)
                             </td>
-                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                            <td class="px-6 py-4 text-sm text-gray-800">
                                 @Html.DisplayFor(modelItem => item.Grado.Descripcion)
                             </td>
-                            <td class="h-[72px] px-4 py-2 text-[#1C1D22] text-sm font-normal leading-normal">
+                            <td class="px-6 py-4 text-sm text-gray-800">
+                                @Html.DisplayFor(modelItem => item.Curso.Nombre)
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-800">
+                                <a href="@Url.Action("AgregarNotaBulk", "Nota", new { idCurso = item.Curso.IdCurso, idSeccion = item.Seccion.IdSeccion })" class="inline-flex items-center px-4 py-2 bg-purple-500 hover:bg-purple-400 text-white font-bold rounded border-b-4 border-purple-700 hover:border-purple-500 transition-colors duration-300 no-underline">
+                                    Asignar Calificación
+                                </a>
                             </td>
                         </tr>
                     }
