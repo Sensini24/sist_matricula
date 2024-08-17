@@ -1,0 +1,58 @@
+﻿@model Sistema_Matricula.Models.Notum
+
+<h4 class="text-2xl font-bold text-gray-800 mb-6">Editar Nota</h4>
+<hr class="mb-6 border-gray-300" />
+
+<div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
+    <form asp-action="EditarNota" id="nota-form">
+        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+
+
+        <div class="form-group  mb-4 ">
+            <label asp-for="IdNota" class="block text-gray-700 font-semibold">ID Nota</label>
+            <input asp-for="IdNota" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly />
+            <span asp-validation-for="IdNota" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Nota" class="block text-gray-700 font-semibold">Nota</label>
+            <input asp-for="Nota" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <span asp-validation-for="Nota" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Descripcion" class="block text-gray-700 font-semibold">Descripción</label>
+            <input asp-for="Descripcion" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <span asp-validation-for="Descripcion" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4 hidden">
+            <label asp-for="IdCurso" class="block text-gray-700 font-semibold">ID Curso</label>
+            <input asp-for="IdCurso" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <span asp-validation-for="IdCurso" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4 hidden">
+            <label asp-for="IdEstudiante" class="block text-gray-700 font-semibold">ID Estudiante</label>
+            <input asp-for="IdEstudiante" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <span asp-validation-for="IdEstudiante" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4 hidden">
+            <label asp-for="IdBimestre" class="block text-gray-700 font-semibold">ID Bimestre</label>
+            <input asp-for="IdBimestre" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <span asp-validation-for="IdBimestre" class="text-red-500"></span>
+        </div>
+
+        <div class="mb-4 hidden">
+            <label asp-for="IdDocente" class="block text-gray-700 font-semibold">Docente</label>
+            <input asp-for="IdDocente" class="form-input block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <span asp-validation-for="IdDocente" class="text-red-500"></span>
+        </div>
+
+        <div class="mt-6">
+            <input type="submit" value="Guardar" class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition ease-in-out duration-150" />
+        </div>
+    </form>
+</div>
+

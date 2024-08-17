@@ -28,6 +28,27 @@
                 <div class="menu-separator"></div>
             </h4>
 
+            @if (User.IsInRole("Docente"))
+            {
+                <li>
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="DashboardDocente" asp-action="Dashboard">
+                        <span class="material-symbols-outlined">
+                            team_dashboard
+                        </span>Dashboard
+                    </a>
+                </li>
+            }
+
+            @if (User.IsInRole("Estudiante"))
+            {
+                <li>
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="DashboardEstudiante" asp-action="Dashboard">
+                        <span class="material-symbols-outlined">
+                            team_dashboard
+                        </span>Dashboard
+                    </a>
+                </li>
+            }
 
             @if (User.IsInRole("Administrador"))
             {

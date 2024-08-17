@@ -9,112 +9,289 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </head>
-<body class="bg-gray-100 p-10" style="align-content:start; margin-left:230px; margin-top:40px; background:#f4f6fa">
-    <div class="w-full mx-auto bg-white rounded-lg shadow-lg p-8">
-        <div id="errorNota">
-            @if (TempData["ErrorNota"] != null)
-            {
-                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                    Observación
-                </div>
-                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                    @TempData["ErrorNota"]
-                </div>
-            }
-        </div>
-        <div id="exitoNota">
-            @if (TempData["SuccessNota"] != null)
-            {
-                <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
-                    Éxito
-                </div>
-                <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
-                    @TempData["SuccessNota"]
-                </div>
-            }
-        </div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Portal de Asignación de Notas</h2>
+<body class="bg-gray-100 p-10 " style="align-content:start; margin-left:215px; margin-top:40px; background:#f4f6fa">
 
-        @using (Html.BeginForm())
-        {
-            @Html.HiddenFor(m => m.IdCurso, new { @class = "idCurso" })
-            @Html.HiddenFor(m => m.IdDocente, new { @class = "idDocente" })
-            @Html.HiddenFor(m => m.IdSeccion, new { @class = "idSeccion" })
 
-            <div class="mb-4">
-                <label class="block text-gray-700 font-semibold">Curso: @Model.NombreCurso</label>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 font-semibold">Docente: @Model.NombreDocente</label>
-            </div>
-            <div class="mb-6">
-                <div class="mb-4">
-                    @Html.LabelFor(m => m.IdBimestre, new { @class = "block text-gray-700 font-semibold mb-2" })
-                    @Html.DropDownListFor(m => m.IdBimestre, (SelectList)ViewBag.Bimestres, "Seleccione un bimestre", new { @class = " form-select block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" })
-                </div>
-                <div class="mb-4">
-                    @Html.LabelFor(m => m.Descripcion, new { @class = "block text-gray-700 font-semibold mb-2" })
-                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-textarea block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", placeholder = "Descripción" })
-                </div>
-            </div>
-
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estudiante</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nota</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @for (int i = 0; i < Model.EstudiantesNotas.Count; i++)
-                    {
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @Html.HiddenFor(m => m.EstudiantesNotas[i].IdEstudiante)
-                                <div class="text-sm font-medium text-gray-900">@Html.DisplayFor(m => m.EstudiantesNotas[i].NombreCompleto)</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @Html.TextBoxFor(m => m.EstudiantesNotas[i].Nota, new { @class = "form-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", type = "number", step = "0.01" })
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+    <div class="flex">
+        
+        <div class=" w-full bg-white rounded-lg shadow-lg p-8" style="min-width:45%">
+            <div id="errorNota"></div>
+            <div id="exitoNota"></div>
             <div class="flex justify-content-between">
-                <div class="mt-5">
-                    <input type="submit" value="Guardar Notas" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" />
-                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Portal de Asignación de Notas</h2>
+                
+                    
+                <button onclick="window.location.href='@Url.Action("PortalNotasCursos")'" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 cursor-pointer">
+                    Volver
+                </button>
 
-                <a id="btn-notas" class=" mt-5 px-4 py-2 bg-yellow-600 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 no-underline cursor-pointer">
-                    @* @Html.ActionLink("Nota", "ListarNotas", new { id = item.IdNota,  }) *@
-                    Notas Previas
-                </a>
             </div>
 
-            
-        }
-    </div>
-    <div id="notas-estudiantes">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "notas-form" }))
+            {
+                @Html.HiddenFor(m => m.IdCurso, new { @class = "idCurso" })
+                @Html.HiddenFor(m => m.IdDocente, new { @class = "idDocente" })
+                @Html.HiddenFor(m => m.IdSeccion, new { @class = "idSeccion" })
 
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Curso: @Model.NombreCurso</label>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Docente: @Model.NombreDocente</label>
+                </div>
+                <div class="mb-6">
+                    <div class="mb-4">
+                        @Html.LabelFor(m => m.IdBimestre, new { @class = "block text-gray-700 font-semibold mb-2" })
+                        @Html.DropDownListFor(m => m.IdBimestre, (SelectList)ViewBag.Bimestres, "Seleccione un bimestre", new { @class = " form-select block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" })
+                    </div>
+                    <div class="mb-4">
+                        @Html.LabelFor(m => m.Descripcion, new { @class = "block text-gray-700 font-semibold mb-2" })
+                        @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-textarea block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", placeholder = "Descripción" })
+                    </div>
+                </div>
+
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estudiante</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @for (int i = 0; i < Model.EstudiantesNotas.Count; i++)
+                        {
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @Html.HiddenFor(m => m.EstudiantesNotas[i].IdEstudiante)
+                                    <div class="text-sm font-medium text-gray-900">@Html.DisplayFor(m => m.EstudiantesNotas[i].NombreCompleto)</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @Html.TextBoxFor(m => m.EstudiantesNotas[i].Nota, new { @class = "form-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", type = "number", step = "0.01" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="flex justify-content-between">
+                    <div class="mt-5">
+                        <input id="submit-notas" type="submit" value="Guardar Notas" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" />
+                    </div>
+
+                    <a id="btn-notas" class=" mt-5 px-4 py-2 bg-yellow-600 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 no-underline cursor-pointer">
+                        @* @Html.ActionLink("Nota", "ListarNotas", new { id = item.IdNota,  }) *@
+                        Notas Previas
+                    </a>
+                </div>
+
+
+            }
+        </div>
+        <div id="notas-estudiantes" class="ml-5 w-75 ">
+        </div>
     </div>
 </body>
 </html>
 <script>
+    function cargarSelects(idCurso, idSeccion) {
+
+        var selectBimestre = document.getElementById("selectBimestre")
+        var selectTipNota = document.getElementById("selectTipNota")
+        var selectEstudiante = document.getElementById("selectEstudiante")
+
+        fetch(`ListarBimestre`)
+            .then(response => response.json())
+            .then(data => {
+                selectBimestre.innerHTML = '<option value="">Seleccione un Bimestre</option>';
+                data.forEach(bimestre => {
+                    selectBimestre.innerHTML += `<option value="${bimestre.idBimestre}">${bimestre.descripcion}</option>`
+                    console.log(data)
+                });
+
+            })
+        fetch(`ListarEstudiantesFiltro?idCurso=${idCurso}&idSeccion=${idSeccion}`)
+            .then(response => response.json())
+            .then(data => {
+                selectEstudiante.innerHTML = '<option value="">Seleccione un Estudiante</option>';
+                data.forEach(estudiante => {
+                    selectEstudiante.innerHTML += `<option value="${estudiante.idEstudiante}">${estudiante.apellido} - ${estudiante.nombre}</option>`
+                    console.log(estudiante)
+                });
+
+            })
+        selectBimestre.addEventListener('change', () => {
+            fetch(`ListarTipoNotasPorBimestre?idCurso=${idCurso}&idSeccion=${idSeccion}&idBimestre=${selectBimestre.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    selectTipNota.innerHTML = '<option value="">Seleccione un Tipo de Nota</option>';
+                    data.forEach(tips => {
+                        selectTipNota.innerHTML += `<option value="${tips.tipoNota}">${tips.tipoNota}</option>`
+                        console.log(data)
+                    });
+
+                })
+        })
+    }
+
+    function mostrarMensajeError(mensaje) {
+        const errorDiv = document.getElementById("errorNota");
+        errorDiv.innerHTML = `
+            <div id="error">
+                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                    Observación
+                </div>
+                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                    ${mensaje}
+                </div>
+           </div>
+        `;
+        setTimeout(()=>{
+            var error = document.getElementById("error");
+            error.remove();
+        }, 4000)
+    }
+
+    function mostrarMensajeExito(mensaje) {
+        const exitoDiv = document.getElementById("exitoNota");
+        exitoDiv.innerHTML = `
+            <div id="exito">
+                <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+                    Éxito
+                </div>
+                <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                    ${mensaje}
+                </div>
+                </div>
+        `;
+        setTimeout(() => {
+            var exito = document.getElementById("exito");
+            exito.remove();
+        }, 4000)
+    }
+
+    // Función para limpiar mensajes
+    function limpiarMensajes() {
+        document.getElementById("errorNota").innerHTML = "";
+        document.getElementById("exitoNota").innerHTML = "";
+    }
+
+    function editarNota() {
+        document.querySelectorAll('.activarModalNota').forEach(button => {
+            button.addEventListener('click', function () {
+                const idNota = this.getAttribute('data-id');
+                console.log("ID Nota:", idNota);
+
+                fetch(`/Nota/EditarNotaModal?idNota=${idNota}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('#editarNotaModal .modal-body').innerHTML = html;
+                        const modal = new bootstrap.Modal(document.getElementById('editarNotaModal'));
+                        modal.show();
+
+                        var formdata = document.getElementById('nota-form');
+                        formdata.addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            const nuevoForm = new FormData(formdata);
+                            try {
+                                let response = await fetch(`EditarNota/`, {
+                                    method: 'POST',
+                                    body: nuevoForm
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                                }
+
+                                let data = await response.json();
+                                if(data.success){
+                                    modal.hide();
+                                    formdata.reset();
+                                    mostrarMensajeExito(data.message);
+                                } else {
+                                    modal.hide();
+                                    formdata.reset();
+                                    mostrarMensajeError(data.message);
+                                }
+
+                                // Limpiar el formulario después de agregar un nuevo curso
+                                
+                            } catch (error) {
+                                console.error('Error al agregar curso:', error);
+                            }
+                        })
+                    })
+                    .catch(error => console.error('Error al cargar contenido del modal:', error));
+            });
+        });
+    }
     document.addEventListener('DOMContentLoaded', () => {
-        var idCurso = document.querySelector(".idCurso").value ;
+        var idCurso = document.querySelector(".idCurso").value;
         var idDocente = document.querySelector(".idDocente").value;
         var idSeccion = document.querySelector(".idSeccion").value;
-
-        console.log(idCurso, idDocente, idSeccion)
+        var submitNotas = document.getElementById("submit-notas");
         var btnNotas = document.getElementById("btn-notas");
+
+
         btnNotas.addEventListener("click", () => {
             fetch(`ListarNotas?idCurso=${idCurso}&idDocente=${idDocente}&idSeccion=${idSeccion}&idEstudiante`)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("notas-estudiantes").innerHTML = data;
+                    cargarSelects(idCurso, idSeccion);
+                    editarNota(); 
+
+                    filtrar()
+
                 })
-        })
-        
+                .catch(error => console.error('Error al listar notas:', error));
+        });
+
+        submitNotas.addEventListener("click", (e) => {
+            e.preventDefault();
+            var form = document.getElementById("notas-form");
+            var formData = new FormData(form);
+
+            fetch(`AgregarNotaBulk`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        mostrarMensajeError(data.message)
+                    } else {
+                        mostrarMensajeExito(data.message)
+                        // document.getElementById("notas-estudiantes").innerHTML = data.message;
+                        cargarSelects(idCurso, idSeccion);
+                        editarNota();
+                        filtrar();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+
+
+        function filtrar(){
+            document.getElementById("notas-estudiantes").addEventListener("click", function (event) {
+                if (event.target.id === "btn-filtrarNotas") {
+                    console.log("Button: ", event.target);
+
+                    fetch(`FiltrarNotas?idCurso=${idCurso}&idDocente=${idDocente}&idSeccion=${idSeccion}&idBimestre=${selectBimestre.value}&tipoNota=${selectTipNota.value}&idEstudiante=${selectEstudiante.value}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById("notas-estudiantes").innerHTML = data;
+
+                            editarNota();
+
+                            cargarSelects(idCurso, idSeccion);
+                        })
+                        .catch(error => console.error('Error al filtrar notas:', error));
+                }
+            });
+        }
+
     })
 </script>

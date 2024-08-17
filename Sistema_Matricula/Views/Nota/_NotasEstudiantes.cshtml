@@ -1,6 +1,24 @@
 ﻿@model List<Sistema_Matricula.ViewsModels.ListaNotaViewModel>
 
 
+<div>
+    
+    <div class="flex">
+        <select id="selectBimestre" class="block w-75 mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <option value="">Seleccione Bimestre</option>
+        </select>
+        <select id="selectTipNota" class="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <option value="">Seleccione Tipo de Nota</option>
+        </select>
+        <select id="selectEstudiante" class="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <option value="">Seleccione Estudiante</option>
+        </select>
+
+    </div>
+    <button id="btn-filtrarNotas" class="mt-2 mb-2 w-35 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 no-underline cursor-pointer">
+        Filtrar
+    </button>
+</div>
 <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
         <tr>
@@ -18,7 +36,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm font-medium text-gray-900">
                         @Html.DisplayFor(modelItem => item.IdEstudiante)
-                     </div>
+                    </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm font-medium text-gray-900">
@@ -40,7 +58,35 @@
                         @Html.DisplayFor(modelIte => item.Bimestre)
                     </div>
                 </td>
+                <td class="px-6 py-4 whitespace-nowrap cursor-pointer">
+                    <span id="activarModalNota" data-id="@item.IdNota" class=" activarModalNota material-symbols-outlined">
+                        edit
+                    </span>
+                </td>
+
+                
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="editarNotaModal" tabindex="-1" aria-labelledby="agregarEstudianteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarNotaModalLabel">Editar Nota</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Aquí se cargará el contenido del formulario -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+
+    })
+</script>

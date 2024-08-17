@@ -48,8 +48,20 @@ namespace Sistema_Matricula.Controllers
                 Response.Cookies.Append("AuthToken", token, cookieOptions);
 
                 
+                if(ObtenerClaimsInfo.GetUserRole(User) == "Docente")
+                {
+                    return RedirectToAction("Dashboard", "DashboardDocente");
+                }
 
-                return RedirectToAction("Index", "Home");
+                if (ObtenerClaimsInfo.GetUserRole(User) == "Estudiante")
+                {
+                    return RedirectToAction("Dashboard", "DashboardEstudiante");
+                }
+
+                if (ObtenerClaimsInfo.GetUserRole(User) == "Administrador")
+                {
+                    return RedirectToAction("Dashboard", "DashboardAdministrador");
+                }
             }
 
             TempData["ErrorAutenticacion"] = "Usuario o contraseña incorrecta";

@@ -146,6 +146,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29cX0xpc3RhclNlY2Npb25lc1lDdXJzb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DashboardAdministrador/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkQWRtaW5pc3RyYWRvclxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DashboardDocente/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkRG9jZW50ZVxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DashboardEstudiante/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkRXN0dWRpYW50ZVxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosDocente/HorarioDocente.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NEb2NlbnRlXEhvcmFyaW9Eb2NlbnRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -384,6 +396,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Shared/Components/EditarDocenteVC/_EditarDocente.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRWRpdGFyRG9jZW50ZVZDXF9FZGl0YXJEb2NlbnRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Shared/Components/EditarNotaVC/_EditarNotaModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRWRpdGFyTm90YVZDXF9FZGl0YXJOb3RhTW9kYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Shared/Error.cshtml]

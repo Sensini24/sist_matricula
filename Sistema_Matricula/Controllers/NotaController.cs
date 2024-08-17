@@ -91,6 +91,7 @@ namespace Sistema_Matricula.Controllers
 
         public IActionResult ListarSeccionesPorCursoYDocente(int idCurso)
         {
+
             var secciones = ConsultaParaObtenerDatosEstudianteDocente().Where(x => x.Curso.IdCurso == idCurso)
                             .Select(x => new EstudianteCursoSeccionViewModel
                             {
@@ -101,6 +102,33 @@ namespace Sistema_Matricula.Controllers
                             })
                             .Distinct()
                             .ToList();
+
+            //var resultado = (from s in db.Seccions
+            //                join g in db.Grados on s.IdGrado equals g.IdGrado
+            //                join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion into csGroup
+            //                from cs in csGroup.DefaultIfEmpty()
+            //                join m in db.Matriculas on s.IdSeccion equals m.IdSeccion into mGroup
+            //                from m in mGroup.DefaultIfEmpty()
+            //                join e in db.Estudiantes on m.IdEstudiante equals e.IdEstudiante into eGroup
+            //                from e in eGroup.DefaultIfEmpty()
+            //                join d in db.Docentes on cs.IdDocente equals d.IdDocente
+            //                join c in db.Cursos on cs.IdCurso equals c.IdCurso
+            //                where c.IdCurso == idCurso
+            //                      && d.IdDocente == ObtenerIdDocenteActual()
+            //                      && (m == null || m.FechMatricula.Year == DateTime.Now.Year)
+            //                select new EstudianteCursoSeccionViewModel
+            //                {
+            //                    Seccion = s,
+            //                    Grado = g,
+            //                    CursoSeccion = cs,
+            //                    Matricula = m,
+            //                    Estudiante = e,
+            //                    Docente = d,
+            //                    Curso = c
+            //                })
+            //                .Distinct()
+            //                .ToList();
+
 
             return PartialView("_SeccionesPorCurso", secciones);
         }
@@ -146,9 +174,9 @@ namespace Sistema_Matricula.Controllers
                                    join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
                                    join c in db.Cursos on cs.IdCurso equals c.IdCurso
                                    join d in db.Docentes on cs.IdDocente equals d.IdDocente
-                                   where d.IdDocente == docenteid && m.FechMatricula.Year == DateTime.Now.Year
+                                   where d.IdDocente == docenteid &&  m.FechMatricula.Year == DateTime.Now.Year
                                    select new EstudianteCursoSeccionViewModel
-                                   { Estudiante = e, CursoSeccion = cs, Matricula = m, Seccion = s, Curso = c, Docente = d, Grado = g, Nivel = n };
+                                   { Estudiante = e, CursoSeccion = cs, Matricula = m, Seccion = s, Curso = c, Docente = d, Grado = g, Nivel = n,  };
 
 
             return estudiantesQuery;
@@ -225,47 +253,29 @@ namespace Sistema_Matricula.Controllers
             return View(notas);
         }
 
-        public IActionResult ListarNotas(int idCurso, int idDocente, int idSeccion, int? idEstudiante = null)
+        public IQueryable<EstudianteNotasViewModel> ConsultaParaObtenerDatosNotasDocente()
         {
-            var notas = from e in db.Estudiantes
-                        join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
-                        join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
-                        join s in db.Seccions on m.IdSeccion equals s.IdSeccion
-                        join g in db.Grados on s.IdGrado equals g.IdGrado
-                        join n in db.Nivels on g.IdNivel equals n.IdNivel
-                        join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
-                        join c in db.Cursos on cs.IdCurso equals c.IdCurso
-                        join d in db.Docentes on cs.IdDocente equals d.IdDocente
-                        where d.IdDocente == idDocente && c.IdCurso == idCurso && s.IdSeccion == idSeccion
-                        select new EstudianteCursoSeccionViewModel
-                        {
-                            Estudiante = e,
-                            CursoSeccion = cs,
-                            Matricula = m,
-                            Seccion = s,
-                            Curso = c,
-                            Docente = d,
-                            Grado = g,
-                            Nivel = n,
-                            Nota = nt
-                        };
+            var userId = int.Parse(ObtenerClaimsInfo.GetUserId(User));
+            var docenteid = db.Docentes.Where(d => d.IdUsuario == userId).FirstOrDefault().IdDocente;
 
-            if (idEstudiante.HasValue)
-            {
-                notas = notas.Where(x => x.Estudiante.IdEstudiante == idEstudiante);
-            }
+            var notasQuery = from e in db.Estudiantes
+                                   join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
+                                   join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                                   join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                                   join g in db.Grados on s.IdGrado equals g.IdGrado
+                                   join n in db.Nivels on g.IdNivel equals n.IdNivel
+                                   join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                                   join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                                   join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                                   where d.IdDocente == docenteid && m.FechMatricula.Year == DateTime.Now.Year
+                                   select new EstudianteNotasViewModel
+                                   { Estudiante = e, CursoSeccion = cs, Matricula = m, Seccion = s, Curso = c, Docente = d, Grado = g, Nivel = n, Nota = nt };
 
-            var notasLista = notas.Select(e => new ListaNotaViewModel
-            {
-                IdEstudiante = e.Estudiante.IdEstudiante,
-                NombreCompleto = $"{e.Estudiante.Apellido}, {e.Estudiante.Nombre}",
-                Nota = e.Nota.Nota, // Aquí asumimos que siempre hay una nota
-                Descripcion = e.Nota.Descripcion,
-                Bimestre = e.Nota.IdBimestreNavigation.Descripcion
-            }).ToList();
 
-            return PartialView("_NotasEstudiantes", notasLista);
+            return notasQuery;
         }
+
+        
 
 
         [HttpGet]
@@ -308,20 +318,20 @@ namespace Sistema_Matricula.Controllers
                 {
                     TempData["ErrorNota"] = "La nota debe estar entre 0 y 20";
                     ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
-                    return RedirectToAction("AgregarNotaBulk", new { idCurso = viewModelAsignacion.IdCurso, idSeccion = viewModelAsignacion.IdSeccion });
+                    return Json(new { success = false, message = "La nota debe estar entre 0 y 20" });
                 }
                 if (viewModelAsignacion?.Descripcion == null || viewModelAsignacion.Descripcion.Equals(""))
                 {
                     TempData["ErrorNota"] = "La descripción es requerida";
                     ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
-                    return RedirectToAction("AgregarNotaBulk", new { idCurso = viewModelAsignacion.IdCurso,  idSeccion = viewModelAsignacion.IdSeccion });
+                    return Json(new {success = false, message = "La descripción es requerida" }); 
                 }
 
                 if (viewModelAsignacion.IdBimestre == 0 || viewModelAsignacion.IdBimestre == null)
                 {
                     TempData["ErrorNota"] = "Seleccione un bimestre";
                     ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
-                    return RedirectToAction("AgregarNotaBulk", new { idCurso = viewModelAsignacion.IdCurso, idSeccion = viewModelAsignacion.IdSeccion });
+                    return Json(new { success = false, message = "Seleccione un bimestre" });
                 }
 
                 var nota = new Notum
@@ -341,7 +351,7 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Bimestres = new SelectList(db.Bimestres, "IdBimestre", "Descripcion");
             db.SaveChanges();
 
-            return RedirectToAction("PortalNotasCursos");
+            return Json(new { success = true, message = "Notas ingresadas" });
         }
 
 
@@ -379,6 +389,12 @@ namespace Sistema_Matricula.Controllers
         }
 
         [HttpGet]
+        public ActionResult EditarNotaModal(int idNota)
+        {
+            return ViewComponent("EditarNotaVC", new {idNota});
+        }
+
+        [HttpGet]
         public ActionResult EditarNota(int id)
         {
 
@@ -406,11 +422,174 @@ namespace Sistema_Matricula.Controllers
             nota.Descripcion = notum.Descripcion;
             nota.IdEstudiante = notum.IdEstudiante;
             nota.IdBimestre = notum.IdBimestre;
+            nota.IdDocente = notum.IdDocente;
             
 
             db.Nota.Update(nota);
             db.SaveChanges();
-            return RedirectToAction("ListarNota");
+            TempData["SuccessNota"] = "La nota se ha actualizado correctamente";
+            // pasar un json son succres con el temp data que acabo de crear
+            return Json(new { success = true, message = "Nota actualizada correctamente" });
+        }
+
+        public IActionResult ListarNotas(int idCurso, int idDocente, int idSeccion, int? idEstudiante = null)
+        {
+            var estudiantesFiltrados = from e in db.Estudiantes
+                                       join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                                       join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                                       join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                                       where cs.IdCurso == idCurso && s.IdSeccion == idSeccion
+                                       select e.IdEstudiante;
+
+            var notas = from nt in db.Nota
+                        join e in db.Estudiantes on nt.IdEstudiante equals e.IdEstudiante
+                        join c in db.Cursos on nt.IdCurso equals c.IdCurso
+                        join d in db.Docentes on nt.IdDocente equals d.IdDocente
+                        where estudiantesFiltrados.Contains(e.IdEstudiante) && c.IdCurso == idCurso
+                        select new
+                        {
+                            Nota = nt,
+                            Estudiante = e
+                        };
+
+
+
+            if (idEstudiante.HasValue)
+            {
+                notas = notas.Where(x => x.Estudiante.IdEstudiante == idEstudiante);
+            }
+
+            var notasLista = notas.Select(e => new ListaNotaViewModel
+            {
+                IdEstudiante = e.Estudiante.IdEstudiante,
+                NombreCompleto = $"{e.Estudiante.Apellido}, {e.Estudiante.Nombre}",
+                Nota = e.Nota.Nota, 
+                Descripcion = e.Nota.Descripcion,
+                Bimestre = e.Nota.IdBimestreNavigation.Descripcion,
+                IdBimestre = e.Nota.IdBimestre,
+                IdNota = e.Nota.IdNota
+            }).ToList();
+
+            return PartialView("_NotasEstudiantes", notasLista);
+        }
+
+        public IActionResult ListarBimestre()
+        {
+            var bimestres = db.Bimestres.ToList();
+            return Ok(bimestres);
+        }
+
+        public IActionResult ListarTipoNotasPorBimestre(int idCurso, int idSeccion, int idBimestre)
+        {
+            var estudiantesFiltrados = from e in db.Estudiantes
+                                       join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                                       join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                                       join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                                       where cs.IdCurso == idCurso && s.IdSeccion == idSeccion
+                                       select e.IdEstudiante;
+
+            var tipoNotas = from nt in db.Nota
+                        join e in db.Estudiantes on nt.IdEstudiante equals e.IdEstudiante
+                        join b in db.Bimestres on nt.IdBimestre equals b.IdBimestre
+                        join c in db.Cursos on nt.IdCurso equals c.IdCurso
+                        join d in db.Docentes on nt.IdDocente equals d.IdDocente
+                        where estudiantesFiltrados.Contains(e.IdEstudiante) && c.IdCurso == idCurso && b.IdBimestre == idBimestre
+                        select new
+                        {
+                            TipoNota = nt.Descripcion
+                        };
+            //var resultado = from e in db.Estudiantes
+            //                join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
+            //                join b in db.Bimestres on nt.IdBimestre equals b.IdBimestre
+            //                join c in db.Cursos on nt.IdCurso equals c.IdCurso
+            //                join cs in db.CursoSeccions  on c.IdCurso equals cs.IdCurso
+            //                where b.IdBimestre == idBimestre && c.IdCurso == idCurso && cs.IdSeccion == idSeccion
+            //                select new
+            //                {
+            //                    TipoNota = nt.Descripcion
+            //                };
+
+            return Ok(tipoNotas.Distinct().ToList());
+        }
+
+        [HttpGet]
+        public IActionResult ListarEstudiantesFiltro(int idCurso, int idSeccion)
+        {
+
+            var resultado = from e in db.Estudiantes
+                            join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                            join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                            join g in db.Grados on s.IdGrado equals g.IdGrado
+                            join n in db.Nivels on g.IdNivel equals n.IdNivel
+                            join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                            join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                            join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                            where c.IdCurso == idCurso && s.IdSeccion == idSeccion && m.FechMatricula.Year == DateTime.Now.Year
+                            select new Estudiante
+                            {
+                                IdEstudiante = e.IdEstudiante,
+                                Apellido = e.Apellido,
+                                Nombre = e.Nombre,
+                            };
+
+
+
+            return Ok(resultado.Distinct().ToList());
+        }
+
+        public IActionResult FiltrarNotas(int idCurso, int idSeccion, int idBimestre, string? tipoNota = null, int? idEstudiante = null)
+        {
+            //Primero, obtener los estudiantes matriculados en el curso y sección
+            var estudiantesFiltrados = from e in db.Estudiantes
+                                       join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                                       join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                                       join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                                       where cs.IdCurso == idCurso && s.IdSeccion == idSeccion && m.FechMatricula.Year == DateTime.Now.Year
+                                       select e.IdEstudiante;
+
+            // Luego, obtener las notas de esos estudiantes
+            var resultado = from nt in db.Nota
+                            join e in db.Estudiantes on nt.IdEstudiante equals e.IdEstudiante
+                            join b in db.Bimestres on nt.IdBimestre equals b.IdBimestre
+                            join c in db.Cursos on nt.IdCurso equals c.IdCurso
+                            join d in db.Docentes on nt.IdDocente equals d.IdDocente
+                            where estudiantesFiltrados.Contains(e.IdEstudiante) && c.IdCurso == idCurso
+                            select new ListaNotaViewModel
+                            {
+                                IdEstudiante = e.IdEstudiante,
+                                NombreCompleto = $"{e.Apellido}, {e.Nombre}",
+                                Descripcion = nt.Descripcion,
+                                Nota = nt.Nota,
+                                Bimestre = b.Descripcion,
+                                IdBimestre = b.IdBimestre,
+                                IdNota = nt.IdNota
+                            };
+
+            if (idBimestre > 0 && tipoNota != null && idEstudiante.HasValue)
+            {
+                resultado = resultado.Where(x => x.Descripcion == tipoNota && x.IdEstudiante == idEstudiante);
+            }
+            else if (idBimestre > 0 && idEstudiante.HasValue)
+            {
+                resultado = resultado.Where(x => x.IdBimestre == idBimestre && x.IdEstudiante == idEstudiante);
+            }
+            else if (idBimestre > 0 && tipoNota != null)
+            {
+                resultado = resultado.Where(x => x.Descripcion == tipoNota);
+            } else if (idEstudiante != null) {
+
+                resultado = resultado.Where(x => x.IdEstudiante == idEstudiante);
+            }else if (idBimestre > 0)
+            {
+                resultado = resultado.Where(x => x.IdBimestre == idBimestre);
+            }
+            else if (tipoNota != null)
+            {
+
+                resultado = resultado.Where(x => x.Descripcion == tipoNota);
+            }
+
+            return PartialView("_NotasEstudiantes", resultado.ToList());
         }
 
     }
