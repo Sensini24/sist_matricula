@@ -100,7 +100,8 @@ namespace Sistema_Matricula.Controllers
                             select new
                             {
                                 Estudiante = e,
-                                Horario = h
+                                Horario = h,
+                                CursoSeccion = cs
                             };
 
             return Json(resultado.Distinct().ToList());

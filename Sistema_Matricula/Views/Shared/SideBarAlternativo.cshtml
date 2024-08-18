@@ -28,6 +28,19 @@
                 <div class="menu-separator"></div>
             </h4>
 
+            @if (User.IsInRole("Administrador"))
+            {
+                <li>
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="DashboardAdministrador" asp-action="Dashboard">
+                        <span class="material-symbols-outlined">
+                            team_dashboard
+                        </span>Dashboard
+                    </a>
+                </li>
+
+                
+            }
+
             @if (User.IsInRole("Docente"))
             {
                 <li>
@@ -46,6 +59,20 @@
                         <span class="material-symbols-outlined">
                             team_dashboard
                         </span>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="DatosEstudiante" asp-action="HorarioEstudiante">
+                        <span class="material-symbols-outlined">
+                            today
+                        </span>Horarios
+                    </a>
+                </li>
+                <li>
+                    <a id="lista_estudiantes" class="nav-link text-dark text-white" asp-area="" asp-controller="DatosEstudiante" asp-action="NotasEstudiante">
+                        <span class="material-symbols-outlined">
+                            nest_thermostat_zirconium_eu
+                        </span>Calificaciones
                     </a>
                 </li>
             }

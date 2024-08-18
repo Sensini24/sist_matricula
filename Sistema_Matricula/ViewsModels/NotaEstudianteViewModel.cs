@@ -6,6 +6,5 @@
         public string NombreCompleto { get; set; }
         public decimal? Nota { get; set; }
         
-
     }
 }

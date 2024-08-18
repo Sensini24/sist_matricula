@@ -1,0 +1,266 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title></title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+    </head >
+    <body style="align-content:start; margin-left:280px; margin-top:20px; background:#f4f6fa">
+
+    <div class="flex justify-between lg:flex-row lg:space-x-4 bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl">
+        <h1 class="text-4xl font-extrabold text-gray-900 leading-tight mb-2">
+            Horario de <span class="text-indigo-600">@User.Identity.Name</span>
+        </h1>
+    </div>
+
+    <div class="flex justify-between lg:flex-row lg:space-x-4 bg-gradient-to-br from-blue-50 to-indigo-100 h-100 mt-5">
+            <div class="container space-y-4 lg:w-1/3 p-4">
+                <!-- Panel de selección y botones -->
+                <div class="flex flex-col space-y-4 bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl">
+                    <div class="w-full text-center bg-white rounded-lg p-4 shadow-md">
+                        <!-- Selectores de curso y nivel -->
+                        <select id="cursoSelect" class="block mb-3 w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">Seleccionar Curso</option>
+                        </select>
+                        <select id="diaSelect" class="block mb-3 w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">Seleccionar Día</option>
+                        </select>
+                        <button id="btn-filtrado" class="bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 rounded-lg w-full">Buscar</button>
+                    </div>
+
+                    <!-- Botones de vista de tabla o calendario -->
+                    <div class="flex justify-center w-full text-center bg-white rounded-lg p-4 shadow-md">
+                        <span id="estiloTabla" class="material-symbols-outlined text-4xl cursor-pointer rounded-lg">
+                            table_rows
+                        </span>
+                        <span class="mx-4">|</span>
+                        <span id="estiloCalendario" class="material-symbols-outlined text-4xl cursor-pointer rounded-lg">
+                            calendar_month
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenedor de la vista de tabla o calendario -->
+            <div class="lg:w-2/3 space-y-4">
+                <!-- Vista de tabla de horario -->
+                <div id="horario-estudiante" class="w-full bg-white rounded-lg p-4 shadow-md overflow-auto">
+                    <!-- Aquí se insertará la tabla -->
+                </div>
+
+                <!-- Vista de calendario -->
+                <div class="contenedor-calendario" style="width:800px; min-width:400px">
+                    <div class="w-full bg-[#f9fafa] rounded-lg p-4 shadow-md">
+                        <div id="calendarioEstudiante" class="w-full h-96 lg:h-full overflow-hidden">
+                            <!-- Aquí se insertará el calendario -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </body>
+</html>
+<script>
+    function renderizarCalendario(idCurso, diaSemana) {
+        var calendarEl = document.getElementById('calendarioEstudiante');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'es',
+            allDaySlot: false,
+            height: '500px',
+            width: '100%',
+            initialView: 'timeGridWeek',
+            slotMinTime: '08:00:00',
+            slotMaxTime: '15:00:00',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridWeek,timeGridDay,dayGridMonth'
+            },
+            events: function (fetchInfo, successCallback, failureCallback) {
+                fetch(`ObtenerHorarioEstudiante?idCurso=${idCurso}&diaSemana=${diaSemana}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const events = data.map(event => ({
+                            ...event,
+                            rrule: event.rrule
+                        }));
+                        successCallback(events);
+                        console.log(events);
+                        console.log("Data : ", data)
+                    })
+                    .catch(error => {
+                        console.error('Error fetching events:', error);
+                        failureCallback(error);
+                    });
+            },
+            eventContent: function (eventContentInfo) {
+                console.log("eventos ", eventContentInfo.event);
+                const curso = eventContentInfo.event.extendedProps.curso;
+                console.log("Curso: ", curso);
+                return {
+
+                    html: `
+                                            <div>
+                                                <strong>${eventContentInfo.event.extendedProps.curso}</strong><br>
+                                                    <strong>${eventContentInfo.event.extendedProps.docenteNombreCompleto}</strong><br>
+                                            </div>
+                                        `
+                };
+            },
+            eventDidMount: function (info) {
+                function getRandomInt(max) {
+                    return Math.floor(Math.random() * max);
+                }
+
+
+
+                // Cambia el color del fondo y del borde
+                console.log("Curso para pintar: ", info.event.extendedProps.curso, info.event.extendedProps.idcurso);
+                let miLista = ["#ebe6ea", "#c8ad8d", "#9dc09d", "#0c3c68"];
+
+                info.el.style.backgroundColor = '#d25959';
+                info.el.style.borderColor = info.event.borderColor;
+                info.el.style.color = info.event.textColor;
+                console.log(miLista)
+
+            },
+            // eventClick: function (info) {
+            //     var cursoId = info.event.extendedProps.idcurso;
+            //     var docenteId = info.event.extendedProps.iddocente;
+            //     var horariocursoseccion = info.event.extendedProps.idhorariocursoseccion;
+            //     var horarioId = info.event.extendedProps.idhorario;
+            //     alert(`Curso ID: ${cursoId}\nDocente ID: ${docenteId}\nHorarioCursoSeccion ID: ${horariocursoseccion}\nHorarioID: ${horarioId}`);
+            // },
+            eventMouseEnter: function (mouseEnterInfo) {
+                console.log(mouseEnterInfo.event.extendedProps.docente);
+
+                let crearMensaje = document.createElement('div');
+                let docente = mouseEnterInfo.event.extendedProps.docente;
+                let curso = mouseEnterInfo.event.title;
+
+                crearMensaje.innerHTML = `
+                                            <div class="mensaje"
+                                                style="position:absolute;top:100%;z-index:1000; left:0; width:200px; height:auto; background-color:white; border:1px solid #ccc;
+                                                            padding:0.75rem; opacity:1;
+                                                    ">
+                                                    <strong>${mouseEnterInfo.event.extendedProps.docenteNombreCompleto}</strong></br>
+                                            <strong>${mouseEnterInfo.event.extendedProps.horainicio} - ${mouseEnterInfo.event.extendedProps.horafin}</strong>
+                                            <br />
+                                        </div>
+                                            `;
+                // el es el elemento html donde esta el mensaje y es un elemento de mouseLeaveinfo
+                mouseEnterInfo.el.appendChild(crearMensaje);
+
+            },
+            eventMouseLeave: function (mouseLeaveInfo) {
+                var mensaje = document.querySelector('.mensaje');
+                mouseLeaveInfo.el.querySelector('.mensaje').remove();
+            }
+
+        });
+
+        calendar.render();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var btnEstiloTabla = document.getElementById('estiloTabla');
+        var btnEstiloCalendario = document.getElementById('estiloCalendario');
+        var horarioEstudiante = document.getElementById('horario-estudiante');
+        var calendarioEstudiante = document.getElementById('calendarioEstudiante');
+        var contenerCalendario = document.querySelector('.contenedor-calendario');
+        var cursoSelect = document.getElementById('cursoSelect');
+        var diaSelect = document.getElementById('diaSelect');
+        var btnFiltrar = document.getElementById('btn-filtrado');
+
+        fetch(`ObtenerHorarioTabla`)
+            .then(response => response.text())
+            .then(data => {
+                horarioEstudiante.innerHTML = data;
+                contenerCalendario.classList.add('hidden');
+            });
+
+        btnFiltrar.addEventListener('click', function () {
+            var idCurso = cursoSelect.value;
+            var diaSemana = diaSelect.value;
+
+            fetch(`ObtenerHorarioTabla?idCurso=${idCurso}&diaSemana=${diaSemana}`)
+                .then(response => response.text())
+                .then(data => {
+                    horarioEstudiante.innerHTML = data;
+                });
+            renderizarCalendario(idCurso, diaSemana);
+        });
+
+
+        btnEstiloTabla.addEventListener('click', function () {
+            var idCurso = cursoSelect.value;
+            var diaSemana = diaSelect.value;
+            fetch(`ObtenerHorarioTabla?idCurso=${idCurso}&diaSemana=${diaSemana}`)
+                .then(response => response.text())
+                .then(data => {
+                    horarioEstudiante.innerHTML = data;
+                    contenerCalendario.classList.add('hidden');
+                    horarioEstudiante.classList.remove('hidden');
+                    btnEstiloTabla.style.backgroundColor = '#fca311';
+                    btnEstiloCalendario.style.backgroundColor = '#f8f8f8';
+                });
+        });
+
+        // btnFiltrar.addEventListener('click', function () {
+        //     var idCurso = cursoSelect.value;
+        //     var diaSemana = diaSelect.value;
+            
+        // });
+
+        btnEstiloCalendario.addEventListener('click', function () {
+            var idCurso = cursoSelect.value;
+            var diaSemana = diaSelect.value;
+            contenerCalendario.classList.remove('hidden');
+            horarioEstudiante.classList.add('hidden');
+            btnEstiloCalendario.style.backgroundColor = '#fca311';
+            btnEstiloTabla.style.backgroundColor = '#f8f8f8';
+            renderizarCalendario(idCurso, diaSemana);
+        });
+
+        fetch(`ObtenerCursosEstudiante`)
+            .then(response => response.json())
+            .then(data => {
+                var cursoSelect = document.getElementById('cursoSelect');
+                cursoSelect.innerHTML = '<option value="">Seleccione un curso</option>';
+                data.forEach(curso => {
+                    var option = document.createElement('option');
+                    option.value = curso.idCurso;
+                    option.text = curso.nombre;
+                    cursoSelect.appendChild(option);
+                    console.log(curso);
+                });
+            })
+
+            var idCurso = cursoSelect.value;
+            fetch(`ObtenerDiasSemanaPorCurso`)
+                .then(response => response.json())
+                .then(data => {
+                    var diaSelect = document.getElementById('diaSelect');
+                    diaSelect.innerHTML = '<option value="">Seleccione un día</option>';
+                    console.log(data);
+                    data.forEach(dia => {
+                        var option = document.createElement('option');
+                        option.value = dia;
+                        option.text = dia;
+                        diaSelect.appendChild(option);
+                        console.log(dia);
+                    });
+                })
+            
+    });
+
+
+</script>

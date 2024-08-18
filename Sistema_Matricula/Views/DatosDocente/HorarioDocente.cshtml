@@ -18,7 +18,7 @@
 <body style="align-content:start; margin-left:280px; margin-top:20px; background:#f4f6fa">
     <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Horario de @User.Identity.Name</h1>
     <div class="flex justify-content-xxl-between lg:flex-row lg:space-x-4 ">
-        <div class="container  space-y-4 lg:w-1/3 p-4">
+        <div class="container  space-y-4 lg:w-3/3 p-4">
             <div class="filter-container p-4  w-full bg-white rounded-4 p-4 shadow-md">
                 <div class="filters flex flex-col md:flex-row md:justify-between">
                     <select id="cursoSelect" class="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="filter-course">
@@ -33,7 +33,7 @@
                     <select id="seccionSelect" class="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="filter-section">
                         <option value="">Seleccionar Sección</option>
                     </select>
-                    <button id="btn-filtrado" class="bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 rounded-3">Buscar</button>
+                    <button id="btn-filtrado" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Buscar</button>
 
                 </div>
             </div>
@@ -61,8 +61,8 @@
             </div> *@
 
             <!--VISTA DE CALENDARIO DE HORARIO-->
-            <div class="contenedor-calendario flex flex-col lg:flex-row lg:space-x-4 ">
-                <div class="container bg-[#f9fafa] rounded-4 flex-grow lg:w-2/3 p-4 shadow-md">
+            <div class="contenedor-calendario flex flex-col lg:flex-row lg:space-x-4 mr-3">
+                <div class="container bg-[#f9fafa] rounded-4 flex-grow lg:w-3/3 p-4 shadow-md">
                     <div id="calendarioDocente" class="w-full h-96 lg:h-full ">
                     </div>
                 </div>
