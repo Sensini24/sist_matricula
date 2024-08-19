@@ -3,12 +3,12 @@
 <div class="bg-white rounded-lg p-6 shadow-lg">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-semibold text-gray-900">Notas de <span class="text-indigo-600">@User.Identity.Name</span></h2>
-        <button id="exportPDF" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-green-600">
+        <button id="exportPDF" class="exportPDF bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-green-600">
             Exportar a PDF
         </button>
     </div>
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+        <table id="notas" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Curso</th>

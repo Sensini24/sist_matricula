@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.Utils;
+using Sistema_Matricula.ViewsModels;
+using System.Globalization;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -106,5 +108,66 @@ namespace Sistema_Matricula.Controllers
 
             return Json(resultado.Distinct().ToList());
         }
+
+        public DayOfWeek ConvertirDiaADate(string dia)
+        {
+            switch (dia)
+            {
+                case "Lunes":
+                    return DayOfWeek.Monday;
+                case "Martes":
+                    return DayOfWeek.Tuesday;
+                case "Miércoles":
+                    return DayOfWeek.Wednesday;
+                case "Jueves":
+                    return DayOfWeek.Thursday;
+                case "Viernes":
+                    return DayOfWeek.Friday;
+                case "Sábado":
+                    return DayOfWeek.Saturday;
+                case "Domingo":
+                    return DayOfWeek.Sunday;
+                default:
+                    throw new ArgumentException("Día no válido");
+            }
+        }
+
+        public IActionResult ObtenerHorarioCercano()
+        {
+            string diaActual = DateTime.Now.ToString("dddd", new CultureInfo("es-ES"));
+            string[] diasSemana = { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
+            int indexDiaActual = Array.IndexOf(diasSemana, diaActual);
+            string[] diasProximos = {
+                diasSemana[(indexDiaActual + 1) % 7],
+                diasSemana[(indexDiaActual + 2) % 7]
+            };
+
+            var horarios = from e in db.Estudiantes
+                           join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                           join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                           join g in db.Grados on s.IdGrado equals g.IdGrado
+                           join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                           join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                           join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                           join hcs in db.HorarioCursoSeccions on cs.IdCursoSeccion equals hcs.IdCursoSeccion
+                           join h in db.Horarios on hcs.IdHorario equals h.IdHorario
+                           where e.IdEstudiante == obtenerIdEstudiante()
+                           where diasProximos.Contains(h.DiaSemana)
+                           select new HorarioEstudianteViewModel
+                           {
+                               IdCurso = cs.IdCurso,
+                               CursoNombre = c.Nombre,
+                               IdHorario = h.IdHorario,
+                               Dia = h.DiaSemana,
+                               HoraInicio = h.HoraInicio,
+                               HoraFin = h.HoraFin,
+                               IdDocente = cs.IdDocente,
+                               NombreCompletoDocente = $"{d.Nombre} - {d.Apellido}"
+                           };
+
+            return PartialView("_HorarioCercano", horarios.ToList());
+        }
+
+
     }
 }

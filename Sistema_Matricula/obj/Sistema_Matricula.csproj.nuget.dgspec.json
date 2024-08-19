@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[0.102.2, )"
             },
+            "DinkToPdf": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
             "EPPlus": {
               "target": "Package",
               "version": "[7.2.1, )"

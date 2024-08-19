@@ -310,6 +310,7 @@ D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\refs\Window
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Azure.Core.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Azure.Identity.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\ClosedXML.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\DinkToPdf.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\EPPlus.dll
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\EPPlus.Interfaces.dll

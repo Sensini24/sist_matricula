@@ -158,6 +158,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkRXN0dWRpYW50ZVxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DashboardEstudiante/_HorarioCercano.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkRXN0dWRpYW50ZVxfSG9yYXJpb0NlcmNhbm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosDocente/HorarioDocente.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NEb2NlbnRlXEhvcmFyaW9Eb2NlbnRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

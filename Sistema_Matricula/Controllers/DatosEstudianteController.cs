@@ -2,6 +2,7 @@
 using Sistema_Matricula.Models;
 using Sistema_Matricula.Utils;
 using Sistema_Matricula.ViewsModels;
+using System.Globalization;
 
 namespace Sistema_Matricula.Controllers
 {
@@ -29,7 +30,7 @@ namespace Sistema_Matricula.Controllers
 
         public IActionResult ObtenerBimestres()
         {
-           var bimestres = db.Bimestres.ToList();
+            var bimestres = db.Bimestres.ToList();
             return Json(bimestres);
         }
 
@@ -54,16 +55,16 @@ namespace Sistema_Matricula.Controllers
         public IActionResult ObtenerDiasSemanaPorCurso()
         {
             var dias = from e in db.Estudiantes
-                                join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
-                                join s in db.Seccions on m.IdSeccion equals s.IdSeccion
-                                join g in db.Grados on s.IdGrado equals g.IdGrado
-                                join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
-                                join d in db.Docentes on cs.IdDocente equals d.IdDocente
-                                join c in db.Cursos on cs.IdCurso equals c.IdCurso
-                                join hcs in db.HorarioCursoSeccions on cs.IdCursoSeccion equals hcs.IdCursoSeccion
-                                join h in db.Horarios on hcs.IdHorario equals h.IdHorario
-                                where e.IdEstudiante == obtenerIdEstudiante()
-                                select h.DiaSemana;
+                       join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
+                       join s in db.Seccions on m.IdSeccion equals s.IdSeccion
+                       join g in db.Grados on s.IdGrado equals g.IdGrado
+                       join cs in db.CursoSeccions on s.IdSeccion equals cs.IdSeccion
+                       join d in db.Docentes on cs.IdDocente equals d.IdDocente
+                       join c in db.Cursos on cs.IdCurso equals c.IdCurso
+                       join hcs in db.HorarioCursoSeccions on cs.IdCursoSeccion equals hcs.IdCursoSeccion
+                       join h in db.Horarios on hcs.IdHorario equals h.IdHorario
+                       where e.IdEstudiante == obtenerIdEstudiante()
+                       select h.DiaSemana;
 
             return Json(dias.Distinct().ToList());
 
@@ -95,13 +96,13 @@ namespace Sistema_Matricula.Controllers
 
             if (idCurso != 0 && diaSemana != "" && diaSemana != null)
             {
-                horariosTabla = horariosTabla.Where(x=>x.IdCurso == idCurso && x.Dia == diaSemana);
-            }else if(idCurso != 0)
+                horariosTabla = horariosTabla.Where(x => x.IdCurso == idCurso && x.Dia == diaSemana);
+            } else if (idCurso != 0)
             {
-                horariosTabla = horariosTabla.Where(x=>x.IdCurso == idCurso);
-            }else if(diaSemana != "" && diaSemana != null)
+                horariosTabla = horariosTabla.Where(x => x.IdCurso == idCurso);
+            } else if (diaSemana != "" && diaSemana != null)
             {
-                horariosTabla = horariosTabla.Where(x=>x.Dia == diaSemana);
+                horariosTabla = horariosTabla.Where(x => x.Dia == diaSemana);
             }
 
 
@@ -110,7 +111,7 @@ namespace Sistema_Matricula.Controllers
 
         [HttpGet]
         public IActionResult ObtenerHorarioEstudiante(int? idCurso = null, string? diaSemana = "")
-            {
+        {
             var resultado = (from e in db.Estudiantes
                              join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante
                              join s in db.Seccions on m.IdSeccion equals s.IdSeccion
@@ -224,10 +225,10 @@ namespace Sistema_Matricula.Controllers
         public IActionResult NotasEstudiante()
         {
 
-           return View();
+            return View();
         }
 
-        public IActionResult ListarNotasEstudiantes(int? idCurso = null , int? idBimestre = null)
+        public IActionResult ListarNotasEstudiantes(int? idCurso = null, int? idBimestre = null)
         {
             var idSeccion = obtenerSeccionEstudiante();
 
@@ -249,21 +250,83 @@ namespace Sistema_Matricula.Controllers
                                  IdEstudiante = e.IdEstudiante
                              };
 
-            if(idBimestre.HasValue && idCurso.HasValue)
+            if (idBimestre.HasValue && idCurso.HasValue)
             {
-                resultados = resultados.Where(x=>x.IdCurso == idCurso && x.IdBimestre == idBimestre);
-            }else if(idCurso.HasValue)
+                resultados = resultados.Where(x => x.IdCurso == idCurso && x.IdBimestre == idBimestre);
+            } else if (idCurso.HasValue)
             {
-                resultados = resultados.Where(x=>x.IdCurso == idCurso);
-            }else if(idBimestre.HasValue)
+                resultados = resultados.Where(x => x.IdCurso == idCurso);
+            } else if (idBimestre.HasValue)
             {
-                resultados = resultados.Where(x=>x.IdBimestre == idBimestre);
+                resultados = resultados.Where(x => x.IdBimestre == idBimestre);
             }
 
             return PartialView("_ListarNotasEstudiantes", resultados.ToList());
 
         }
 
+        public IActionResult obtenerDias()
+        {
+            DateTime fechaActual = DateTime.Now;
+            string diaSemana = fechaActual.ToString("Lunes", new CultureInfo("es-ES"));
+
+            var diasSemana = db.Horarios.ToList();
+
+            foreach (var dia in diasSemana)
+            {
+                if (dia == diasSemana.FirstOrDefault())
+                {
+                    dia.DiaSemana = diaSemana;
+                }
+            }
+
+            return Json(diasSemana);
+        }
+
+        
+
+        public IActionResult PromediodeNotas()
+        {
+            var resultado =
+                            from e in db.Estudiantes
+                            join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
+                            join c in db.Cursos on nt.IdCurso equals c.IdCurso
+                            join cs in db.CursoSeccions on c.IdCurso equals cs.IdCurso
+                            where e.IdEstudiante == obtenerIdEstudiante() && cs.IdSeccion == obtenerSeccionEstudiante()
+                            group nt by c.IdCurso into g
+                            select new
+                            {
+                                IdCurso = g.Key,
+                                NombreCurso = g.FirstOrDefault().IdCursoNavigation.Nombre,
+                                Promedio = g.Average(x => x.Nota)
+                            };
+
+            var diaLunes = DayOfWeek.Monday;
+
+            return Json(resultado);
+        }
+
+        public IActionResult NotasMasAltasPorCurso()
+        {
+            var resultado = from e in db.Estudiantes
+                            join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
+                            join b in db.Bimestres on nt.IdBimestre equals b.IdBimestre
+                            join c in db.Cursos on nt.IdCurso equals c.IdCurso
+                            join cs in db.CursoSeccions on c.IdCurso equals cs.IdCurso
+                            where e.IdEstudiante == obtenerIdEstudiante() && cs.IdSeccion == obtenerSeccionEstudiante()
+                            group new { nt, c } by new { c.IdCurso, c.Nombre } into g
+                            select new
+                            {
+                                NotaAlta = g.Max(x => x.nt.Nota),
+                                IdCurso = g.Key.IdCurso,
+                                NombreCurso = g.Key.Nombre
+                            };
+
+            var resultadoLista = resultado.ToList();
+
+
+            return Json(resultadoLista);
+        }
 
 
         public int obtenerSeccionEstudiante()

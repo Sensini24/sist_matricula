@@ -1,19 +1,20 @@
 ﻿@model IEnumerable<Sistema_Matricula.ViewsModels.HorarioEstudianteViewModel>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head><title></title></head>
-    <body>
+<head>
+    <title></title>
+</head>
+<body>
     <div class="bg-white rounded-lg shadow-lg p-4">
+
 
         <div class="px-4 py-3 container w-full">
             <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
                 <thead class="bg-gradient-to-r from-[#fca311] to-[#f77f00] text-white">
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-semibold tracking-wider uppercase">Curso</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold tracking-wider uppercase">Docente</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold tracking-wider uppercase">Hora Inicio</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold tracking-wider uppercase">Hora Fin</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold tracking-wider uppercase">Lugar</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -35,7 +36,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                 @Html.DisplayFor(modelItem => item.HoraFin)
                             </td>
-                            
+
                         </tr>
                     }
                 </tbody>
@@ -44,5 +45,5 @@
 
     </div>
 
-    </body>
+</body>
 </html>
