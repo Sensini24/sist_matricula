@@ -21,9 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.IdMatricula)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -45,9 +45,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
-            <td>
+            @* <td>
                 @Html.DisplayFor(modelItem => item.IdMatricula)
-            </td>
+            </td> *@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

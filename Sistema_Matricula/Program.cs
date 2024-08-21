@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Sistema_Matricula.Models;
+using Sistema_Matricula.Service;
 using Sistema_Matricula.Validaciones;
+using Stripe;
 using System.Security.Claims;
 using System.Text;
 
@@ -69,6 +71,8 @@ builder.Services.AddControllers()
         fv.RegisterValidatorsFromAssemblyContaining<Program>();
     });
 
+builder.Services.AddScoped<PagoService>();
+
 
 var app = builder.Build();
 
@@ -80,10 +84,19 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+var stripeSecretKey = builder.Configuration.GetValue<string>("Stripe:SecretKey");
+if (string.IsNullOrEmpty(stripeSecretKey))
+{
+    throw new InvalidOperationException("La clave secreta de Stripe no está configurada en el archivo de configuración.");
+}
+
+StripeConfiguration.ApiKey = stripeSecretKey;
 
 app.UseAuthentication();
 app.UseAuthorization();

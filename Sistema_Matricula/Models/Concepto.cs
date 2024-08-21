@@ -9,5 +9,5 @@ public partial class Concepto
 
     public string Descripcion { get; set; } = null!;
 
-    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
+    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
 }

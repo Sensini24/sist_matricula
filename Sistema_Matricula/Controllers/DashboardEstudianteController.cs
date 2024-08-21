@@ -135,7 +135,8 @@ namespace Sistema_Matricula.Controllers
         public IActionResult ObtenerHorarioCercano()
         {
             string diaActual = DateTime.Now.ToString("dddd", new CultureInfo("es-ES"));
-            string[] diasSemana = { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
+            string[] diasSemana = { "lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo" };
+
             int indexDiaActual = Array.IndexOf(diasSemana, diaActual);
             string[] diasProximos = {
                 diasSemana[(indexDiaActual + 1) % 7],

@@ -25,11 +25,11 @@ public partial class Estudiante
 
     public virtual ICollection<ApoderadoAlumno> ApoderadoAlumnos { get; set; } = new List<ApoderadoAlumno>();
 
-    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
-
     public virtual Usuario? IdUsuarioNavigation { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 
     public virtual ICollection<Notum> Nota { get; set; } = new List<Notum>();
+
+    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
 }

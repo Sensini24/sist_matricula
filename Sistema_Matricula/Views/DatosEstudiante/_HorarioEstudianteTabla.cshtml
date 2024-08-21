@@ -17,27 +17,36 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach (var item in Model)
+
+                    @if (Model.Any() && Model != null)
                     {
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                @Html.DisplayFor(modelItem => item.CursoNombre)
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                @Html.DisplayFor(modelItem => item.NombreCompletoDocente)
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                @Html.DisplayFor(modelItem => item.Dia)
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                @Html.DisplayFor(modelItem => item.HoraInicio)
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                @Html.DisplayFor(modelItem => item.HoraFin)
-                            </td>
-                            
+                        @foreach (var item in Model)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.CursoNombre)
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.NombreCompletoDocente)
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.Dia)
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.HoraFin)
+                                </td>
+
+                            </tr>
+                        }
+                    }else{
+                        <tr>
+                            <td colspan="5" class="text-center text-gray-500">No tienes horarios asignados de este curso o en este día</td>
                         </tr>
                     }
+                    
                 </tbody>
             </table>
         </div>

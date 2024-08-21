@@ -12,7 +12,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
-<body style="align-content:start; margin-left:280px; margin-top:20px; background:#f4f6fa">
+    <body style="align-content:start; margin-left:280px; margin-top:20px; background:#f4f6fa">
 
     <div class="container mx-auto mt-8">
         <div class="flex flex-col lg:flex-row lg:space-x-6 bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl shadow-lg">
@@ -33,6 +33,8 @@
                 <div class="bg-white rounded-lg p-6 shadow-lg">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Estadísticas de Promedios</h2>
                     <canvas id="promedioChart"></canvas>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Evolución de Rendimiento</h2>
+                    <canvas id="evolucionChart"></canvas>
                 </div>
             </div>
 
@@ -96,20 +98,67 @@
                 generarGraficoPromedio(data);
             });
 
+    
+        cursoSelect.addEventListener('change', ()=>{
+            fetch(`NotasPorCurso?idCurso=${cursoSelect.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    EvoluciónNotas(data);
+                });
+        })
+
     })
 
     
-
+    let promedioChartInstance;
+    let evolucionChartInstance;
     function generarGraficoPromedio(promedios) {
+
+        if (promedioChartInstance) {
+            promedioChartInstance.destroy();
+        }
+
         const ctx = document.getElementById('promedioChart').getContext('2d');
         const colores = ['rgba(99, 102, 241, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
-        new Chart(ctx, {
+            promedioChartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: promedios.map(promedio => promedio.nombreCurso),//nombres cursos
                 datasets: [{
                     label: 'Promedio de Notas',
                     data: promedios.map(promedio => promedio.promedio), // promedios de cursos
+                    backgroundColor: colores,
+                    borderColor: colores,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 20  // Asumiendo que el promedio máximo es 20
+                    }
+                },
+                indexAxis: 'y'
+            }
+        });
+    }
+
+    function EvoluciónNotas(notas) {
+        if (evolucionChartInstance) {
+            evolucionChartInstance.destroy();
+        }
+        var nombredecurso;
+        const ctx = document.getElementById('evolucionChart').getContext('2d');
+        const colores = ['rgba(99, 102, 241, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
+            evolucionChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: notas.map(notas => notas.descripcionNota),//nombres cursos
+                datasets: [{
+                    label: [...new Set(notas.map(notas => notas.nombreCurso))],
+                    data: notas.map(notas => notas.nota), 
                     backgroundColor: colores,
                     borderColor: colores,
                     borderWidth: 1

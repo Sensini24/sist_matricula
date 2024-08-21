@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Sistema_Matricula.ViewsModels.MatriculaViewModel>
+﻿@using Sistema_Matricula.ViewsModels
+@model PagedResult<MatriculaViewModel>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -44,49 +45,41 @@
                     <thead class="bg-gradient-to-r from-[#fca311] to-[#f77f00] text-white">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.IdMatricula)
+                                IdMatricula
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.DescripcionNivel)
+                                Nivel - Grado - Sección
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.DescripcionGrado)
+                                NombrePeriodo
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.NombreSeccion)
+                                Nombres y Apellidos    
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.NombrePeriodo)
+                                DescripcionMonto) --  Monto
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.NombreEstudiante) - @Html.DisplayNameFor(model => model.ApellidoEstudiante)
+                                FechMatricula
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.DescripcionMonto) --  @Html.DisplayNameFor(model => model.Monto)
+                                Estado
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.FechMatricula)
+                                Extension
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
-                                @Html.DisplayNameFor(model => model.Estado)
-                            </th>
-                            <th class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Items)
                         {
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.IdMatricula)
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-800">
-                                    @Html.DisplayFor(modelItem => item.DescripcionNivel)
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-800">
-                                    @Html.DisplayFor(modelItem => item.DescripcionGrado)
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-800">
+                                    @Html.DisplayFor(modelItem => item.DescripcionNivel) -
+                                    @Html.DisplayFor(modelItem => item.DescripcionGrado) - 
                                     @Html.DisplayFor(modelItem => item.NombreSeccion)
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-800">
@@ -104,12 +97,34 @@
                                 <td class="px-6 py-4 text-sm text-gray-800">
                                     @Html.DisplayFor(modelItem => item.Estado)
                                 </td>
-                                <td class="px-6 py-4"></td>
+                                <td class=" px-6 py-4 text-sm text-gray-800">
+                                    <a href="@Url.Action("PagarMatricula", "Pago", new { idMatricula = item.IdMatricula })" title="Pagar matrícula">
+                                        <span class="material-symbols-outlined">
+                                            paid
+                                        </span>
+                                    </a>
+
+                                    
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="flex justify-content-center">
+            @if (Model.PageNumber > 1)
+            {
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage2(@(Model.PageNumber - 1))">Anterior</button>
+
+            }
+            <span>Página @Model.PageNumber de @Model.TotalPages</span>
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="loadPage2(@(Model.PageNumber + 1))">Siguiente</button>
+            }
+
+
         </div>
 
     </div>

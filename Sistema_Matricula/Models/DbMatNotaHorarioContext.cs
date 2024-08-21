@@ -333,28 +333,10 @@ public partial class DbMatNotaHorarioContext : DbContext
 
             entity.Property(e => e.IdFactura).HasColumnName("id_factura");
             entity.Property(e => e.FechEmision).HasColumnName("fech_emision");
-            entity.Property(e => e.IdApoderado).HasColumnName("id_apoderado");
-            entity.Property(e => e.IdConcepto).HasColumnName("id_concepto");
-            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
             entity.Property(e => e.IdPago).HasColumnName("id_pago");
             entity.Property(e => e.MontoTotal)
                 .HasColumnType("decimal(7, 2)")
                 .HasColumnName("monto_total");
-
-            entity.HasOne(d => d.IdApoderadoNavigation).WithMany(p => p.Facturas)
-                .HasForeignKey(d => d.IdApoderado)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Factura_Apoderado");
-
-            entity.HasOne(d => d.IdConceptoNavigation).WithMany(p => p.Facturas)
-                .HasForeignKey(d => d.IdConcepto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Factura_Concepto");
-
-            entity.HasOne(d => d.IdEstudianteNavigation).WithMany(p => p.Facturas)
-                .HasForeignKey(d => d.IdEstudiante)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Factura_Estudiante");
 
             entity.HasOne(d => d.IdPagoNavigation).WithMany(p => p.Facturas)
                 .HasForeignKey(d => d.IdPago)
@@ -538,7 +520,8 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("estado");
             entity.Property(e => e.FechPago).HasColumnName("fech_pago");
-            entity.Property(e => e.IdMatricula).HasColumnName("id_matricula");
+            entity.Property(e => e.IdConcepto).HasColumnName("id_concepto");
+            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
             entity.Property(e => e.MontoPago)
                 .HasColumnType("decimal(7, 2)")
                 .HasColumnName("monto_pago");
@@ -547,10 +530,13 @@ public partial class DbMatNotaHorarioContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("tipo_pago");
 
-            entity.HasOne(d => d.IdMatriculaNavigation).WithMany(p => p.Pagos)
-                .HasForeignKey(d => d.IdMatricula)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Pago_Matricula");
+            entity.HasOne(d => d.IdConceptoNavigation).WithMany(p => p.Pagos)
+                .HasForeignKey(d => d.IdConcepto)
+                .HasConstraintName("FK_Pago_Concepto");
+
+            entity.HasOne(d => d.IdEstudianteNavigation).WithMany(p => p.Pagos)
+                .HasForeignKey(d => d.IdEstudiante)
+                .HasConstraintName("FK_Pago_Estudiante");
         });
 
         modelBuilder.Entity<PeriodoEscolar>(entity =>

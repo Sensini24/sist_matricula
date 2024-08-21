@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Sistema_Matricula.Models;
@@ -20,47 +21,87 @@ namespace Sistema_Matricula.Controllers
             return View();
         }
 
-        public ActionResult ListarMatriculaCompleta()
+        //public ActionResult ListarMatriculaCompleta()
+        //{
+        //    //if(idEstudiante != null || idEstudiante != 0)
+        //    //{
+        //    //    var matriculas = obtenerDatosMatriculas(idEstudiante);
+        //    //    return PartialView("_ListarMatricula", matriculas);
+        //    //}
+        //    var matriculasviewmodel = db.Matriculas
+        //        .Select(o => new MatriculaViewModel
+        //        {
+        //            IdMatricula = o.IdMatricula,
+        //            FechMatricula = o.FechMatricula,
+        //            IdNivel = o.IdNivel,
+        //            DescripcionNivel = o.IdNivelNavigation.Descripcion,
+        //            IdGrado = o.IdGrado,
+        //            DescripcionGrado = o.IdGradoNavigation.Descripcion,
+        //            IdSeccion = o.IdSeccion,
+        //            NombreSeccion = o.IdSeccionNavigation.Nombre,
+        //            IdPeriodEscolar = o.IdPeriodEscolar,
+        //            NombrePeriodo = o.IdPeriodEscolarNavigation.Nombre,
+        //            IdEstudiante = o.IdEstudiante,
+        //            NombreEstudiante = o.IdEstudianteNavigation.Nombre,
+        //            ApellidoEstudiante = o.IdEstudianteNavigation.Apellido,
+        //            IdMonto = o.IdMonto,
+        //            DescripcionMonto = o.IdMontoNavigation.Descripcion,
+        //            Monto = o.IdMontoNavigation.Monto1,
+        //            Estado = o.Estado
+        //        });
+
+        //    return PartialView("_ListarMatricula", matriculasviewmodel);
+        //}
+
+        //public ActionResult ListarMatriculaCompleta(int pageNumber = 1, int pageSize = 4)
+        //{
+        //    //if(idEstudiante != null || idEstudiante != 0)
+        //    //{
+        //    //    var matriculas = obtenerDatosMatriculas(idEstudiante);
+        //    //    return PartialView("_ListarMatricula", matriculas);
+        //    //}
+        //    var matriculasviewmodel = db.Matriculas
+        //        .Select(o => new MatriculaViewModel
+        //        {
+        //            IdMatricula = o.IdMatricula,
+        //            FechMatricula = o.FechMatricula,
+        //            IdNivel = o.IdNivel,
+        //            DescripcionNivel = o.IdNivelNavigation.Descripcion,
+        //            IdGrado = o.IdGrado,
+        //            DescripcionGrado = o.IdGradoNavigation.Descripcion,
+        //            IdSeccion = o.IdSeccion,
+        //            NombreSeccion = o.IdSeccionNavigation.Nombre,
+        //            IdPeriodEscolar = o.IdPeriodEscolar,
+        //            NombrePeriodo = o.IdPeriodEscolarNavigation.Nombre,
+        //            IdEstudiante = o.IdEstudiante,
+        //            NombreEstudiante = o.IdEstudianteNavigation.Nombre,
+        //            ApellidoEstudiante = o.IdEstudianteNavigation.Apellido,
+        //            IdMonto = o.IdMonto,
+        //            DescripcionMonto = o.IdMontoNavigation.Descripcion,
+        //            Monto = o.IdMontoNavigation.Monto1,
+        //            Estado = o.Estado
+        //        });
+
+        //    var totalCursos = matriculasviewmodel.Count();
+
+        //    var cursos = matriculasviewmodel
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToList();
+
+        //    var model = new PagedResult<MatriculaViewModel>
+        //    {
+        //        Items = cursos,
+        //        PageNumber = pageNumber,
+        //        PageSize = pageSize,
+        //        TotalCount = totalCursos
+        //    };
+
+        //    return PartialView("_ListarMatricula", model);
+        //}
+
+        public ActionResult ListarMatricula(string estado, int pageNumber = 1, int pageSize = 4)
         {
-            //if(idEstudiante != null || idEstudiante != 0)
-            //{
-            //    var matriculas = obtenerDatosMatriculas(idEstudiante);
-            //    return PartialView("_ListarMatricula", matriculas);
-            //}
-            var matriculasviewmodel = db.Matriculas
-                .Select(o => new MatriculaViewModel
-                {
-                    IdMatricula = o.IdMatricula,
-                    FechMatricula = o.FechMatricula,
-                    IdNivel = o.IdNivel,
-                    DescripcionNivel = o.IdNivelNavigation.Descripcion,
-                    IdGrado = o.IdGrado,
-                    DescripcionGrado = o.IdGradoNavigation.Descripcion,
-                    IdSeccion = o.IdSeccion,
-                    NombreSeccion = o.IdSeccionNavigation.Nombre,
-                    IdPeriodEscolar = o.IdPeriodEscolar,
-                    NombrePeriodo = o.IdPeriodEscolarNavigation.Nombre,
-                    IdEstudiante = o.IdEstudiante,
-                    NombreEstudiante = o.IdEstudianteNavigation.Nombre,
-                    ApellidoEstudiante = o.IdEstudianteNavigation.Apellido,
-                    IdMonto = o.IdMonto,
-                    DescripcionMonto = o.IdMontoNavigation.Descripcion,
-                    Monto = o.IdMontoNavigation.Monto1,
-                    Estado = o.Estado
-                });
-
-            return PartialView("_ListarMatricula", matriculasviewmodel);
-        }
-
-        public ActionResult ListarMatricula(string estado)
-        {
-            //if(idEstudiante != null || idEstudiante != 0)
-            //{
-            //    var matriculas = obtenerDatosMatriculas(idEstudiante);
-            //    return PartialView("_ListarMatricula", matriculas);
-            //}
-
-            
             var matriculasviewmodel = db.Matriculas
                 .Select(o => new MatriculaViewModel
                 {
@@ -93,7 +134,24 @@ namespace Sistema_Matricula.Controllers
             {
                 matriculasviewmodel = matriculasviewmodel.Where(e=>e.Estado == "Pendiente");
             }
-            return PartialView("_ListarMatricula", matriculasviewmodel);
+
+            var totalCursos = matriculasviewmodel.Count();
+
+            var cursos = matriculasviewmodel
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var model = new PagedResult<MatriculaViewModel>
+            {
+                Items = cursos,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCursos
+            };
+
+
+            return PartialView("_ListarMatricula", model);
         }
 
         [HttpGet]
@@ -134,15 +192,14 @@ namespace Sistema_Matricula.Controllers
 
             var currentYear = DateTime.Now.Year;
             var estudiantesSinMatricula = from e in db.Estudiantes
-                                          join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante into emGroup
-                                          from m in emGroup.DefaultIfEmpty()
-                                          join pe in db.PeriodoEscolars on m.IdPeriodEscolar equals pe.IdPeriodEscolar into dad
-                                          from pe in dad.DefaultIfEmpty()
-                                          where m == null || pe.FechInicio.Year < currentYear
-                                            select new
+                                          join m in db.Matriculas
+                                          on e.IdEstudiante equals m.IdEstudiante into studentMatriculas
+                                          from m in studentMatriculas.DefaultIfEmpty() // Left Join
+                                          where m.FechMatricula == null || m.IdMatricula == null
+                                          select new
                                           {
                                               IdEstudiante = e.IdEstudiante,
-                                              NombreCompleto = e.Apellido + " " + e.Nombre,
+                                              NombreCompleto = e.Apellido + " " + e.Nombre
 
                                           };
 
@@ -171,15 +228,14 @@ namespace Sistema_Matricula.Controllers
 
             var currentYear = DateTime.Now.Year;
             var estudiantesSinMatricula = from e in db.Estudiantes
-                                          join m in db.Matriculas on e.IdEstudiante equals m.IdEstudiante into emGroup
-                                          from m in emGroup.DefaultIfEmpty()
-                                          join pe in db.PeriodoEscolars on m.IdPeriodEscolar equals pe.IdPeriodEscolar into dad
-                                          from pe in dad.DefaultIfEmpty()
-                                          where m == null || pe.FechInicio.Year < currentYear
+                                          join m in db.Matriculas
+                                          on e.IdEstudiante equals m.IdEstudiante into studentMatriculas
+                                          from m in studentMatriculas.DefaultIfEmpty() // Left Join
+                                          where m.FechMatricula == null || m.IdMatricula == null
                                           select new
                                           {
                                               IdEstudiante = e.IdEstudiante,
-                                              NombreCompleto = e.Apellido + " " + e.Nombre,
+                                              NombreCompleto = e.Apellido + " " + e.Nombre
 
                                           };
 
@@ -264,6 +320,18 @@ namespace Sistema_Matricula.Controllers
             db.Matriculas.Update(matricula);
             db.SaveChanges();
             return RedirectToAction("ListarMatricula");
+        }
+
+        public IActionResult ObtenerDni(int idEstudiante)
+        {
+
+            var dni = db.Estudiantes.Find(idEstudiante).Dni;
+            if(dni == null)
+            {
+                return Json(new { error = "No se encontró un estudiante con el DNI ingresado." });
+            }
+
+            return Json(dni);
         }
 
         [HttpGet]

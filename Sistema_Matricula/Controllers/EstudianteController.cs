@@ -24,14 +24,20 @@ namespace Sistema_Matricula.Controllers
             validadorEstudiante = _validadorEstudiante;
         }
 
+        public IActionResult PortalEstudiante()
+        {
+
+           return View();
+        }
 
         // GET: EstudianteController
         [HttpGet]
-        public async Task <ActionResult> ListarEstudiantes(string palabra, int codigo, string estado)
+        public async Task <ActionResult> ListarEstudiantes(string palabra, int codigo, string estado, int pageNumber = 1, int pageSize = 6)
         {
             List<Apoderado> apoderados =  db.Apoderados.ToList();
 
             List<Estudiante> estudiantes;
+
             if (!string.IsNullOrEmpty(palabra) && codigo != 0)
             {
                 estudiantes = await db.Estudiantes
@@ -53,19 +59,17 @@ namespace Sistema_Matricula.Controllers
             }
             else if (estado == "Activo")
             {
-                var estudiantesActivos = db.Estudiantes.Where(e => e.Estado == "Activo").ToList();
-                return View(estudiantesActivos);
+                estudiantes = db.Estudiantes.Where(e => e.Estado == "Activo").ToList();
 
             }
             else if (estado == "Inactivo")
             {
-                var estudiantesInactivos = db.Estudiantes.Where(e => e.Estado == "Inactivo").ToList();
-                return View(estudiantesInactivos);
+                estudiantes = db.Estudiantes.Where(e => e.Estado == "Inactivo").ToList();
+
             }
             else if (estado == "Pendiente")
             {
-                var estudiantesPendientes = db.Estudiantes.Where(e => e.Estado == "Pendiente").ToList();
-                return View(estudiantesPendientes);
+                estudiantes = db.Estudiantes.Where(e => e.Estado == "Pendiente").ToList();
             }
             else if(estado == "Todos")
             {
@@ -75,6 +79,22 @@ namespace Sistema_Matricula.Controllers
             {
                 estudiantes = db.Estudiantes.ToList();
             }
+
+            var totalCursos = estudiantes.Count();
+
+            var cursos = estudiantes
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var model = new PagedResult<Estudiante>
+            {
+                Items = cursos,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCursos
+            };
+
             List<SelectListItem> estados = new List<SelectListItem>
             {
                 new SelectListItem {Value = "Activo", Text= "Activo"},
@@ -85,7 +105,8 @@ namespace Sistema_Matricula.Controllers
             ViewBag.Apoderados = apoderados;
             ViewBag.Palabra = palabra;
             ViewBag.Codigo = codigo;
-            return View(estudiantes);
+
+            return PartialView("_ListarEstudiante", model);
         }
         public IActionResult ListarApoderadosPartial()
         {
@@ -181,9 +202,8 @@ namespace Sistema_Matricula.Controllers
                     estudiActual.Dni = estudiante.Dni;
                     estudiActual.FechNacimiento = estudiante.FechNacimiento;
 
-                    TempData["EditarEstudianteSuccess"] = $"Estudiante {estudiante.Nombre} - {estudiante.Apellido} editado correctamente";
                     db.SaveChanges();
-                    return RedirectToAction("ListarEstudiantes");
+                    return Json(new { success = true, message = "Estudiante editado correctamente" });
                 }
                 else
                 {

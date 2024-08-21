@@ -6,36 +6,44 @@
 </head>
 <body>
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
-
         <div class="space-y-6">
-            @foreach (var item in Model)
+            @if(Model.Any() && Model != null )
             {
-                <div class="bg-gray-50 rounded-lg shadow-md p-6">
-                    <div class="flex flex-col md:flex-row md:space-x-6">
-                        <div class="flex-1">
-                            <h4 class="text-lg font-semibold text-gray-700 uppercase mb-2">Curso</h4>
-                            <p class="text-gray-900">@Html.DisplayFor(modelItem => item.CursoNombre)</p>
+                @foreach (var item in Model)
+                {
+                    <div class="bg-gray-50 rounded-lg shadow-md p-4">
+                        <div class="flex flex-col md:flex-row md:space-x-4">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-semibold text-gray-700 uppercase mb-1">Curso</h4>
+                                <p class="text-gray-900 text-sm">@Html.DisplayFor(modelItem => item.CursoNombre)</p>
+                            </div>
+
+                            <div class="flex-1 mt-2 md:mt-0">
+                                <h4 class="text-sm font-semibold text-gray-700 uppercase mb-1">Día</h4>
+                                <p class="text-gray-900 text-sm">@Html.DisplayFor(modelItem => item.Dia)</p>
+                            </div>
                         </div>
 
-                        <div class="flex-1 mt-4 md:mt-0">
-                            <h4 class="text-lg font-semibold text-gray-700 uppercase mb-2">Día</h4>
-                            <p class="text-gray-900">@Html.DisplayFor(modelItem => item.Dia)</p>
+                        <div class="flex flex-col md:flex-row md:space-x-4 mt-2">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-semibold text-gray-700 uppercase mb-1">Hora Inicio</h4>
+                                <p class="text-gray-900 text-sm">@Html.DisplayFor(modelItem => item.HoraInicio)</p>
+                            </div>
+
+                            <div class="flex-1 mt-2 md:mt-0">
+                                <h4 class="text-sm font-semibold text-gray-700 uppercase mb-1">Hora Fin</h4>
+                                <p class="text-gray-900 text-sm">@Html.DisplayFor(modelItem => item.HoraFin)</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col md:flex-row md:space-x-6 mt-4">
-                        <div class="flex-1">
-                            <h4 class="text-lg font-semibold text-gray-700 uppercase mb-2">Hora Inicio</h4>
-                            <p class="text-gray-900">@Html.DisplayFor(modelItem => item.HoraInicio)</p>
-                        </div>
-
-                        <div class="flex-1 mt-4 md:mt-0">
-                            <h4 class="text-lg font-semibold text-gray-700 uppercase mb-2">Hora Fin</h4>
-                            <p class="text-gray-900">@Html.DisplayFor(modelItem => item.HoraFin)</p>
-                        </div>
-                    </div>
-                </div>
+                }
             }
+            else
+            {
+                <p class="text-gray-500 text-center">No tienes horarios cercanos</p>
+            }
+            
         </div>
 
     </div>

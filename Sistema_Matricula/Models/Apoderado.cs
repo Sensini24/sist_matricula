@@ -22,6 +22,4 @@ public partial class Apoderado
     public string Direccion { get; set; } = null!;
 
     public virtual ICollection<ApoderadoAlumno> ApoderadoAlumnos { get; set; } = new List<ApoderadoAlumno>();
-
-    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
 }

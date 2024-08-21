@@ -34,6 +34,4 @@ public partial class Matricula
     public virtual PeriodoEscolar? IdPeriodEscolarNavigation { get; set; }
 
     public virtual Seccion? IdSeccionNavigation { get; set; }
-
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_Matricula.Models;
 using Sistema_Matricula.Utils;
 using Sistema_Matricula.ViewsModels;
@@ -328,6 +329,25 @@ namespace Sistema_Matricula.Controllers
             return Json(resultadoLista);
         }
 
+        public IActionResult NotasPorCurso(int idCurso)
+        {
+            var resultado = (from e in db.Estudiantes
+                            join nt in db.Nota on e.IdEstudiante equals nt.IdEstudiante
+                            join b in db.Bimestres on nt.IdBimestre equals b.IdBimestre
+                            join c in db.Cursos on nt.IdCurso equals c.IdCurso
+                            join cs in db.CursoSeccions on c.IdCurso equals cs.IdCurso
+                            where e.IdEstudiante == obtenerIdEstudiante() && cs.IdSeccion == obtenerSeccionEstudiante()
+                            select new
+                            {
+                                IdCurso = c.IdCurso,
+                                NombreCurso = c.Nombre,
+                                Nota = nt.Nota,
+                                DescripcionNota = nt.Descripcion,
+                            }).Where(x => x.IdCurso == idCurso);
+
+            return Json(resultado);
+        }
+
 
         public int obtenerSeccionEstudiante()
         {
@@ -344,5 +364,56 @@ namespace Sistema_Matricula.Controllers
 
             return seccion;
         }
+
+        public IActionResult Pagos()
+        {
+
+           return View();
+        }
+
+        public IActionResult ObtenerPagos()
+        {
+            var result = from p in db.Pagos
+                         join m in db.Matriculas on p.IdEstudiante equals m.IdEstudiante
+                         join c in db.Conceptos on p.IdConcepto equals c.IdConcepto
+                         join e in db.Estudiantes on m.IdEstudiante equals e.IdEstudiante
+                         where e.IdEstudiante == obtenerIdEstudiante()
+                         select new PagoEstudianteViewModel
+                         {
+                             IdMatricula = m.IdMatricula,
+                             NombreEstudiante = e.Nombre,
+                             ApellidoEstudiante = e.Apellido,
+                             Monto = p.MontoPago,
+                             TipoPago = p.TipoPago,
+                             Concepto = c.Descripcion,
+                             FechaPago = p.FechPago,
+                             Estado = p.Estado
+                         };
+
+            
+            return PartialView("_ListarPagosEstudiante", result.ToList());
+
+        }
+
+        public IActionResult ObtenerDeudas()
+        {
+            var deudas = from m in db.Matriculas
+                         join e in db.Estudiantes on m.IdEstudiante equals e.IdEstudiante
+                         join mt in db.Montos on m.IdMonto equals mt.IdMonto
+                         where e.IdEstudiante == obtenerIdEstudiante() && m.Estado == "Pendiente"
+                         select new DeudaEstudianteViewModel
+                         {
+                             IdMatricula = m.IdMatricula,
+                             NombreEstudiante = e.Nombre,
+                             ApellidoEstudiante = e.Apellido,
+                             Monto = mt.Monto1,
+                             Descripcion = mt.Descripcion,
+                             FechaEmision = m.FechMatricula
+                         };
+
+
+            return PartialView("_ListarDeudas", deudas.ToList());
+        }
+
     }
 }

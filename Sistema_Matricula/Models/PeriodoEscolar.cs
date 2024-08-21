@@ -11,7 +11,7 @@ public partial class PeriodoEscolar
 
     public DateTime FechInicio { get; set; }
 
-    public DateTime FechFinal { get; set; } 
+    public DateTime FechFinal { get; set; }
 
     public string Estado { get; set; } = null!;
 

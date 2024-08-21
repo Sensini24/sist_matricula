@@ -579,3 +579,4 @@ D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\refint\Sist
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.pdb
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\Sistema_Matricula.genruntimeconfig.cache
 D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\obj\Debug\net8.0\ref\Sistema_Matricula.dll
+D:\Proyectos c#\Sistema_Matricula\Sistema_Matricula\bin\Debug\net8.0\Stripe.net.dll

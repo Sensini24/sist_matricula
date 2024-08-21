@@ -1,0 +1,286 @@
+﻿  @model IEnumerable<Sistema_Matricula.Models.Estudiante>
+
+@{
+    ViewData["Title"] = "Listar Estudiantes";
+}
+
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet"
+          as="style"
+          onload="this.rel='stylesheet'"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <title>Estudiantes</title>
+
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb5gLl1PLTT3/rxxqOWP5PlJp/5hb5gLl1PLTT3r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+
+<body style="align-content:start; margin-left:280px; margin-top:20px; background:#f4f6fa">
+    
+    <div class="filter-container p-4  w-full bg-white rounded-4 p-4 shadow-md">
+        <h1 class="mb-2 mt-0 text-5xl font-medium leading-tight ml-6 text-[#212141]">Mantenimiento de estudiante</h1>
+
+        <div>
+            <p>
+                <div class="flex">
+                    <input id="palabra" type="text" name="palabra" placeholder="Nombre..." class="form-control appearance-none block w-25 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                    <input id="codigo" type="number" name="codigo" placeholder="Código..." class="form-control appearance-none block w-25 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"><br />
+                    <button id="btn-buscar" type="submit" value="Buscar" id="cargar" class="bg-[#FFFFFF] hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-2 bg-green">
+                        <span class="material-symbols-outlined ">
+                            search
+                        </span>
+                    </button>
+                </div>
+                <div id="errorNota"></div>
+                <div id="exitoNota"></div>
+
+
+                <select name="estado" id="estados" class="mr-4 bg-[#FFFFFF] text-[#14213D] mt-2 rounded-xl">
+                    <option value="">Filtrar por Estado</option>
+                    <option value="Todos">Todos</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Pendiente">Pendiente</option>
+                </select>
+
+            </p>
+        </div>
+        <div class="flex align-items-end justify-content-between">
+            <a href="@Url.Action("RegistrarUsuario", "Usuario")" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-5 ">
+                <span class="material-symbols-outlined">
+                    person_add
+                </span>
+            </a>
+            @* <button class="bg-gray-500 hover:bg-[#212141] text-white  text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="export-excel-button" style="margin-top:2px; margin-right:25px">
+            <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+            <span>Exportar a Excel</span>
+            </button> *@
+        </div>
+        @*  <div class="layout-content-container flex flex-col w-full flex-1" >
+        <div class=" container w-full"> *@
+
+        <div id="lista-estudiantes">
+
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade w-full" id="agregarEstudianteModal" tabindex="-1" aria-labelledby="agregarEstudianteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Aquí se cargará el contenido del formulario -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+        </script>
+        </div>
+            @* </div>
+        </div> *@
+    @* <link href="~/css/stilos.css" rel="stylesheet" /> *@
+  </body>
+</html>
+<script>
+
+    // ABRIR EL MODAl
+    document.addEventListener('DOMContentLoaded', function () {
+        
+    });
+    //selecciona al select de estados
+    var estados = document.getElementById('estados');
+    //Selecciona los span donde se contiene el estado
+    var span_pintado = document.querySelectorAll("#span-pintado");
+
+    //selecciona a cada elemento estado generado
+    var datoEstado = document.querySelectorAll('#datoEstado')
+
+    span_pintado.forEach(e => {
+        if (e.innerText == "Activo" || e.innerText == "activo") {
+            e.style.backgroundColor = "#8ef6a7";
+        }else if(e.innerText == "Pendiente"){
+            e.style.backgroundColor = "#fde047"
+        }
+        else {
+            e.style.backgroundColor = "#ec9bae";
+            }
+        }
+    )
+    // document.getElementById('export-excel-button').addEventListener('click', function () {
+    //     window.location.href = '/Estudiante/PasarTablaExcel';
+    // });
+    
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var datoEstado = document.querySelectorAll('#datoEstado span');
+        datoEstado.forEach(e => {
+            var estado = e.innerText.trim(); // Asegurarse de que no haya espacios en blanco
+            var eliminarEstudiante = e.closest('tr').querySelector('#eliminarEstudiante');
+            var activarEstudiante = e.closest('tr').querySelector('#activarEstudiante');
+
+            if (estado === "Inactivo") {
+                if (eliminarEstudiante) eliminarEstudiante.remove();
+            }
+            if (estado === "Activo") {
+                if (activarEstudiante) activarEstudiante.remove();
+            }
+        });
+
+        loadPage(1)
+
+        var buscar = document.getElementById('btn-buscar');
+        var estado = document.getElementById('estados');
+        buscar.addEventListener('click', function () {
+            var listaestudiantes = document.getElementById('lista-estudiantes');
+            var palabra = document.getElementById('palabra').value;
+            var codigo = document.getElementById('codigo').value;
+            var estado = document.getElementById('estados');
+            console.log(palabra);
+
+            fetch(`/Estudiante/ListarEstudiantes?palabra=${palabra}&codigo=${codigo}&estado=${estado.value}&pageNumber=1`)
+                .then(response => response.text())
+                .then(html => {
+                    listaestudiantes.innerHTML = html;
+                    editar()
+                })
+                .catch(error => console.error('Error al cargar la lista de estudiantes:', error));
+        });
+
+        estado.addEventListener('change', ()=>{
+            var listaestudiantes = document.getElementById('lista-estudiantes');
+            var palabra = document.getElementById('palabra').value;
+            var codigo = document.getElementById('codigo').value;
+            var estado = document.getElementById('estados');
+
+            fetch(`/Estudiante/ListarEstudiantes?palabra=${palabra}&codigo=${codigo}&estado=${estado.value}&pageNumber=1`)
+                .then(response => response.text())
+                .then(html => {
+                    listaestudiantes.innerHTML = html;
+                    editar()
+                })
+                .catch(error => console.error('Error al cargar la lista de estudiantes:', error));
+        })
+
+    });
+
+    function loadPage(pageNumber){
+        var listaestudiantes = document.getElementById('lista-estudiantes');
+        var palabra = document.getElementById('palabra').value;
+        var codigo = document.getElementById('codigo').value;
+        var estado = document.getElementById('estados').value;
+        console.log("hola" , palabra);
+
+        fetch(`/Estudiante/ListarEstudiantes?palabra=${palabra}&codigo=${codigo}&estado=${estado}&pageNumber=${pageNumber}`)
+            .then(response => response.text())
+            .then(html => {
+                listaestudiantes.innerHTML = html;
+                editar()
+            })
+            .catch(error => console.error('Error al cargar la lista de estudiantes:', error));
+
+
+    }
+
+    function editar() {
+        document.querySelectorAll('.editar-estudiante').forEach(element => {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var idEstudiante = this.getAttribute('data-id');
+                console.log(idEstudiante)
+                var agregarEstudianteModal = document.getElementById('agregarEstudianteModal');
+                var modalContent = agregarEstudianteModal.querySelector('.modal-body');
+                fetch(`/Estudiante/CargarEditarEstudiante?idEstudiante=${idEstudiante}`)
+                    .then(response => response.text())
+                    .then(html => {
+
+                        document.querySelector('#agregarEstudianteModal .modal-body').innerHTML = html;
+
+                        var modal = new bootstrap.Modal(agregarEstudianteModal);
+                        modal.show();
+
+                        var form = modalContent.querySelector('#editarEstudianteForm');
+                        if (form) {
+                            form.addEventListener('submit', async (e) => {
+                                e.preventDefault();
+                                const formData = new FormData(form);
+
+                                try {
+                                    const response = await fetch(`/Estudiante/EditarEstudiante/${idEstudiante}`, {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+
+                                    if (!response.ok) {
+                                        throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+                                    }
+
+                                    let data = await response.json();
+                                    if(data.success){
+                                        modal.hide()
+                                        loadPage(1)
+                                        mostrarMensajeExito(data.message)
+                                    }else {
+                                        modal.hide();
+                                        mostrarMensajeError(data.message);
+                                    }
+                                } catch (error) {
+                                    console.error('Error inesperado:', error);
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error al cargar el contenido del modal:', error));
+            });
+        });
+    }
+
+    function mostrarMensajeError(mensaje) {
+        const errorDiv = document.getElementById("errorNota");
+        errorDiv.innerHTML = `
+                <div id="error">
+                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                        Observación
+                    </div>
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                        ${mensaje}
+                    </div>
+               </div>
+            `;
+        setTimeout(() => {
+            var error = document.getElementById("error");
+            error.remove();
+        }, 4000)
+    }
+
+    function mostrarMensajeExito(mensaje) {
+        const exitoDiv = document.getElementById("exitoNota");
+        exitoDiv.innerHTML = `
+                <div id="exito">
+                    <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+                        Éxito
+                    </div>
+                    <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                        ${mensaje}
+                    </div>
+                    </div>
+            `;
+        setTimeout(() => {
+            var exito = document.getElementById("exito");
+            exito.remove();
+        }, 4000)
+    }
+
+</script>

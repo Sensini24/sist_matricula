@@ -190,12 +190,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NFc3R1ZGlhbnRlXE5vdGFzRXN0dWRpYW50ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosEstudiante/Pagos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NFc3R1ZGlhbnRlXFBhZ29zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosEstudiante/_HorarioEstudianteTabla.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NFc3R1ZGlhbnRlXF9Ib3JhcmlvRXN0dWRpYW50ZVRhYmxhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosEstudiante/_ListarDeudas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NFc3R1ZGlhbnRlXF9MaXN0YXJEZXVkYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosEstudiante/_ListarNotasEstudiantes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NFc3R1ZGlhbnRlXF9MaXN0YXJOb3Rhc0VzdHVkaWFudGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/DatosEstudiante/_ListarPagosEstudiante.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGF0b3NFc3R1ZGlhbnRlXF9MaXN0YXJQYWdvc0VzdHVkaWFudGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Docente/AgregarDocente.cshtml]
@@ -238,8 +250,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxFc3R1ZGlhbnRlRGV0YWxsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Estudiante/ListarEstudiantes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxMaXN0YXJFc3R1ZGlhbnRlcy5jc2h0bWw=
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Estudiante/PortalEstudiante.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxQb3J0YWxFc3R1ZGlhbnRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Estudiante/_ListarEstudiante.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZVxfTGlzdGFyRXN0dWRpYW50ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Grado/AgregarGrado.cshtml]
@@ -370,8 +386,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnb1xBZ3JlZ2FyUGFnby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Pago/ConfirmacionPago.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnb1xDb25maXJtYWNpb25QYWdvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Pago/ListarPago.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnb1xMaXN0YXJQYWdvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/Pago/PagarMatricula.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnb1xQYWdhck1hdHJpY3VsYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos c\#/Sistema_Matricula/Sistema_Matricula/Views/PeriodoEscolar/AgregarPeriodoEscolar.cshtml]
